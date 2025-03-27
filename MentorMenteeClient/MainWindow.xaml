@@ -1,0 +1,49 @@
+﻿<Window x:Class="ChatClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chat Client" Height="450" Width="800">
+
+    <Grid>
+        <!-- Nhập tên -->
+        <StackPanel x:Name="NamePanel" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid>
+                <TextBox x:Name="UserNameTextBox" Width="200" TextChanged="UserNameTextBox_TextChanged"/>
+                <TextBlock Text="Nhập tên..." Foreground="Gray"
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Margin="5,0,0,0" IsHitTestVisible="False"
+                           x:Name="UserNamePlaceholder"/>
+            </Grid>
+            <Button Content="Bắt đầu" Click="StartChat_Click" />
+        </StackPanel>
+
+        <!-- Giao diện chat -->
+        <StackPanel x:Name="ChatPanel" Visibility="Collapsed" HorizontalAlignment="Center">
+            <ListBox x:Name="ChatListBox" Height="200" Width="400"/>
+            <Grid>
+                <TextBox x:Name="MessageTextBox" Width="300" TextChanged="MessageTextBox_TextChanged"/>
+                <TextBlock Text="Nhập tin nhắn..." Foreground="Gray"
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Margin="5,0,0,0" IsHitTestVisible="False"
+                           x:Name="MessagePlaceholder"/>
+            </Grid>
+            <Button Content="Gửi" Click="SendMessage_Click"/>
+        </StackPanel>
+
+        <!-- Quản lý bạn bè -->
+        <StackPanel HorizontalAlignment="Right" Margin="10">
+            <Grid>
+                <TextBox x:Name="FriendNameTextBox" Width="200" TextChanged="UserNameTextBox_TextChanged"/>
+                <TextBlock Text="Nhập tên bạn bè..." Foreground="Gray"
+                           VerticalAlignment="Center" HorizontalAlignment="Left"
+                           Margin="5,0,0,0" IsHitTestVisible="False"
+                           x:Name="FriendPlaceholder"/>
+            </Grid>
+            <Button Content="Gửi lời mời kết bạn" Click="SendFriendRequestByName_Click"/>
+
+            <ListBox x:Name="FriendRequestsListBox" Height="100" Width="200"/>
+            <Button Content="Chấp nhận kết bạn" Click="AcceptFriendRequest_Click"/>
+
+            <ListBox x:Name="FriendsListBox" Height="100" Width="200"/>
+        </StackPanel>
+    </Grid>
+</Window>

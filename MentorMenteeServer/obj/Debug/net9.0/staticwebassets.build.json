@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "a7ljMZfxxbSKc7Vj7U8418R1nlhzJmmufVX6x67O/ZI=",
+  "Source": "MentorMenteeServer",
+  "BasePath": "_content/MentorMenteeServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
