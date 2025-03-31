@@ -52,5 +52,10 @@ namespace MentorMenteeUI
             this.Hide();
             this.dn.Show();
         }
+
+        private void pContent_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

@@ -165,3 +165,7 @@ D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\MentorMenteeServer.pdb
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\MentorMenteeServer.genruntimeconfig.cache
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\ref\MentorMenteeServer.dll
+D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
