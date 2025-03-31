@@ -1,6 +1,6 @@
 @MentorMenteeServer_HostAddress = http://localhost:5268
 
-GET {{MentorMenteeServer_HostAddress}}/weatherforecast/
+GET {{MentorMenteeServer_HostAddress}}/
 Accept: application/json
 
 ###

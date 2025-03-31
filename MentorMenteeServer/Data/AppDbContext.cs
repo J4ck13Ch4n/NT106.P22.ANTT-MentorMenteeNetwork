@@ -60,7 +60,8 @@ namespace MentorMenteeServer.Data
                 .WithMany()
                 .HasForeignKey(f => f.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
-
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Id);
 
 
         }

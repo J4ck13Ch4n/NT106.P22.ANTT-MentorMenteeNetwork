@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MentorMenteeUI.Services;
 
 namespace MentorMenteeUI
 {
@@ -35,11 +36,22 @@ namespace MentorMenteeUI
             dmk.ShowDialog();
         }
 
-        private void btDangNhap_Click(object sender, EventArgs e)
-        {
-            TrangCaNhan trangCaNhan = new TrangCaNhan(this);
-            trangCaNhan.Show();
-            this.Hide();
+        private async void btDangNhap_Click(object sender, EventArgs e)
+        {   
+            var authService = new AuthService("http://localhost:5268"); // Địa chỉ server
+            var success = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
+
+            if (success)
+            {
+                MessageBox.Show("Đăng nhập thành công!");
+                TrangCaNhan trangCaNhan = new TrangCaNhan(this);
+                trangCaNhan.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Đăng nhập thất bại!");
+            }
         }
     }
 }

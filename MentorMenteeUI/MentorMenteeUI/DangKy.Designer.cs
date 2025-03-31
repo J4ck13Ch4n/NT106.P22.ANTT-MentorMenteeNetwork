@@ -67,10 +67,9 @@
             panel2.Controls.Add(label6);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(5, 174);
-            panel2.Margin = new Padding(5, 6, 5, 6);
+            panel2.Location = new Point(3, 87);
             panel2.Name = "panel2";
-            panel2.Size = new Size(838, 1184);
+            panel2.Size = new Size(489, 592);
             panel2.TabIndex = 2;
             // 
             // cbVaiTro
@@ -78,10 +77,9 @@
             cbVaiTro.Font = new Font("Sans Serif Collection", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbVaiTro.FormattingEnabled = true;
             cbVaiTro.Items.AddRange(new object[] { "Mentor", "Mentee" });
-            cbVaiTro.Location = new Point(62, 826);
-            cbVaiTro.Margin = new Padding(5, 6, 5, 6);
+            cbVaiTro.Location = new Point(36, 413);
             cbVaiTro.Name = "cbVaiTro";
-            cbVaiTro.Size = new Size(705, 55);
+            cbVaiTro.Size = new Size(413, 45);
             cbVaiTro.TabIndex = 6;
             // 
             // cbGioiTinh
@@ -89,19 +87,17 @@
             cbGioiTinh.Font = new Font("Sans Serif Collection", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbGioiTinh.FormattingEnabled = true;
             cbGioiTinh.Items.AddRange(new object[] { "Nam", "Nữ" });
-            cbGioiTinh.Location = new Point(62, 370);
-            cbGioiTinh.Margin = new Padding(5, 6, 5, 6);
+            cbGioiTinh.Location = new Point(36, 185);
             cbGioiTinh.Name = "cbGioiTinh";
-            cbGioiTinh.Size = new Size(705, 55);
+            cbGioiTinh.Size = new Size(413, 45);
             cbGioiTinh.TabIndex = 6;
             // 
             // circlePictureBox1
             // 
             circlePictureBox1.Image = Properties.Resources.blankAvatar;
-            circlePictureBox1.Location = new Point(247, 6);
-            circlePictureBox1.Margin = new Padding(5, 6, 5, 6);
+            circlePictureBox1.Location = new Point(144, 3);
             circlePictureBox1.Name = "circlePictureBox1";
-            circlePictureBox1.Size = new Size(159, 146);
+            circlePictureBox1.Size = new Size(93, 73);
             circlePictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             circlePictureBox1.TabIndex = 3;
             circlePictureBox1.TabStop = false;
@@ -114,14 +110,14 @@
             btChonAvatar.FlatStyle = FlatStyle.Flat;
             btChonAvatar.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btChonAvatar.ForeColor = Color.White;
-            btChonAvatar.Location = new Point(417, 36);
-            btChonAvatar.Margin = new Padding(5, 6, 5, 6);
+            btChonAvatar.Location = new Point(243, 18);
             btChonAvatar.Name = "btChonAvatar";
-            btChonAvatar.Padding = new Padding(0, 6, 0, 0);
-            btChonAvatar.Size = new Size(129, 98);
+            btChonAvatar.Padding = new Padding(0, 3, 0, 0);
+            btChonAvatar.Size = new Size(75, 49);
             btChonAvatar.TabIndex = 2;
             btChonAvatar.Text = "Chọn";
             btChonAvatar.UseVisualStyleBackColor = false;
+            btChonAvatar.Click += btChonAvatar_Click;
             // 
             // btDangKy
             // 
@@ -131,11 +127,10 @@
             btDangKy.FlatStyle = FlatStyle.Flat;
             btDangKy.Font = new Font("Sans Serif Collection", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btDangKy.ForeColor = Color.White;
-            btDangKy.Location = new Point(62, 1022);
-            btDangKy.Margin = new Padding(5, 6, 5, 6);
+            btDangKy.Location = new Point(36, 511);
             btDangKy.Name = "btDangKy";
-            btDangKy.Padding = new Padding(0, 6, 0, 0);
-            btDangKy.Size = new Size(708, 116);
+            btDangKy.Padding = new Padding(0, 3, 0, 0);
+            btDangKy.Size = new Size(413, 58);
             btDangKy.TabIndex = 2;
             btDangKy.Text = "ĐĂNG KÝ";
             btDangKy.UseVisualStyleBackColor = false;
@@ -144,21 +139,19 @@
             // tbMatKhau
             // 
             tbMatKhau.Font = new Font("Sans Serif Collection", 9.749998F);
-            tbMatKhau.Location = new Point(62, 668);
-            tbMatKhau.Margin = new Padding(5, 6, 5, 6);
+            tbMatKhau.Location = new Point(36, 334);
             tbMatKhau.Name = "tbMatKhau";
             tbMatKhau.PlaceholderText = "Nhập Mật Khẩu";
-            tbMatKhau.Size = new Size(705, 63);
+            tbMatKhau.Size = new Size(413, 42);
             tbMatKhau.TabIndex = 1;
             // 
             // tbEmail
             // 
             tbEmail.Font = new Font("Sans Serif Collection", 9.749998F);
-            tbEmail.Location = new Point(62, 516);
-            tbEmail.Margin = new Padding(5, 6, 5, 6);
+            tbEmail.Location = new Point(36, 258);
             tbEmail.Name = "tbEmail";
             tbEmail.PlaceholderText = "Nhập Email";
-            tbEmail.Size = new Size(705, 63);
+            tbEmail.Size = new Size(413, 42);
             tbEmail.TabIndex = 1;
             // 
             // label5
@@ -166,21 +159,19 @@
             label5.AutoSize = true;
             label5.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.ImageAlign = ContentAlignment.TopLeft;
-            label5.Location = new Point(46, 606);
-            label5.Margin = new Padding(5, 0, 5, 0);
+            label5.Location = new Point(27, 303);
             label5.Name = "label5";
-            label5.Size = new Size(240, 68);
+            label5.Size = new Size(98, 54);
             label5.TabIndex = 0;
             label5.Text = "Mật Khẩu:";
             // 
             // tbHoTen
             // 
             tbHoTen.Font = new Font("Sans Serif Collection", 9.749998F);
-            tbHoTen.Location = new Point(62, 212);
-            tbHoTen.Margin = new Padding(5, 6, 5, 6);
+            tbHoTen.Location = new Point(36, 106);
             tbHoTen.Name = "tbHoTen";
             tbHoTen.PlaceholderText = "Nhập Họ Và Tên";
-            tbHoTen.Size = new Size(705, 63);
+            tbHoTen.Size = new Size(413, 42);
             tbHoTen.TabIndex = 1;
             // 
             // label4
@@ -188,10 +179,9 @@
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.ImageAlign = ContentAlignment.TopLeft;
-            label4.Location = new Point(46, 454);
-            label4.Margin = new Padding(5, 0, 5, 0);
+            label4.Location = new Point(27, 227);
             label4.Name = "label4";
-            label4.Size = new Size(162, 68);
+            label4.Size = new Size(68, 54);
             label4.TabIndex = 0;
             label4.Text = "Email:";
             // 
@@ -200,10 +190,9 @@
             label6.AutoSize = true;
             label6.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.ImageAlign = ContentAlignment.TopLeft;
-            label6.Location = new Point(46, 758);
-            label6.Margin = new Padding(5, 0, 5, 0);
+            label6.Location = new Point(27, 379);
             label6.Name = "label6";
-            label6.Size = new Size(189, 68);
+            label6.Size = new Size(77, 54);
             label6.TabIndex = 0;
             label6.Text = "Vai Trò:";
             // 
@@ -212,10 +201,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ImageAlign = ContentAlignment.TopLeft;
-            label3.Location = new Point(46, 302);
-            label3.Margin = new Padding(5, 0, 5, 0);
+            label3.Location = new Point(27, 151);
             label3.Name = "label3";
-            label3.Size = new Size(229, 68);
+            label3.Size = new Size(92, 54);
             label3.TabIndex = 0;
             label3.Text = "Giới Tính:";
             // 
@@ -224,10 +212,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ImageAlign = ContentAlignment.TopLeft;
-            label2.Location = new Point(46, 150);
-            label2.Margin = new Padding(5, 0, 5, 0);
+            label2.Location = new Point(27, 75);
             label2.Name = "label2";
-            label2.Size = new Size(257, 68);
+            label2.Size = new Size(99, 54);
             label2.TabIndex = 0;
             label2.Text = "Họ Và Tên:";
             // 
@@ -235,10 +222,9 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(92, 6);
-            panel1.Margin = new Padding(5, 6, 5, 6);
+            panel1.Location = new Point(54, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(663, 156);
+            panel1.Size = new Size(387, 78);
             panel1.TabIndex = 1;
             // 
             // label1
@@ -246,10 +232,9 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(135, 36);
-            label1.Margin = new Padding(5, 0, 5, 0);
+            label1.Location = new Point(79, 18);
             label1.Name = "label1";
-            label1.Size = new Size(381, 126);
+            label1.Size = new Size(152, 99);
             label1.TabIndex = 0;
             label1.Text = "Đăng Ký";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -262,25 +247,24 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
-            tableLayoutPanel1.Location = new Point(521, 48);
-            tableLayoutPanel1.Margin = new Padding(5, 6, 5, 6);
+            tableLayoutPanel1.Location = new Point(304, 24);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 12.3167152F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 87.68328F));
-            tableLayoutPanel1.Size = new Size(838, 1364);
+            tableLayoutPanel1.Size = new Size(489, 682);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // DangKy
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            ClientSize = new Size(1867, 1438);
+            ClientSize = new Size(1089, 719);
             Controls.Add(tableLayoutPanel1);
-            Margin = new Padding(5, 6, 5, 6);
             Name = "DangKy";
             Text = "DangKy";
+            Load += DangKy_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)circlePictureBox1).EndInit();
@@ -288,6 +272,11 @@
             panel1.PerformLayout();
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
+        }
+
+        private void BtChonAvatar_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
