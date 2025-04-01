@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0de42f52be0ed3d260d8ea2782e07a4a813021ad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc242b1db0f6d88d8c68131f2e963bfbd235a826")]
 [assembly: System.Reflection.AssemblyProductAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
