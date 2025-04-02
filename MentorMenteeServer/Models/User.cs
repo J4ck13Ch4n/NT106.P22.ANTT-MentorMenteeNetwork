@@ -1,0 +1,37 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+public class User
+{
+    public int Id { get; set; }
+
+    [Required, MaxLength(50)]
+    public required string Username { get; set; }
+
+    public string? AvatarPath { get; set; } // ???ng d?n ?nh avatar
+    public string? Gender { get; set; }  // Gi?i tính (Male/Female/Other)
+
+    [Required, MaxLength(100)]
+    public required string Email { get; set; }
+
+    [Required]
+    public required string PasswordHash { get; set; }
+
+    [MaxLength(10)]
+    public string Role { get; set; } = "mentee";
+
+    public bool TwoFactorEnabled { get; set; } = false;
+    public bool EmailVerified { get; set; } = false;
+
+    public string? ProfilePicture { get; set; }
+    public string? Bio { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public ICollection<Relationship>? MentorRelationships { get; set; }
+    public ICollection<Relationship>? MenteeRelationships { get; set; }
+
+    public virtual ICollection<Message> SentMessages { get; set; } = new List<Message>();
+    public virtual ICollection<Message> ReceivedMessages { get; set; } = new List<Message>();
+    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
+}

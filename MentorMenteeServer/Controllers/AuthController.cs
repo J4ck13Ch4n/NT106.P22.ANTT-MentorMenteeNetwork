@@ -24,7 +24,7 @@ namespace MentorMenteeServer.Controllers
                 if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
                     return BadRequest("Email đã được sử dụng!");
 
-                string avatarFilePath = null;
+                string? avatarFilePath = null;
 
                 if (!string.IsNullOrEmpty(registerDto.Avatar))
                 {

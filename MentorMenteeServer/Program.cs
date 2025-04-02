@@ -38,15 +38,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
 
 // Cấu hình endpoint cho SignalR
 app.UseRouting();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ChatHub>("/chathub");
-});
+
+app.UseAuthorization();
+
+app.MapControllers();  // Định tuyến API Controllers
+app.MapHub<ChatHub>("/chathub"); // Định tuyến SignalR Hub
+
 app.UseCors("AllowAll");
 app.Run();
