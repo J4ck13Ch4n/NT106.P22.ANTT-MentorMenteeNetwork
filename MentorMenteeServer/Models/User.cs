@@ -8,8 +8,8 @@ public class User
     [Required, MaxLength(50)]
     public required string Username { get; set; }
 
-    public string? AvatarPath { get; set; } // ???ng d?n ?nh avatar
-    public string? Gender { get; set; }  // Gi?i tính (Male/Female/Other)
+    public string? AvatarPath { get; set; }
+    public string? Gender { get; set; } 
 
     [Required, MaxLength(100)]
     public required string Email { get; set; }
