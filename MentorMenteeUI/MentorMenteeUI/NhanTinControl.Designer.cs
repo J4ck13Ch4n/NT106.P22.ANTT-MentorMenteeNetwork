@@ -11,15 +11,6 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         #region Component Designer generated code
 
         /// <summary> 
@@ -38,11 +29,11 @@
             // 
             lbDSTroChuyen.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbDSTroChuyen.FormattingEnabled = true;
-            lbDSTroChuyen.ItemHeight = 54;
+            lbDSTroChuyen.ItemHeight = 39;
             lbDSTroChuyen.Items.AddRange(new object[] { "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6" });
             lbDSTroChuyen.Location = new Point(18, 14);
             lbDSTroChuyen.Name = "lbDSTroChuyen";
-            lbDSTroChuyen.Size = new Size(203, 652);
+            lbDSTroChuyen.Size = new Size(203, 628);
             lbDSTroChuyen.TabIndex = 0;
             // 
             // rtbKhungTroChuyen
@@ -60,7 +51,7 @@
             tbTinNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbTinNhan.Location = new Point(227, 627);
             tbTinNhan.Name = "tbTinNhan";
-            tbTinNhan.Size = new Size(530, 39);
+            tbTinNhan.Size = new Size(530, 37);
             tbTinNhan.TabIndex = 2;
             // 
             // bGui
@@ -72,6 +63,7 @@
             bGui.TabIndex = 3;
             bGui.Text = "Gửi";
             bGui.UseVisualStyleBackColor = true;
+            bGui.Click += bGui_Click;
             // 
             // NhanTinControl
             // 
@@ -86,6 +78,8 @@
             Size = new Size(900, 688);
             ResumeLayout(false);
             PerformLayout();
+
+            
         }
 
         #endregion
