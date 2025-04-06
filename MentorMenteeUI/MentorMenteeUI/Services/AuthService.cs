@@ -10,7 +10,7 @@ namespace MentorMenteeUI.Services
         private readonly string _serverUrl;
         public AuthService(string serverUrl)
         {
-            _serverUrl = "http://localhost:5268";
+            _serverUrl = "https://localhost:5268/wss";
             _httpClient = new HttpClient { BaseAddress = new Uri(_serverUrl) };
         }
 

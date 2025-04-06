@@ -35,7 +35,7 @@ namespace MentorMenteeUI
         }
         private async void btDangKy_Click(object sender, EventArgs e)
         {
-            var authService = new AuthService("http://localhost:5268"); // Địa chỉ server
+            var authService = new AuthService("https://localhost:5268"); // Địa chỉ server
 
             // Lấy giá trị từ các trường trong form
             string email = tbEmail.Text;

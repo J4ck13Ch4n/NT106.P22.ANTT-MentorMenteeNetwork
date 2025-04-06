@@ -38,7 +38,7 @@ namespace MentorMenteeUI
 
         private async void btDangNhap_Click(object sender, EventArgs e)
         {   
-            var authService = new AuthService("http://localhost:5268"); // Địa chỉ server
+            var authService = new AuthService("https://localhost:5268"); // Địa chỉ server
             var success = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
 
             if (success)

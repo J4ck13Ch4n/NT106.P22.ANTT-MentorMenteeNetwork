@@ -20,7 +20,7 @@ namespace ChatClient.Services
 
         public ChatService(string serverUrl)
         {
-            _serverUrl = "http://localhost:5268";
+            _serverUrl = "https://localhost:5268/wss";
             _httpClient = new HttpClient { BaseAddress = new Uri(serverUrl) };
         }
 

@@ -27,7 +27,7 @@ namespace MentorMenteeUI
             ws = new ClientWebSocket();
             try
             {
-                await ws.ConnectAsync(new Uri("ws://localhost:5000/ws"), CancellationToken.None);
+                await ws.ConnectAsync(new Uri("wss://localhost:5268/wss"), CancellationToken.None);
                 MessageBox.Show("Kết nối WebSocket thành công!");
                 _ = Task.Run(ReceiveMessages);
             }
@@ -82,6 +82,10 @@ namespace MentorMenteeUI
             base.Dispose(disposing);
         }
 
+        private void rtbKhungTroChuyen_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
