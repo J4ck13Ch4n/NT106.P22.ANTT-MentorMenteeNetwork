@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace MentorMenteeUI
 {
-    public partial class DoiMatKhau: Form
+    public partial class DoiMatKhau : Form
     {
         public DoiMatKhau()
         {
             InitializeComponent();
+        }
+
+        private void DoiMatKhau_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

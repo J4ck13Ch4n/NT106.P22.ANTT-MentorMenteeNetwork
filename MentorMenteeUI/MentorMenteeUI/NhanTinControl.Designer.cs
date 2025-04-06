@@ -29,11 +29,11 @@
             // 
             lbDSTroChuyen.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbDSTroChuyen.FormattingEnabled = true;
-            lbDSTroChuyen.ItemHeight = 39;
+            lbDSTroChuyen.ItemHeight = 54;
             lbDSTroChuyen.Items.AddRange(new object[] { "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6" });
             lbDSTroChuyen.Location = new Point(18, 14);
             lbDSTroChuyen.Name = "lbDSTroChuyen";
-            lbDSTroChuyen.Size = new Size(203, 628);
+            lbDSTroChuyen.Size = new Size(203, 598);
             lbDSTroChuyen.TabIndex = 0;
             // 
             // rtbKhungTroChuyen
@@ -45,13 +45,14 @@
             rtbKhungTroChuyen.Size = new Size(651, 601);
             rtbKhungTroChuyen.TabIndex = 1;
             rtbKhungTroChuyen.Text = "";
+            rtbKhungTroChuyen.TextChanged += rtbKhungTroChuyen_TextChanged;
             // 
             // tbTinNhan
             // 
             tbTinNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbTinNhan.Location = new Point(227, 627);
             tbTinNhan.Name = "tbTinNhan";
-            tbTinNhan.Size = new Size(530, 37);
+            tbTinNhan.Size = new Size(530, 39);
             tbTinNhan.TabIndex = 2;
             // 
             // bGui
@@ -79,7 +80,7 @@
             ResumeLayout(false);
             PerformLayout();
 
-            
+
         }
 
         #endregion

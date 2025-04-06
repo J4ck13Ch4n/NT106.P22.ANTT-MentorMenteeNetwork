@@ -24,39 +24,31 @@ builder.Services.AddCors(options =>
 });
 
 
-
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Cấu hình Kestrel để lắng nghe trên cổng 5268 với HTTPS
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5268, listenOptions =>
+    {
+        listenOptions.UseHttps();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseWebSockets();
 
 var clients = new ConcurrentDictionary<string, WebSocket>();
-app.Map("/ws", async (HttpContext context) =>
-{
-    if (context.WebSockets.IsWebSocketRequest)
-    {
-        using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        var clientId = Guid.NewGuid().ToString();
-        clients.TryAdd(clientId, webSocket);
 
-        await HandleWebSocket(clientId, webSocket);
-    }
-    else
-    {
-        context.Response.StatusCode = 400;
-    }
-});
 
 async Task HandleWebSocket(string clientId, WebSocket webSocket)
 {
@@ -89,6 +81,24 @@ async Task HandleWebSocket(string clientId, WebSocket webSocket)
 }
 
 app.UseHttpsRedirection();
+
+app.UseWebSockets();
+
+app.Map("/wss", async (HttpContext context) =>
+{
+    if (context.WebSockets.IsWebSocketRequest)
+    {
+        using var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+        var clientId = Guid.NewGuid().ToString();
+        clients.TryAdd(clientId, webSocket);
+
+        await HandleWebSocket(clientId, webSocket);
+    }
+    else
+    {
+        context.Response.StatusCode = 400;
+    }
+});
 
 app.MapControllers();
 

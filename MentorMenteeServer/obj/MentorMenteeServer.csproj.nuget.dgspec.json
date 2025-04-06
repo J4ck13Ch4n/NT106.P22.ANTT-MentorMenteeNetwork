@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj": {}
+    "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj": {}
   },
   "projects": {
-    "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj": {
+    "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
+        "projectUniqueName": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
         "projectName": "MentorMenteeServer",
-        "projectPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
-        "packagesPath": "C:\\Users\\maths\\.nuget\\packages\\",
-        "outputPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\obj\\",
+        "projectPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
+        "packagesPath": "C:\\Users\\huudu\\.nuget\\packages\\",
+        "outputPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\maths\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\huudu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -65,6 +65,10 @@
             "Microsoft.AspNetCore.SignalR": {
               "target": "Package",
               "version": "[1.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
