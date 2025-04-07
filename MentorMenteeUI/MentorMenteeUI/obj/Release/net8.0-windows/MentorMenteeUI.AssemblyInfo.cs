@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5dce6ff1b160394e3dd9cf44f0867ef373354de2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2e943e101bc7d8393dd1243fbbb11320e363884")]
 [assembly: System.Reflection.AssemblyProductAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MentorMenteeUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
