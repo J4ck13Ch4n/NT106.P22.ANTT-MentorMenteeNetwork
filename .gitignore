@@ -398,3 +398,14 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore build output directories
+bin/
+obj/
+*.cache
+*.dll
+*.pdb
+*.exe
+*.nuget.cache
+*.nuget.dgspec.json
+*.sourcelink.json

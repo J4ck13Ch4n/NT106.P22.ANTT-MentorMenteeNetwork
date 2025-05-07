@@ -28,4 +28,8 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharedLibs\MentorMentee.Shared\MentorMentee.Cryptography\MentorMentee.Cryptography.csproj" />
+  </ItemGroup>
+
 </Project>

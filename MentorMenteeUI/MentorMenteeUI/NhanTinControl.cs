@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Net.WebSockets;
+using System.Security.Cryptography;
+using MentorMentee.Cryptography.Helpers;
 
 namespace MentorMenteeUI
 {
@@ -20,6 +22,14 @@ namespace MentorMenteeUI
         {
             InitializeComponent();
             ConnectWebSocket();
+        }
+
+        private RSAParameters GetRecipientPublicKey()
+        {
+            using (RSA rsa = RSA.Create())
+            {
+                return rsa.ExportParameters(false); 
+            }
         }
 
         private async void ConnectWebSocket()
