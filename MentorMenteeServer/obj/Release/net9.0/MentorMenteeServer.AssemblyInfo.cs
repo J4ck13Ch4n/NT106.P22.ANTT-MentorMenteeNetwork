@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ce961332248b6cc850c4153219b7fe03abc1da76")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a84b6f78ae87d87216150a1c3daf280d20866d50")]
 [assembly: System.Reflection.AssemblyProductAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

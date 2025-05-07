@@ -9,6 +9,16 @@ public class Message
     public int? GroupId { get; set; }
 
     public string? MessageText { get; set; }
+
+    [Column(TypeName = "TEXT")]
+    public string? EncryptedContent { get; set; }
+
+    [Column(TypeName = "TEXT")]
+    public string? EncryptedSymmetricKey { get; set; }
+    
+    [Column(TypeName = "TEXT")]
+    public string? InitializationVector { get; set; }
+
     public string? FileAttachment { get; set; }
     public bool IsRead { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

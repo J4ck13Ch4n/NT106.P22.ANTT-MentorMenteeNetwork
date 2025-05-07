@@ -148,6 +148,12 @@ namespace MentorMenteeServer.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EncryptedContent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EncryptedSymmetricKey")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FileAttachment")
                         .HasColumnType("nvarchar(max)");
 
@@ -380,8 +386,14 @@ namespace MentorMenteeServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PrivateKeyEncrypted")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicKey")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Role")
                         .IsRequired()

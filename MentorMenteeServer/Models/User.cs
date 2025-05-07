@@ -34,4 +34,10 @@ public class User
     public virtual ICollection<Message> ReceivedMessages { get; set; } = new List<Message>();
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
+    // Mã hóa end-to-end (RSA keys)
+    [Column(TypeName = "TEXT")]
+    public string? PublicKey { get; set; }
+
+    [Column(TypeName = "TEXT")]
+    public string? PrivateKeyEncrypted { get; set; }
 }

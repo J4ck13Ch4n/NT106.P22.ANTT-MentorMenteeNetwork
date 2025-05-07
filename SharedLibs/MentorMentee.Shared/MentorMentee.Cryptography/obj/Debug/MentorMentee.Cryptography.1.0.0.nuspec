@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MentorMentee.Cryptography</id>
+    <version>1.0.0</version>
+    <authors>huuduc</authors>
+    <description>Cryptography helpers for MentorMentee project</description>
+    <copyright>huuduc © 2025</copyright>
+    <repository type="git" commit="a84b6f78ae87d87216150a1c3daf280d20866d50" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\SharedLibs\MentorMentee.Shared\MentorMentee.Cryptography\bin\Debug\net9.0\MentorMentee.Cryptography.dll" target="lib\net9.0\MentorMentee.Cryptography.dll" />
+  </files>
+</package>

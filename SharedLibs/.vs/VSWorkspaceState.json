@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\MentorMentee.Shared",
+    "\\MentorMentee.Shared\\MentorMentee.Cryptography",
+    "\\MentorMentee.Shared\\MentorMentee.Cryptography\\Helpers"
+  ],
+  "SelectedNode": "\\MentorMentee.Shared\\MentorMentee.Cryptography\\Helpers\\AESEncryptionHelper.cs",
+  "PreviewInSolutionExplorer": false
+}
