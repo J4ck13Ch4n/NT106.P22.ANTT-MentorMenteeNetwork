@@ -144,6 +144,7 @@
             tbMatKhau.PlaceholderText = "Nhập Mật Khẩu";
             tbMatKhau.Size = new Size(413, 42);
             tbMatKhau.TabIndex = 1;
+            tbMatKhau.UseSystemPasswordChar = true;
             // 
             // tbEmail
             // 

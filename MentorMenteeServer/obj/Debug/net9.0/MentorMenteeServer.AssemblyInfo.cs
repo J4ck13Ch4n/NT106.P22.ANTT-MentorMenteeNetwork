@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+63bb74f862b095462e1ccf8b86afe4e06d3a47cb")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2e943e101bc7d8393dd1243fbbb11320e363884")]
+>>>>>>> db1f132bafe52447bc5b4d03f8c0003c62715817
 [assembly: System.Reflection.AssemblyProductAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MentorMenteeServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
