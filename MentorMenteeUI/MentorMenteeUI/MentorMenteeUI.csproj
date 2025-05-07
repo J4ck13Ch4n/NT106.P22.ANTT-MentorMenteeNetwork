@@ -27,4 +27,8 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedLibs\MentorMentee.Shared\MentorMentee.Cryptography\MentorMentee.Cryptography.csproj" />
+  </ItemGroup>
+
 </Project>
