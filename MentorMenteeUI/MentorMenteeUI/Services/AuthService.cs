@@ -10,7 +10,7 @@ namespace MentorMenteeUI.Services
         private readonly string _serverUrl;
         public AuthService(string serverUrl)
         {
-            _serverUrl = "https://localhost:5268/wss";
+            _serverUrl = serverUrl;
             _httpClient = new HttpClient { BaseAddress = new Uri(_serverUrl) };
         }
 
@@ -58,37 +58,63 @@ namespace MentorMenteeUI.Services
             }
         }
 
-        public async Task<bool> LoginAsync(string email, string password)
+        public async Task<LoginResult> LoginAsync(string email, string password)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/auth/login", new
+            try
             {
-                Email = email,
-                Password = password
-            });
+                var response = await _httpClient.PostAsJsonAsync("api/auth/login", new
+                {
+                    Email = email,
+                    Password = password
+                });
 
-            return response.IsSuccessStatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+                    var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
+                    return loginResult;
+                }
+                else
+                {
+                    return new LoginResult { Success = false };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Login error: {ex.Message}");
+                return new LoginResult { Success = false };
+            }
         }
+
+
+        public class LoginResult
+        {
+            public bool Success { get; set; }
+            public string UserId { get; set; }
+            public string FullName { get; set; } // Tùy chọn nếu server trả về thêm tên
+        }
+
+
         public async Task<bool> CheckServerConnectionAsync()
-{
-    try
-    {
-        var response = await _httpClient.GetAsync("api/auth/ping");
-        if (response.IsSuccessStatusCode)
         {
-            Console.WriteLine("Kết nối đến server thành công!");
-            return true;
+            try
+            {
+                var response = await _httpClient.GetAsync("api/auth/ping");
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Kết nối đến server thành công!");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Kết nối đến server thất bại! Mã lỗi: {response.StatusCode}");
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi khi kết nối đến server: {ex.Message}");
+                return false;
+            }
         }
-        else
-        {
-            Console.WriteLine($"Kết nối đến server thất bại! Mã lỗi: {response.StatusCode}");
-            return false;
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Lỗi khi kết nối đến server: {ex.Message}");
-        return false;
-    }
-}
     }
 }

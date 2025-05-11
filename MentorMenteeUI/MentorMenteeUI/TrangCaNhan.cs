@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -12,11 +15,13 @@ namespace MentorMenteeUI
 {
     public partial class TrangCaNhan : Form
     {
-        private DangNhap dn;
-        public TrangCaNhan(DangNhap dn)
+        private readonly string userId;
+        private readonly Form loginForm;
+        public TrangCaNhan(string userId, Form loginForm)
         {
             InitializeComponent();
-            this.dn = dn;
+            this.userId = userId;
+            this.loginForm = loginForm;
         }
 
         private void btTrangChu_Click(object sender, EventArgs e)
@@ -35,9 +40,13 @@ namespace MentorMenteeUI
             pContent.Controls.Add(nhantin);
         }
 
-        private void TrangCaNhan_FormClosing(object sender, FormClosingEventArgs e)
+        private async void TrangCaNhan_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            using (var httpClient = new HttpClient())
+            {
+                await httpClient.PostAsJsonAsync("https://localhost:5268/api/logout", userId);
+            }
+            loginForm.Show();
         }
 
         private void TrangCaNhan_Load(object sender, EventArgs e)
@@ -47,11 +56,17 @@ namespace MentorMenteeUI
             pContent.Controls.Add(trangchu);
         }
 
-        private void btDangXuat_Click(object sender, EventArgs e)
+        private async void btDangXuat_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            this.dn.Show();
+            using (var httpClient = new HttpClient())
+            {
+                await httpClient.PostAsJsonAsync("https://localhost:5268/api/logout", userId);
+            }
+
+            loginForm.Show();
+            this.Close();
         }
+
 
         private void pContent_Paint(object sender, PaintEventArgs e)
         {
