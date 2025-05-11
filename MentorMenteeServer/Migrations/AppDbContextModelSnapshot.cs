@@ -385,6 +385,9 @@ namespace MentorMenteeServer.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsOnline")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
