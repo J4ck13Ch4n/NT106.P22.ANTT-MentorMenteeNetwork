@@ -160,6 +160,9 @@ namespace MentorMenteeServer.Migrations
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
+                    b.Property<string>("InitializationVector")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("IsRead")
                         .HasColumnType("bit");
 

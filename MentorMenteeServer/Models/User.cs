@@ -8,6 +8,8 @@ public class User
     [Required, MaxLength(50)]
     public required string Username { get; set; }
 
+    public bool IsOnline { get; set; } = false;
+
     public string? AvatarPath { get; set; }
     public string? Gender { get; set; } 
 

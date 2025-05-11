@@ -181,7 +181,6 @@ D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\refint\MentorMenteeServer.dll
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\MentorMenteeServer.pdb
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\appsettings.Development.json
-D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\appsettings.json
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMenteeServer.staticwebassets.endpoints.json
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMenteeServer.exe
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMenteeServer.deps.json
@@ -340,7 +339,9 @@ D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\MentorMe.BA929201.Up2Date
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\MentorMenteeServer.genruntimeconfig.cache
 D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\ref\MentorMenteeServer.dll
-D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\appsettings.example.json
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMentee.Cryptography.dll
 D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMentee.Cryptography.pdb
+D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\appsettings.example.json
+D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMentee.Cryptography.dll
+D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\MentorMenteeServer\bin\Debug\net9.0\MentorMentee.Cryptography.pdb

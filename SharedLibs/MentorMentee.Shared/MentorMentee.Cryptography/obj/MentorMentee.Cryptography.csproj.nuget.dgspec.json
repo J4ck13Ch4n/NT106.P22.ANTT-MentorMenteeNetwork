@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {}
+    "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {}
   },
   "projects": {
-    "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {
+    "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj",
+        "projectUniqueName": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj",
         "projectName": "MentorMentee.Cryptography",
-        "projectPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj",
-        "packagesPath": "C:\\Users\\huudu\\.nuget\\packages\\",
-        "outputPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\obj\\",
+        "projectPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj",
+        "packagesPath": "C:\\Users\\maths\\.nuget\\packages\\",
+        "outputPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\huudu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\maths\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -65,7 +65,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
