@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("huuduc © 2025")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Cryptography helpers for MentorMentee project")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7540ce645fc7fab5e3405120e5c9f8f7c87d9284")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f91370c415f1bca01cd1b678b778d57085e0610")]
 [assembly: System.Reflection.AssemblyProductAttribute("MentorMentee.Cryptography")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MentorMentee.Cryptography")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
