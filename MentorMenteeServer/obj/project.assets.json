@@ -5969,23 +5969,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\maths\\.nuget\\packages\\": {},
+    "C:\\Users\\huudu\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
+      "projectUniqueName": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
       "projectName": "MentorMenteeServer",
-      "projectPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
-      "packagesPath": "C:\\Users\\maths\\.nuget\\packages\\",
-      "outputPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\obj\\",
+      "projectPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\MentorMenteeServer.csproj",
+      "packagesPath": "C:\\Users\\huudu\\.nuget\\packages\\",
+      "outputPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\MentorMenteeServer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\maths\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\huudu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -6000,8 +6000,8 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {
-              "projectPath": "D:\\Project_NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj"
+            "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj": {
+              "projectPath": "D:\\NT106\\NT106.P22.ANTT-MentorMenteeNetwork\\SharedLibs\\MentorMentee.Shared\\MentorMentee.Cryptography\\MentorMentee.Cryptography.csproj"
             }
           }
         }
@@ -6082,7 +6082,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
