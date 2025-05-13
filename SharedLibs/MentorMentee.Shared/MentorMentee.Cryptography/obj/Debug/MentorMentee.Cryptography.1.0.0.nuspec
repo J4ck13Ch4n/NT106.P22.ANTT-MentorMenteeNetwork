@@ -6,7 +6,11 @@
     <authors>huuduc</authors>
     <description>Cryptography helpers for MentorMentee project</description>
     <copyright>huuduc © 2025</copyright>
+<<<<<<< HEAD
     <repository type="git" commit="9227bbbfbd28b439cde99ad5c6ad388a4c2b7284" />
+=======
+    <repository type="git" commit="6f91370c415f1bca01cd1b678b778d57085e0610" />
+>>>>>>> 2a12a617d7d6f01d0161291e1fe9605e513c1500
     <dependencies>
       <group targetFramework="net9.0" />
     </dependencies>

@@ -37,14 +37,14 @@ namespace MentorMenteeUI
         }
 
         private async void btDangNhap_Click(object sender, EventArgs e)
-        {   
-            var authService = new AuthService("https://localhost:5268"); // Địa chỉ server
-            var success = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
+        {
+            var authService = new AuthService("https://localhost:5268");
+            var loginResult = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
 
-            if (success)
+            if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
             {
                 MessageBox.Show("Đăng nhập thành công!");
-                TrangCaNhan trangCaNhan = new TrangCaNhan(this);
+                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this); // Truyền userId
                 trangCaNhan.Show();
                 this.Hide();
             }
@@ -53,5 +53,6 @@ namespace MentorMenteeUI
                 MessageBox.Show("Đăng nhập thất bại!");
             }
         }
+
     }
 }

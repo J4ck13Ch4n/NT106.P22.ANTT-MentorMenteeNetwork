@@ -57,12 +57,37 @@ namespace MentorMenteeServer.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest("Dữ liệu không hợp lệ!");
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
                 return Unauthorized("Email hoặc mật khẩu không đúng!");
 
-            return Ok(new { Message = "Đăng nhập thành công!", UserId = user.Id });
+            user.IsOnline = true;  //lưu trạng thái online
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = "Đăng nhập thành công!",
+                UserId = user.Id
+            });
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout([FromBody] int userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return NotFound("Không tìm thấy người dùng.");
+
+            user.IsOnline = false;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Đăng xuất thành công!" });
+        }
+
+
         [HttpGet("ping")]
         public IActionResult Ping()
         {

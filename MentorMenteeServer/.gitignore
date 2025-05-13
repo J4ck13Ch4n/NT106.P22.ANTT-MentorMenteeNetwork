@@ -1,5 +1,6 @@
 .vs/
 appsettings.json
+appsettings.Development.json
 # Ignore build output directories
 .bin/
 .obj/
