@@ -72,5 +72,13 @@ namespace MentorMenteeUI
         {
 
         }
+
+        private void btCaiDat_Click(object sender, EventArgs e)
+        {
+            pContent.Controls.Clear();
+            CaiDatControl caiDat = new CaiDatControl();
+            caiDat.Dock = DockStyle.Fill;
+            pContent.Controls.Add(caiDat);
+        }
     }
 }

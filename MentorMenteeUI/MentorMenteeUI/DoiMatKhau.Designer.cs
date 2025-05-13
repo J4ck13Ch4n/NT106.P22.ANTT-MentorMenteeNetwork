@@ -49,9 +49,10 @@
             panel2.Controls.Add(tbEmail);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(3, 118);
+            panel2.Location = new Point(3, 157);
+            panel2.Margin = new Padding(3, 4, 3, 4);
             panel2.Name = "panel2";
-            panel2.Size = new Size(489, 413);
+            panel2.Size = new Size(559, 551);
             panel2.TabIndex = 2;
             // 
             // btDangNhap
@@ -62,30 +63,33 @@
             btDangNhap.FlatStyle = FlatStyle.Flat;
             btDangNhap.Font = new Font("Sans Serif Collection", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btDangNhap.ForeColor = Color.White;
-            btDangNhap.Location = new Point(37, 283);
+            btDangNhap.Location = new Point(42, 377);
+            btDangNhap.Margin = new Padding(3, 4, 3, 4);
             btDangNhap.Name = "btDangNhap";
-            btDangNhap.Padding = new Padding(0, 3, 0, 0);
-            btDangNhap.Size = new Size(413, 58);
-            btDangNhap.TabIndex = 2;
+            btDangNhap.Padding = new Padding(0, 4, 0, 0);
+            btDangNhap.Size = new Size(472, 77);
+            btDangNhap.TabIndex = 3;
             btDangNhap.Text = "ĐỔI MẬT KHẨU";
             btDangNhap.UseVisualStyleBackColor = false;
             // 
             // tbMaXacThuc
             // 
             tbMaXacThuc.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbMaXacThuc.Location = new Point(37, 158);
+            tbMaXacThuc.Location = new Point(42, 211);
+            tbMaXacThuc.Margin = new Padding(3, 4, 3, 4);
             tbMaXacThuc.Name = "tbMaXacThuc";
             tbMaXacThuc.PlaceholderText = "Nhập Mã Xác Thực";
-            tbMaXacThuc.Size = new Size(413, 58);
-            tbMaXacThuc.TabIndex = 1;
+            tbMaXacThuc.Size = new Size(471, 70);
+            tbMaXacThuc.TabIndex = 2;
             // 
             // tbEmail
             // 
             tbEmail.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbEmail.Location = new Point(37, 53);
+            tbEmail.Location = new Point(42, 71);
+            tbEmail.Margin = new Padding(3, 4, 3, 4);
             tbEmail.Name = "tbEmail";
             tbEmail.PlaceholderText = "Nhập Email";
-            tbEmail.Size = new Size(413, 58);
+            tbEmail.Size = new Size(471, 70);
             tbEmail.TabIndex = 1;
             // 
             // label3
@@ -93,9 +97,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ImageAlign = ContentAlignment.TopLeft;
-            label3.Location = new Point(28, 127);
+            label3.Location = new Point(32, 169);
             label3.Name = "label3";
-            label3.Size = new Size(119, 54);
+            label3.Size = new Size(148, 68);
             label3.TabIndex = 0;
             label3.Text = "Mã Xác Thực:";
             // 
@@ -104,9 +108,9 @@
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ImageAlign = ContentAlignment.TopLeft;
-            label2.Location = new Point(28, 22);
+            label2.Location = new Point(32, 29);
             label2.Name = "label2";
-            label2.Size = new Size(68, 54);
+            label2.Size = new Size(85, 68);
             label2.TabIndex = 0;
             label2.Text = "Email:";
             // 
@@ -114,19 +118,20 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(54, 13);
+            panel1.Location = new Point(61, 18);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(387, 88);
-            panel1.TabIndex = 1;
+            panel1.Size = new Size(442, 117);
+            panel1.TabIndex = 0;
             // 
             // label1
             // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(27, 14);
+            label1.Location = new Point(31, 19);
             label1.Name = "label1";
-            label1.Size = new Size(218, 99);
+            label1.Size = new Size(280, 126);
             label1.TabIndex = 0;
             label1.Text = "Đổi Mật Khẩu";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -139,22 +144,24 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
-            tableLayoutPanel1.Location = new Point(313, 63);
+            tableLayoutPanel1.Location = new Point(358, 84);
+            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 21.5625F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 78.4375F));
-            tableLayoutPanel1.Size = new Size(489, 534);
+            tableLayoutPanel1.Size = new Size(559, 712);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // DoiMatKhau
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            ClientSize = new Size(1115, 660);
+            ClientSize = new Size(1274, 880);
             Controls.Add(tableLayoutPanel1);
             ForeColor = SystemColors.ActiveCaptionText;
+            Margin = new Padding(3, 4, 3, 4);
             Name = "DoiMatKhau";
             Text = "DoiMatKhau";
             Load += DoiMatKhau_Load;

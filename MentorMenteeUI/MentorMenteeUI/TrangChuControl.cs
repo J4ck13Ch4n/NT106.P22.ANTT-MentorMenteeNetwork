@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace MentorMenteeUI
 {
-    public partial class TrangChuControl : UserControl
+    public partial class TrangChuControl: UserControl
     {
         public TrangChuControl()
         {
             InitializeComponent();
-        }
-
-        private void TrangChuControl_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
