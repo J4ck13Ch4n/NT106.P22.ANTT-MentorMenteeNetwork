@@ -58,7 +58,7 @@ namespace MentorMenteeUI
                     string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     Invoke((MethodInvoker)(() =>
                     {
-                        rtbKhungTroChuyen.AppendText("Server: " + message);
+                        rtbKhungTroChuyen.AppendText("Server: " + message + "\n");
                     }));
                 }
             }
