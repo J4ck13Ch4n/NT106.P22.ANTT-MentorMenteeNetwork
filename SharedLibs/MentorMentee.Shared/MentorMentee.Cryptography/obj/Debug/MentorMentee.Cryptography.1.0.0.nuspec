@@ -6,12 +6,12 @@
     <authors>huuduc</authors>
     <description>Cryptography helpers for MentorMentee project</description>
     <copyright>huuduc © 2025</copyright>
-    <repository type="git" commit="4550a960e4a32180dc1b8a0dd1378607874f34d6" />
+    <repository type="git" commit="9227bbbfbd28b439cde99ad5c6ad388a4c2b7284" />
     <dependencies>
       <group targetFramework="net9.0" />
     </dependencies>
   </metadata>
   <files>
-    <file src="D:\Project_NT106\NT106.P22.ANTT-MentorMenteeNetwork\SharedLibs\MentorMentee.Shared\MentorMentee.Cryptography\bin\Debug\net9.0\MentorMentee.Cryptography.dll" target="lib\net9.0\MentorMentee.Cryptography.dll" />
+    <file src="D:\NT106\NT106.P22.ANTT-MentorMenteeNetwork\SharedLibs\MentorMentee.Shared\MentorMentee.Cryptography\bin\Debug\net9.0\MentorMentee.Cryptography.dll" target="lib\net9.0\MentorMentee.Cryptography.dll" />
   </files>
 </package>

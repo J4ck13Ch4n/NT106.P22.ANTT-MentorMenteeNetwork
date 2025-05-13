@@ -1,8 +1,8 @@
 .vs/
 appsettings.json
 # Ignore build output directories
-bin/
-obj/
+.bin/
+.obj/
 *.cache
 *.dll
 *.pdb
