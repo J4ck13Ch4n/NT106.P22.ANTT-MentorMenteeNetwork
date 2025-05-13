@@ -28,7 +28,7 @@ namespace MentorMenteeUI
         {
             using (RSA rsa = RSA.Create())
             {
-                return rsa.ExportParameters(false);
+                return rsa.ExportParameters(false); 
             }
         }
 
@@ -58,7 +58,7 @@ namespace MentorMenteeUI
                     string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
                     Invoke((MethodInvoker)(() =>
                     {
-                        rtbKhungTroChuyen.AppendText("Server: " + message + "\n");
+                        rtbKhungTroChuyen.AppendText("Server: " + message);
                     }));
                 }
             }
@@ -100,3 +100,6 @@ namespace MentorMenteeUI
 
     }
 }
+
+
+

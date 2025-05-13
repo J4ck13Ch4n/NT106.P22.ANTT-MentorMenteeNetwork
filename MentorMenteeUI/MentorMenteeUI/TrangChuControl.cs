@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace MentorMenteeUI
 {
-    public partial class CaiDatControl : UserControl
+    public partial class TrangChuControl : UserControl
     {
-        public CaiDatControl()
+        public TrangChuControl()
         {
             InitializeComponent();
         }

@@ -56,14 +56,13 @@
             tableLayoutPanel1.Controls.Add(panel3, 0, 2);
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
-            tableLayoutPanel1.Location = new Point(349, 64);
-            tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
+            tableLayoutPanel1.Location = new Point(305, 48);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 21.5625F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 78.4375F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 131F));
-            tableLayoutPanel1.Size = new Size(559, 712);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 98F));
+            tableLayoutPanel1.Size = new Size(489, 534);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panel3
@@ -72,19 +71,18 @@
             panel3.Controls.Add(label4);
             panel3.Controls.Add(linkLabel2);
             panel3.Controls.Add(linkLabel1);
-            panel3.Location = new Point(61, 587);
-            panel3.Margin = new Padding(3, 4, 3, 4);
+            panel3.Location = new Point(54, 440);
             panel3.Name = "panel3";
-            panel3.Size = new Size(442, 117);
+            panel3.Size = new Size(387, 88);
             panel3.TabIndex = 3;
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Sans Serif Collection", 9.749998F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label4.Location = new Point(15, 59);
+            label4.Location = new Point(13, 44);
             label4.Name = "label4";
-            label4.Size = new Size(172, 58);
+            label4.Size = new Size(132, 44);
             label4.TabIndex = 1;
             label4.Text = "Chưa có tài khoản ?";
             // 
@@ -93,10 +91,10 @@
             linkLabel2.AutoSize = true;
             linkLabel2.Font = new Font("Sans Serif Collection", 9.749998F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel2.LinkColor = Color.FromArgb(0, 116, 152);
-            linkLabel2.Location = new Point(289, 59);
+            linkLabel2.Location = new Point(253, 44);
             linkLabel2.Name = "linkLabel2";
-            linkLabel2.Size = new Size(88, 58);
-            linkLabel2.TabIndex = 5;
+            linkLabel2.Size = new Size(67, 44);
+            linkLabel2.TabIndex = 0;
             linkLabel2.TabStop = true;
             linkLabel2.Text = "Đăng ký";
             linkLabel2.LinkClicked += linkLabel2_LinkClicked;
@@ -106,10 +104,10 @@
             linkLabel1.AutoSize = true;
             linkLabel1.Font = new Font("Sans Serif Collection", 9.749998F, FontStyle.Regular, GraphicsUnit.Point, 0);
             linkLabel1.LinkColor = Color.FromArgb(0, 116, 152);
-            linkLabel1.Location = new Point(113, 0);
+            linkLabel1.Location = new Point(99, 0);
             linkLabel1.Name = "linkLabel1";
-            linkLabel1.Size = new Size(156, 58);
-            linkLabel1.TabIndex = 4;
+            linkLabel1.Size = new Size(118, 44);
+            linkLabel1.TabIndex = 0;
             linkLabel1.TabStop = true;
             linkLabel1.Text = "Quên mật khẩu ?";
             linkLabel1.LinkClicked += linkLabel1_LinkClicked;
@@ -118,10 +116,9 @@
             // 
             panel1.Anchor = AnchorStyles.None;
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(61, 4);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(54, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(442, 117);
+            panel1.Size = new Size(387, 88);
             panel1.TabIndex = 1;
             // 
             // label1
@@ -129,9 +126,9 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Sans Serif Collection", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(55, 17);
+            label1.Location = new Point(48, 13);
             label1.Name = "label1";
-            label1.Size = new Size(247, 126);
+            label1.Size = new Size(193, 99);
             label1.TabIndex = 0;
             label1.Text = "Đăng Nhập";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -143,10 +140,9 @@
             panel2.Controls.Add(tbEmail);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(label2);
-            panel2.Location = new Point(3, 129);
-            panel2.Margin = new Padding(3, 4, 3, 4);
+            panel2.Location = new Point(3, 97);
             panel2.Name = "panel2";
-            panel2.Size = new Size(559, 447);
+            panel2.Size = new Size(489, 335);
             panel2.TabIndex = 2;
             // 
             // btDangNhap
@@ -157,12 +153,11 @@
             btDangNhap.FlatStyle = FlatStyle.Flat;
             btDangNhap.Font = new Font("Sans Serif Collection", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btDangNhap.ForeColor = Color.White;
-            btDangNhap.Location = new Point(42, 337);
-            btDangNhap.Margin = new Padding(3, 4, 3, 4);
+            btDangNhap.Location = new Point(37, 253);
             btDangNhap.Name = "btDangNhap";
-            btDangNhap.Padding = new Padding(0, 4, 0, 0);
-            btDangNhap.Size = new Size(472, 77);
-            btDangNhap.TabIndex = 3;
+            btDangNhap.Padding = new Padding(0, 3, 0, 0);
+            btDangNhap.Size = new Size(413, 58);
+            btDangNhap.TabIndex = 2;
             btDangNhap.Text = "ĐĂNG NHẬP";
             btDangNhap.UseVisualStyleBackColor = false;
             btDangNhap.Click += btDangNhap_Click;
@@ -170,22 +165,20 @@
             // tbMatKhau
             // 
             tbMatKhau.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbMatKhau.Location = new Point(42, 211);
-            tbMatKhau.Margin = new Padding(3, 4, 3, 4);
+            tbMatKhau.Location = new Point(37, 158);
             tbMatKhau.Name = "tbMatKhau";
             tbMatKhau.PlaceholderText = "Nhập Mật Khẩu";
-            tbMatKhau.Size = new Size(471, 70);
-            tbMatKhau.TabIndex = 2;
+            tbMatKhau.Size = new Size(413, 58);
+            tbMatKhau.TabIndex = 1;
             tbMatKhau.UseSystemPasswordChar = true;
             // 
             // tbEmail
             // 
             tbEmail.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbEmail.Location = new Point(42, 71);
-            tbEmail.Margin = new Padding(3, 4, 3, 4);
+            tbEmail.Location = new Point(37, 53);
             tbEmail.Name = "tbEmail";
             tbEmail.PlaceholderText = "Nhập Email";
-            tbEmail.Size = new Size(471, 70);
+            tbEmail.Size = new Size(413, 58);
             tbEmail.TabIndex = 1;
             // 
             // label3
@@ -193,9 +186,9 @@
             label3.AutoSize = true;
             label3.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label3.ImageAlign = ContentAlignment.TopLeft;
-            label3.Location = new Point(32, 169);
+            label3.Location = new Point(28, 127);
             label3.Name = "label3";
-            label3.Size = new Size(120, 68);
+            label3.Size = new Size(98, 54);
             label3.TabIndex = 0;
             label3.Text = "Mật Khẩu:";
             // 
@@ -204,20 +197,19 @@
             label2.AutoSize = true;
             label2.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label2.ImageAlign = ContentAlignment.TopLeft;
-            label2.Location = new Point(32, 29);
+            label2.Location = new Point(28, 22);
             label2.Name = "label2";
-            label2.Size = new Size(85, 68);
+            label2.Size = new Size(68, 54);
             label2.TabIndex = 0;
             label2.Text = "Email:";
             // 
             // DangNhap
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            ClientSize = new Size(1245, 836);
+            ClientSize = new Size(1089, 627);
             Controls.Add(tableLayoutPanel1);
-            Margin = new Padding(3, 4, 3, 4);
             Name = "DangNhap";
             Text = "DangNhap";
             Load += DangNhap_Load;
