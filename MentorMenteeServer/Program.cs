@@ -105,6 +105,15 @@ app.MapControllers();
 // Cấu hình endpoint cho SignalR
 app.UseRouting();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowAnyOrigin());
+});
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
 
 app.MapControllers();  // Định tuyến API Controllers
