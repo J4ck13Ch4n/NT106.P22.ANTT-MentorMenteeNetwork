@@ -27,9 +27,9 @@ namespace MentorMenteeUI
         private void btTrangChu_Click(object sender, EventArgs e)
         {
             pContent.Controls.Clear();
-            TrangChuControl trangchu = new TrangChuControl();
-            trangchu.Dock = DockStyle.Fill;
-            pContent.Controls.Add(trangchu);
+            KetNoiControl ketNoi = new KetNoiControl();
+            ketNoi.Dock = DockStyle.Fill;
+            pContent.Controls.Add(ketNoi);
         }
 
         private void btNhanTin_Click(object sender, EventArgs e)
@@ -51,9 +51,9 @@ namespace MentorMenteeUI
 
         private void TrangCaNhan_Load(object sender, EventArgs e)
         {
-            TrangChuControl trangchu = new TrangChuControl();
-            trangchu.Dock = DockStyle.Fill;
-            pContent.Controls.Add(trangchu);
+            CaiDatControl caiDat = new CaiDatControl();
+            caiDat.Dock = DockStyle.Fill;
+            pContent.Controls.Add(caiDat);
         }
 
         private async void btDangXuat_Click(object sender, EventArgs e)
@@ -71,6 +71,14 @@ namespace MentorMenteeUI
         private void pContent_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btCaiDat_Click(object sender, EventArgs e)
+        {
+            pContent.Controls.Clear();
+            CaiDatControl trangchu = new CaiDatControl();
+            trangchu.Dock = DockStyle.Fill;
+            pContent.Controls.Add(trangchu);
         }
     }
 }
