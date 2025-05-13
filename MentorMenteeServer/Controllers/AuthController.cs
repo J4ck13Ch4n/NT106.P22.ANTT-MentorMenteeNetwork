@@ -16,6 +16,13 @@ namespace MentorMenteeServer.Controllers
             _context = context;
         }
 
+        public class LoginResult
+        {
+            public bool Success { get; set; }
+            public string UserId { get; set; }
+            public string FullName { get; set; }
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
@@ -67,10 +74,11 @@ namespace MentorMenteeServer.Controllers
             user.IsOnline = true;  //lưu trạng thái online
             await _context.SaveChangesAsync();
 
-            return Ok(new
+            return Ok(new LoginResult
             {
-                Message = "Đăng nhập thành công!",
-                UserId = user.Id
+                Success = true,
+                UserId = user.Id.ToString(),
+                FullName = user.Username
             });
         }
 

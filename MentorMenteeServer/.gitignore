@@ -1,9 +1,13 @@
-.vs/
-appsettings.json
-appsettings.Development.json
-# Ignore build output directories
-bin/
-obj/
+# Bỏ qua các thư mục .vs ở cấp hiện tại (SharedLibs) và trong bất kỳ thư mục con nào
+**/.vs/
+
+# Bỏ qua các thư mục bin trong bất kỳ thư mục con nào của SharedLibs
+**/bin/
+
+# Bỏ qua các thư mục obj trong bất kỳ thư mục con nào của SharedLibs
+**/obj/
+
+# Các file bỏ qua khác của bạn
 *.cache
 *.dll
 *.pdb
@@ -11,3 +15,6 @@ obj/
 *.nuget.cache
 *.nuget.dgspec.json
 *.sourcelink.json
+
+appsettings.json
+appsettings.Development.json
