@@ -8,20 +8,60 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using System.Net.WebSockets;
 using System.Security.Cryptography;
 using MentorMentee.Cryptography.Helpers;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace MentorMenteeUI
 {
     public partial class NhanTinControl : UserControl
     {
-        private ClientWebSocket ws = new ClientWebSocket();
+        private HubConnection connection;
+        private string currentUsername = "user1"; // TODO: Lấy username thực tế từ session hoặc biến toàn cục
 
         public NhanTinControl()
         {
             InitializeComponent();
-            ConnectWebSocket();
+            ConnectSignalR();
+        }
+
+        private async void ConnectSignalR()
+        {
+            connection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:5268/chathub")
+                .WithAutomaticReconnect()
+                .Build();
+
+            // Nhận tin nhắn từ server
+            connection.On<string, string>("ReceiveMessage", (user, message) =>
+            {
+                Invoke((MethodInvoker)(() =>
+                {
+                    rtbKhungTroChuyen.AppendText($"{user}: {message}\n");
+                }));
+            });
+
+            try
+            {
+                await connection.StartAsync();
+                await connection.InvokeAsync("RegisterUser", currentUsername); // nếu backend hỗ trợ đăng ký user
+                rtbKhungTroChuyen.AppendText("✅ Đã kết nối tới máy chủ SignalR!\n");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("❌ Lỗi kết nối SignalR: " + ex.Message);
+            }
+        }
+
+        private string EncryptMessageRSA(string plainText, RSAParameters publicKey)
+        {
+            using (RSA rsa = RSA.Create())
+            {
+                rsa.ImportParameters(publicKey);
+                byte[] data = Encoding.UTF8.GetBytes(plainText);
+                byte[] encrypted = rsa.Encrypt(data, RSAEncryptionPadding.Pkcs1);
+                return Convert.ToBase64String(encrypted);
+            }
         }
 
         private RSAParameters GetRecipientPublicKey()
@@ -32,61 +72,40 @@ namespace MentorMenteeUI
             }
         }
 
-        private async void ConnectWebSocket()
-        {
-            ws = new ClientWebSocket();
-            try
-            {
-                await ws.ConnectAsync(new Uri("wss://localhost:5268/wss"), CancellationToken.None);
-                MessageBox.Show("Kết nối WebSocket thành công!");
-                _ = Task.Run(ReceiveMessages);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi kết nối WebSocket: " + ex.Message);
-            }
-        }
-
-        private async Task ReceiveMessages()
-        {
-            var buffer = new byte[1024];
-            while (ws.State == WebSocketState.Open)
-            {
-                var result = await ws.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                if (result.MessageType == WebSocketMessageType.Text)
-                {
-                    string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-                    Invoke((MethodInvoker)(() =>
-                    {
-                        rtbKhungTroChuyen.AppendText("Server: " + message);
-                    }));
-                }
-            }
-        }
-
         private async void bGui_Click(object sender, EventArgs e)
         {
-            if (ws.State == WebSocketState.Open)
+            if (connection.State == HubConnectionState.Connected)
             {
-                var buffer = Encoding.UTF8.GetBytes(tbTinNhan.Text);
-                await ws.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
-
-                rtbKhungTroChuyen.AppendText("You: " + tbTinNhan.Text + "\n");
-                tbTinNhan.Clear();
+                var message = tbTinNhan.Text.Trim();
+                if (!string.IsNullOrEmpty(message))
+                {
+                    try
+                    {
+                        RSAParameters recipientPublicKey = GetRecipientPublicKey(); 
+                        string encryptedMessage = EncryptMessageRSA(message, recipientPublicKey);
+                        await connection.InvokeAsync("SendMessage", currentUsername, encryptedMessage);
+                        rtbKhungTroChuyen.AppendText("Bạn: " + message + "\n");
+                        tbTinNhan.Clear(); 
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi gửi tin nhắn: " + ex.Message);
+                    }
+                }
             }
             else
             {
-                MessageBox.Show("WebSocket chưa kết nối!");
+                MessageBox.Show("SignalR chưa kết nối!");
             }
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                if (ws != null && ws.State == WebSocketState.Open)
+                if (connection != null)
                 {
-                    ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "Đóng kết nối", CancellationToken.None).Wait();
+                    connection.StopAsync().Wait();
+                    connection.DisposeAsync().AsTask().Wait();
                 }
             }
             base.Dispose(disposing);
