@@ -28,19 +28,50 @@ namespace MentorMenteeServer.Controllers
             if (sender == null || receiver == null)
                 return NotFound("Người dùng không tồn tại!");
 
-            var existingRequest = await _context.Relationships
-                .FirstOrDefaultAsync(r => (r.Mentor.Id == request.SenderId && r.Mentee.Id == request.ReceiverId) ||
-                                          (r.Mentor.Id == request.ReceiverId && r.Mentee.Id == request.SenderId));
+            // Tìm existing relationship cả 2 chiều (mentor-mentee và mentee-mentor)
+            var existing = await _context.Relationships
+                .FirstOrDefaultAsync(r =>
+                    (r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId) ||
+                    (r.MentorId == request.ReceiverId && r.MenteeId == request.SenderId));
 
-            if (existingRequest != null)
-                return BadRequest("Đã có yêu cầu kết bạn trước đó!");
-
-            var relationship = new Relationship
+            if (existing != null)
             {
-                Mentor = sender,
-                Mentee = receiver,
-                Status = "pending"
-            };
+                if (existing.Status == "pending")
+                    return BadRequest("Đã có lời mời đang chờ xử lý!");
+                if (existing.Status == "accepted")
+                    return BadRequest("Hai người đã là bạn!");
+                if (existing.Status == "rejected")
+                    return BadRequest("Lời mời trước đó đã bị từ chối!");
+            }
+
+            Relationship relationship;
+
+            if (sender.Role == "mentor")
+            {
+                relationship = new Relationship
+                {
+                    Mentor = sender,
+                    MentorId = sender.Id,
+                    Mentee = receiver,
+                    MenteeId = receiver.Id,
+                    Status = "pending"
+                };
+            }
+            else if (sender.Role == "mentee")
+            {
+                relationship = new Relationship
+                {
+                    Mentor = receiver,
+                    MentorId = receiver.Id,
+                    Mentee = sender,
+                    MenteeId = sender.Id,
+                    Status = "pending"
+                };
+            }
+            else
+            {
+                return BadRequest("Role người gửi không hợp lệ.");
+            }
 
             _context.Relationships.Add(relationship);
             await _context.SaveChangesAsync();
@@ -51,10 +82,10 @@ namespace MentorMenteeServer.Controllers
         [HttpPost("accept-request")]
         public async Task<IActionResult> AcceptFriendRequest([FromBody] FriendRequestDto request)
         {
+            // Tìm relationship theo đúng chiều mentor-mentee
             var relationship = await _context.Relationships
-                .Include(r => r.Mentor)
-                .Include(r => r.Mentee)
-                .FirstOrDefaultAsync(r => r.Mentor.Id == request.SenderId && r.Mentee.Id == request.ReceiverId);
+                .FirstOrDefaultAsync(r =>
+                    r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId);
 
             if (relationship == null || relationship.Status != "pending")
                 return BadRequest("Lời mời không hợp lệ!");
@@ -69,9 +100,8 @@ namespace MentorMenteeServer.Controllers
         public async Task<IActionResult> RejectFriendRequest([FromBody] FriendRequestDto request)
         {
             var relationship = await _context.Relationships
-                .Include(r => r.Mentor)
-                .Include(r => r.Mentee)
-                .FirstOrDefaultAsync(r => r.Mentor.Id == request.SenderId && r.Mentee.Id == request.ReceiverId);
+                .FirstOrDefaultAsync(r =>
+                    r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId);
 
             if (relationship == null || relationship.Status != "pending")
                 return BadRequest("Lời mời không hợp lệ!");
@@ -86,10 +116,9 @@ namespace MentorMenteeServer.Controllers
         public async Task<IActionResult> RemoveFriend([FromBody] FriendRequestDto request)
         {
             var relationship = await _context.Relationships
-                .Include(r => r.Mentor)
-                .Include(r => r.Mentee)
-                .FirstOrDefaultAsync(r => (r.Mentor.Id == request.SenderId && r.Mentee.Id == request.ReceiverId) ||
-                                          (r.Mentor.Id == request.ReceiverId && r.Mentee.Id == request.SenderId));
+                .FirstOrDefaultAsync(r =>
+                    (r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId) ||
+                    (r.MentorId == request.ReceiverId && r.MenteeId == request.SenderId));
 
             if (relationship == null || relationship.Status != "accepted")
                 return BadRequest("Không phải bạn bè!");
@@ -99,5 +128,6 @@ namespace MentorMenteeServer.Controllers
 
             return Ok("Đã hủy kết bạn!");
         }
+
     }
 }
