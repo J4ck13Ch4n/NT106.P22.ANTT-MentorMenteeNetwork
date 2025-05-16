@@ -23,10 +23,13 @@ namespace MentorMenteeServer.Hubs
         {
             _logger = logger;
         }
+<<<<<<< HEAD
         public ChatHub(ILogger<ChatHub> logger)
         {
             _logger = logger;
         }
+=======
+>>>>>>> tongtai
 
         public async Task SendMessage(string user, string message)
         {
