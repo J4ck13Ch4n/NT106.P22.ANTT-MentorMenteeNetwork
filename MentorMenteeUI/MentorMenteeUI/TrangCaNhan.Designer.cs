@@ -49,19 +49,17 @@
             panel1.Controls.Add(btTrangChu);
             panel1.Controls.Add(btNhanTin);
             panel1.Controls.Add(btCaiDat);
-            panel1.Location = new Point(1, 3);
-            panel1.Margin = new Padding(3, 4, 3, 4);
+            panel1.Location = new Point(1, 2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(184, 917);
+            panel1.Size = new Size(161, 688);
             panel1.TabIndex = 0;
             // 
             // cpbAvatar
             // 
             cpbAvatar.Image = Properties.Resources.blankAvatar;
-            cpbAvatar.Location = new Point(29, 10);
-            cpbAvatar.Margin = new Padding(3, 4, 3, 4);
+            cpbAvatar.Location = new Point(42, 28);
             cpbAvatar.Name = "cpbAvatar";
-            cpbAvatar.Size = new Size(125, 111);
+            cpbAvatar.Size = new Size(67, 63);
             cpbAvatar.SizeMode = PictureBoxSizeMode.StretchImage;
             cpbAvatar.TabIndex = 3;
             cpbAvatar.TabStop = false;
@@ -71,10 +69,10 @@
             lbTen.AutoSize = true;
             lbTen.Font = new Font("Sans Serif Collection", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbTen.ForeColor = Color.White;
-            lbTen.Location = new Point(29, 125);
-            lbTen.MaximumSize = new Size(125, 91);
+            lbTen.Location = new Point(25, 94);
+            lbTen.MaximumSize = new Size(109, 68);
             lbTen.Name = "lbTen";
-            lbTen.Size = new Size(125, 91);
+            lbTen.Size = new Size(100, 68);
             lbTen.TabIndex = 2;
             lbTen.Text = "HoTen";
             // 
@@ -87,12 +85,10 @@
             btDangXuat.ForeColor = Color.White;
             btDangXuat.Image = Properties.Resources.icons8_log_out_50;
             btDangXuat.ImageAlign = ContentAlignment.TopCenter;
-            btDangXuat.Location = new Point(0, 647);
-            btDangXuat.Margin = new Padding(3, 4, 3, 4);
+            btDangXuat.Location = new Point(0, 485);
             btDangXuat.Name = "btDangXuat";
-            btDangXuat.Size = new Size(181, 132);
+            btDangXuat.Size = new Size(158, 99);
             btDangXuat.TabIndex = 0;
-            btDangXuat.Text = "Đăng Xuất";
             btDangXuat.TextAlign = ContentAlignment.BottomCenter;
             btDangXuat.UseVisualStyleBackColor = false;
             btDangXuat.Click += btDangXuat_Click;
@@ -106,12 +102,10 @@
             btTrangChu.ForeColor = Color.White;
             btTrangChu.Image = Properties.Resources.icons8_home_50;
             btTrangChu.ImageAlign = ContentAlignment.TopCenter;
-            btTrangChu.Location = new Point(3, 233);
-            btTrangChu.Margin = new Padding(3, 4, 3, 4);
+            btTrangChu.Location = new Point(3, 175);
             btTrangChu.Name = "btTrangChu";
-            btTrangChu.Size = new Size(178, 129);
+            btTrangChu.Size = new Size(156, 97);
             btTrangChu.TabIndex = 0;
-            btTrangChu.Text = "Trang Chủ";
             btTrangChu.TextAlign = ContentAlignment.BottomCenter;
             btTrangChu.UseVisualStyleBackColor = false;
             btTrangChu.Click += btTrangChu_Click;
@@ -125,12 +119,10 @@
             btNhanTin.ForeColor = Color.White;
             btNhanTin.Image = Properties.Resources.icons8_message_50;
             btNhanTin.ImageAlign = ContentAlignment.TopCenter;
-            btNhanTin.Location = new Point(0, 370);
-            btNhanTin.Margin = new Padding(3, 4, 3, 4);
+            btNhanTin.Location = new Point(0, 278);
             btNhanTin.Name = "btNhanTin";
-            btNhanTin.Size = new Size(181, 127);
+            btNhanTin.Size = new Size(158, 95);
             btNhanTin.TabIndex = 0;
-            btNhanTin.Text = "Nhắn Tin";
             btNhanTin.TextAlign = ContentAlignment.BottomCenter;
             btNhanTin.UseVisualStyleBackColor = false;
             btNhanTin.Click += btNhanTin_Click;
@@ -144,35 +136,31 @@
             btCaiDat.ForeColor = Color.White;
             btCaiDat.Image = Properties.Resources.icons8_setting_50;
             btCaiDat.ImageAlign = ContentAlignment.TopCenter;
-            btCaiDat.Location = new Point(0, 505);
-            btCaiDat.Margin = new Padding(3, 4, 3, 4);
+            btCaiDat.Location = new Point(0, 379);
             btCaiDat.Name = "btCaiDat";
-            btCaiDat.Size = new Size(181, 134);
+            btCaiDat.Size = new Size(158, 100);
             btCaiDat.TabIndex = 0;
-            btCaiDat.Text = "Cài Đặt";
             btCaiDat.TextAlign = ContentAlignment.BottomCenter;
             btCaiDat.UseVisualStyleBackColor = false;
             btCaiDat.Click += btCaiDat_Click;
             // 
             // pContent
             // 
-            pContent.Location = new Point(191, 3);
-            pContent.Margin = new Padding(3, 4, 3, 4);
+            pContent.Location = new Point(167, 2);
             pContent.Name = "pContent";
-            pContent.Size = new Size(1117, 917);
+            pContent.Size = new Size(977, 688);
             pContent.TabIndex = 1;
             pContent.Paint += pContent_Paint;
             // 
             // TrangCaNhan
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            ClientSize = new Size(1309, 917);
+            ClientSize = new Size(1145, 688);
             Controls.Add(pContent);
             Controls.Add(panel1);
             ForeColor = SystemColors.ControlText;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "TrangCaNhan";
             Text = "TrangCaNhan";
             FormClosing += TrangCaNhan_FormClosing;

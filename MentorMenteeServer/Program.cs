@@ -105,13 +105,13 @@ app.MapControllers();
 // Cấu hình endpoint cho SignalR
 app.UseRouting();
 
-builder.Services.AddCors(options =>
+/*builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyHeader()
               .AllowAnyMethod()
               .AllowAnyOrigin());
-});
+});*/
 app.UseCors("AllowAll");
 
 app.UseAuthorization();

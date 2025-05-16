@@ -11,17 +11,22 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using MentorMentee.Cryptography.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.IO; 
+
 
 namespace MentorMenteeUI
 {
     public partial class NhanTinControl : UserControl
     {
         private HubConnection connection;
-        private string currentUsername = "user1"; // TODO: Lấy username thực tế từ session hoặc biến toàn cục
-
-        public NhanTinControl()
+        private string userId, userName;
+        private readonly Form loginForm;
+        public NhanTinControl(string userId, Form loginForm, string userName)
         {
             InitializeComponent();
+            this.userId = userId;
+            this.loginForm = loginForm;
+            this.userName = userName;
             ConnectSignalR();
         }
 
@@ -32,20 +37,22 @@ namespace MentorMenteeUI
                 .WithAutomaticReconnect()
                 .Build();
 
-            // Nhận tin nhắn từ server
-            connection.On<string, string>("ReceiveMessage", (user, message) =>
+            connection.On<string, string>("ReceiveMessage", (receivedUser, receivedMessage) =>
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    rtbKhungTroChuyen.AppendText($"{user}: {message}\n");
+                    string displayUser = (receivedUser == userName) ? "Bạn" : receivedUser;
+                    rtbKhungTroChuyen.AppendText($"{displayUser}: {receivedMessage}\n");
                 }));
             });
 
             try
             {
                 await connection.StartAsync();
-                await connection.InvokeAsync("RegisterUser", currentUsername); // nếu backend hỗ trợ đăng ký user
-                rtbKhungTroChuyen.AppendText("✅ Đã kết nối tới máy chủ SignalR!\n");
+                if (!string.IsNullOrEmpty(userName))
+                {
+                    await connection.InvokeAsync("RegisterUser", userName);
+                }
             }
             catch (Exception ex)
             {
@@ -68,7 +75,7 @@ namespace MentorMenteeUI
         {
             using (RSA rsa = RSA.Create())
             {
-                return rsa.ExportParameters(false); 
+                return rsa.ExportParameters(false);
             }
         }
 
@@ -77,15 +84,27 @@ namespace MentorMenteeUI
             if (connection.State == HubConnectionState.Connected)
             {
                 var message = tbTinNhan.Text.Trim();
+                var recipientUsername = tbNguoiNhan.Text.Trim();
+                if (string.IsNullOrEmpty(recipientUsername))
+                {
+                    MessageBox.Show("Vui lòng nhập tên người nhận.");
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(message))
+                {
+                    MessageBox.Show("Vui lòng nhập nội dung tin nhắn.");
+                    return;
+                }
                 if (!string.IsNullOrEmpty(message))
                 {
                     try
                     {
-                        RSAParameters recipientPublicKey = GetRecipientPublicKey(); 
-                        string encryptedMessage = EncryptMessageRSA(message, recipientPublicKey);
-                        await connection.InvokeAsync("SendMessage", currentUsername, encryptedMessage);
-                        rtbKhungTroChuyen.AppendText("Bạn: " + message + "\n");
-                        tbTinNhan.Clear(); 
+                        //RSAParameters recipientPublicKey = GetRecipientPublicKey(); 
+                        //string encryptedMessage = EncryptMessageRSA(message, recipientPublicKey);
+                        await connection.InvokeAsync("SendPrivateMessage", userName, recipientUsername, message);
+                        //rtbKhungTroChuyen.AppendText("Bạn: " + message + "\n");
+                        tbTinNhan.Clear();
                     }
                     catch (Exception ex)
                     {
@@ -116,7 +135,10 @@ namespace MentorMenteeUI
 
         }
 
+        private void rtbNguoiNhan_TextChanged(object sender, EventArgs e)
+        {
 
+        }
     }
 }
 

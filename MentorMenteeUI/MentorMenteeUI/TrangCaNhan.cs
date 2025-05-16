@@ -37,7 +37,7 @@ namespace MentorMenteeUI
         private void btNhanTin_Click(object sender, EventArgs e)
         {
             pContent.Controls.Clear();
-            NhanTinControl nhantin = new NhanTinControl();
+            NhanTinControl nhantin = new NhanTinControl(this.userId, this.loginForm, this.userName);
             nhantin.Dock = DockStyle.Fill;
             pContent.Controls.Add(nhantin);
         }
@@ -83,5 +83,9 @@ namespace MentorMenteeUI
             pContent.Controls.Add(caiDat);
         }
 
+        private void lbTen_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
