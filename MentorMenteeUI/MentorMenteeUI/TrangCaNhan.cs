@@ -15,13 +15,15 @@ namespace MentorMenteeUI
 {
     public partial class TrangCaNhan : Form
     {
-        private readonly string userId;
+        private readonly string userId, userName;
         private readonly Form loginForm;
-        public TrangCaNhan(string userId, Form loginForm)
+        public TrangCaNhan(string userId, Form loginForm, string userName)
         {
             InitializeComponent();
             this.userId = userId;
             this.loginForm = loginForm;
+            this.userName = userName;
+            lbTen.Text = userName;
         }
 
         private void btTrangChu_Click(object sender, EventArgs e)
@@ -80,5 +82,6 @@ namespace MentorMenteeUI
             caiDat.Dock = DockStyle.Fill;
             pContent.Controls.Add(caiDat);
         }
+
     }
 }

@@ -44,7 +44,7 @@ namespace MentorMenteeUI
             if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
             {
                 MessageBox.Show("Đăng nhập thành công!");
-                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this); // Truyền userId
+                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName); // Truyền userId
                 trangCaNhan.Show();
                 this.Hide();
             }

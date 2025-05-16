@@ -29,20 +29,21 @@
             // 
             lbDSTroChuyen.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbDSTroChuyen.FormattingEnabled = true;
-            lbDSTroChuyen.ItemHeight = 54;
-            lbDSTroChuyen.Items.AddRange(new object[] { "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6", "Ten 1", "Ten 2", "Ten 3", "Ten 4", "Ten 5", "Ten 6" });
-            lbDSTroChuyen.Location = new Point(18, 14);
+            lbDSTroChuyen.Items.AddRange(new object[] { "Trống" });
+            lbDSTroChuyen.Location = new Point(23, 19);
+            lbDSTroChuyen.Margin = new Padding(3, 4, 3, 4);
             lbDSTroChuyen.Name = "lbDSTroChuyen";
-            lbDSTroChuyen.Size = new Size(203, 598);
+            lbDSTroChuyen.Size = new Size(230, 888);
             lbDSTroChuyen.TabIndex = 0;
             // 
             // rtbKhungTroChuyen
             // 
             rtbKhungTroChuyen.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rtbKhungTroChuyen.Location = new Point(228, 14);
+            rtbKhungTroChuyen.Location = new Point(261, 19);
+            rtbKhungTroChuyen.Margin = new Padding(3, 4, 3, 4);
             rtbKhungTroChuyen.Name = "rtbKhungTroChuyen";
             rtbKhungTroChuyen.ReadOnly = true;
-            rtbKhungTroChuyen.Size = new Size(651, 601);
+            rtbKhungTroChuyen.Size = new Size(833, 833);
             rtbKhungTroChuyen.TabIndex = 1;
             rtbKhungTroChuyen.Text = "";
             rtbKhungTroChuyen.TextChanged += rtbKhungTroChuyen_TextChanged;
@@ -50,17 +51,19 @@
             // tbTinNhan
             // 
             tbTinNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbTinNhan.Location = new Point(227, 627);
+            tbTinNhan.Location = new Point(259, 860);
+            tbTinNhan.Margin = new Padding(3, 4, 3, 4);
             tbTinNhan.Name = "tbTinNhan";
-            tbTinNhan.Size = new Size(530, 39);
+            tbTinNhan.Size = new Size(684, 47);
             tbTinNhan.TabIndex = 2;
             // 
             // bGui
             // 
             bGui.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            bGui.Location = new Point(763, 627);
+            bGui.Location = new Point(949, 860);
+            bGui.Margin = new Padding(3, 4, 3, 4);
             bGui.Name = "bGui";
-            bGui.Size = new Size(116, 39);
+            bGui.Size = new Size(145, 47);
             bGui.TabIndex = 3;
             bGui.Text = "Gửi";
             bGui.UseVisualStyleBackColor = true;
@@ -68,15 +71,16 @@
             // 
             // NhanTinControl
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
             Controls.Add(bGui);
             Controls.Add(tbTinNhan);
             Controls.Add(rtbKhungTroChuyen);
             Controls.Add(lbDSTroChuyen);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "NhanTinControl";
-            Size = new Size(900, 688);
+            Size = new Size(1117, 917);
             ResumeLayout(false);
             PerformLayout();
 

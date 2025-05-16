@@ -36,7 +36,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
             Name = "TrangChuControl";
-            Size = new Size(1029, 917);
+            Size = new Size(1117, 917);
             ResumeLayout(false);
         }
 

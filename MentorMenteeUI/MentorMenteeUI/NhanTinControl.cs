@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
 using MentorMentee.Cryptography.Helpers;
