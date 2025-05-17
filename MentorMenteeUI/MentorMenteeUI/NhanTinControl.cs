@@ -35,20 +35,21 @@ namespace MentorMenteeUI
             this.userName = userName;
 
             var suggestionsListBox = this.Controls.Find("lbUserSuggestions", true).FirstOrDefault() as ListBox;
-            if (suggestionsListBox == null) // Nếu không tìm thấy trong Designer, tạo mới
+                        if (suggestionsListBox == null) // Nếu không tìm thấy trong Designer, tạo mới
             {
                 suggestionsListBox = new ListBox
                 {
                     Name = "lbUserSuggestions",
                     Visible = false,
-                    Location = new Point(tbNguoiNhan.Location.X, tbNguoiNhan.Location.Y + tbNguoiNhan.Height),
+                    // Đặt Location, Width, Height phù hợp, ví dụ:
+                    Location = new Point(tbNguoiNhan.Location.X, tbNguoiNhan.Location.Y + tbNguoiNhan.Height + 2),
                     Width = tbNguoiNhan.Width,
-                    Height = 80, // Chiều cao nhỏ hơn
-                    IntegralHeight = false
+                    Height = 80, // Hoặc chiều cao bạn muốn
+                    IntegralHeight = false // Cho phép chiều cao không cố định theo số item
                 };
-                this.Controls.Add(suggestionsListBox);
-                suggestionsListBox.BringToFront();
+                this.Controls.Add(suggestionsListBox); // Thêm vào UserControl
             }
+            suggestionsListBox.BringToFront();
             suggestionsListBox.DoubleClick += LbUserSuggestions_DoubleClick;
 
 
@@ -64,7 +65,7 @@ namespace MentorMenteeUI
         private void TbNguoiNhan_TextChanged(object sender, EventArgs e)
         {
             searchDebounceTimer.Stop();
-            if (!string.IsNullOrWhiteSpace(tbNguoiNhan.Text))
+            if (!string.IsNullOrWhiteSpace(tbNguoiNhan.Text) && !tbNguoiNhan.ReadOnly)
             {
                 searchDebounceTimer.Start();
             }
@@ -84,11 +85,23 @@ namespace MentorMenteeUI
             searchDebounceTimer.Stop();
             string searchText = tbNguoiNhan.Text.Trim();
             var suggestionsBox = this.Controls.Find("lbUserSuggestions", true).FirstOrDefault() as ListBox;
-            if (suggestionsBox == null || string.IsNullOrWhiteSpace(searchText))
+
+            if (suggestionsBox == null) 
             {
-                if (suggestionsBox != null) suggestionsBox.Visible = false;
+                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: suggestionsBox is NULL.");
                 return;
             }
+
+            suggestionsBox.Visible = false;
+            suggestionsBox.Items.Clear();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: searchText is empty.");
+                return; 
+            }
+
+            System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Searching for '{searchText}'");
 
             using (var httpClient = new HttpClient())
             {
@@ -99,20 +112,43 @@ namespace MentorMenteeUI
                     {
                         var jsonResponse = await response.Content.ReadAsStringAsync();
                         var users = JsonSerializer.Deserialize<List<string>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: API returned {users?.Count ?? 0} users.");
 
-                        suggestionsBox.Items.Clear();
-                        if (users != null && users.Any())
+                        if (users != null) 
                         {
-                            foreach (var user in users.Where(u => u != this.userName)) // Không hiển thị chính mình
+                            foreach (var user in users.Where(u => u != this.userName)) 
                             {
                                 suggestionsBox.Items.Add(user);
                             }
+
+                            if (suggestionsBox.Items.Count > 0) 
+                            {
+                                suggestionsBox.Visible = true;
+                                System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: suggestionsBox should be VISIBLE. Items: {suggestionsBox.Items.Count}");
+                                System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Location: {suggestionsBox.Location}, Size: {suggestionsBox.Size}, Parent: {suggestionsBox.Parent?.Name}");
+                                // Thêm dòng này để đảm bảo nó được vẽ lại
+                                suggestionsBox.Invalidate(); 
+                                suggestionsBox.Update();
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: No items to show in suggestionsBox.");
+                            }
                         }
-                        suggestionsBox.Visible = suggestionsBox.Items.Count > 0;
+                        else
+                        {
+                             System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: Users list from API is null.");
+                        }
                     }
-                    else { suggestionsBox.Visible = false; }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: API Error - {response.StatusCode}: {response.ReasonPhrase}");
+                    }
                 }
-                catch { suggestionsBox.Visible = false; } // Lỗi thì ẩn đi
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Exception - {ex.Message}");
+                }
             }
         }
 
@@ -145,9 +181,9 @@ namespace MentorMenteeUI
                 Invoke((MethodInvoker)(() =>
                 {
                     string chatPartner;
-                    bool isMyMessage = messageSender == userName;
+                    bool isMyMessageForDisplay = messageSender == userName;
 
-                    if (isMyMessage)
+                    if (isMyMessageForDisplay)
                     {
                         chatPartner = originalIntendedRecipient;
                     }
@@ -158,7 +194,10 @@ namespace MentorMenteeUI
 
                     if (string.IsNullOrEmpty(chatPartner))
                     {
-                        rtbKhungTroChuyen.AppendText($"{messageSender} (đến {originalIntendedRecipient}): {messageContent} [{timestamp.ToLocalTime()}]\n");
+                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left; 
+                        rtbKhungTroChuyen.SelectionColor = Color.Gray;
+                        rtbKhungTroChuyen.AppendText($"{messageSender}: {messageContent} [{timestamp.ToLocalTime():HH:mm}]\n");
+                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor; 
                         return;
                     }
 
@@ -167,7 +206,7 @@ namespace MentorMenteeUI
                         chatHistories[chatPartner] = new List<MessageEntry>();
                     }
                     // Sử dụng timestamp từ server
-                    chatHistories[chatPartner].Add(new MessageEntry { SenderUsername = messageSender, Content = messageContent, Timestamp = timestamp.ToLocalTime() });
+                    chatHistories[chatPartner].Add(new MessageEntry { SenderUsername = messageSender, Content = messageContent, Timestamp = timestamp.ToLocalTime(), IsMyMessage = isMyMessageForDisplay });
                     // Sắp xếp lại nếu cần
                     chatHistories[chatPartner] = chatHistories[chatPartner].OrderBy(m => m.Timestamp).ToList();
 
@@ -201,13 +240,31 @@ namespace MentorMenteeUI
 
                     if (activeChatPartner == chatPartner)
                     {
-                        string displayUser = isMyMessage ? "Bạn" : messageSender;
-                        rtbKhungTroChuyen.AppendText($"{displayUser}: {messageContent} \n"); 
+                        string displayUser = isMyMessageForDisplay ? "Bạn" : messageSender;
+
+                        rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
+                        rtbKhungTroChuyen.SelectionLength = 0;
+
+                        if (isMyMessageForDisplay)
+                        {
+                            rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Right;
+                            rtbKhungTroChuyen.SelectionColor = Color.Blue;
+                        }
+                        else
+                        {
+                            rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
+                        }
+
+                        rtbKhungTroChuyen.AppendText($"[{displayUser} - {timestamp.ToLocalTime():HH:mm}]\n");
+
+                        rtbKhungTroChuyen.AppendText($"{messageContent}\n\n"); 
+
+                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor; 
+                                                                                        
                         rtbKhungTroChuyen.ScrollToCaret();
                     }
                     else
                     {
-                        // TODO: Chỉ báo tin nhắn mới cho cuộc trò chuyện không active (ví dụ: làm đậm tên, thêm dấu *)
                         int itemIndex = lbDSTroChuyen.Items.IndexOf(chatPartner);
                         if (itemIndex != -1)
                         {
@@ -256,13 +313,41 @@ namespace MentorMenteeUI
                     // Ghi đè lịch sử từ server vào cache client
                     chatHistories[partnerName] = messages.OrderBy(m => m.Timestamp).ToList();
 
+                    var processedMessages = messages.Select(m => new MessageEntry {
+                    SenderUsername = m.SenderUsername,
+                    Content = m.Content,
+                    Timestamp = m.Timestamp, 
+                    IsMyMessage = (m.SenderUsername == this.userName) 
+                    }).OrderBy(m => m.Timestamp).ToList();
+
+                    chatHistories[partnerName] = processedMessages;
+
                     rtbKhungTroChuyen.Clear();
                     foreach (var msg in chatHistories[partnerName])
                     {
-                        string displayUser = (msg.SenderUsername == userName) ? "Bạn" : msg.SenderUsername; 
-                        rtbKhungTroChuyen.AppendText($"{displayUser}: {msg.Content} ");
+                    string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
+                    // rtbKhungTroChuyen.AppendText("\n"); // Dòng trống phân cách
+
+                    rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
+                    rtbKhungTroChuyen.SelectionLength = 0;
+
+                    if (msg.IsMyMessage)
+                    {
+                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Right;
+                        rtbKhungTroChuyen.SelectionColor = Color.Blue;
                     }
-                    rtbKhungTroChuyen.ScrollToCaret();
+                    else
+                    {
+                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
+                        rtbKhungTroChuyen.SelectionColor = Color.DarkGreen; 
+                    }
+                    
+                    rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp.ToLocalTime():HH:mm}]\n");
+                    rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n"); // Thêm dòng trống sau tin nhắn
+
+                    rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
+                }
+                rtbKhungTroChuyen.ScrollToCaret();
                 }));
             });
 
@@ -362,29 +447,24 @@ namespace MentorMenteeUI
             {
                 activeChatPartner = null;
                 tbNguoiNhan.Text = "";
-                tbNguoiNhan.ReadOnly = false; // Cho phép nhập người nhận mới
+                tbNguoiNhan.ReadOnly = false; 
                 rtbKhungTroChuyen.Clear();
-                bGui.Enabled = false; // Vô hiệu hóa nút gửi nếu không có người nhận
+                bGui.Enabled = false; 
                 return;
             }
 
             string newActivePartner = lbDSTroChuyen.SelectedItem.ToString();
 
-            // Xóa dấu (*) chỉ báo tin nhắn mới nếu có
-            // if (newActivePartner.EndsWith(" (*)"))
-            // {
-            //    newActivePartner = newActivePartner.Replace(" (*)", "");
-            //    lbDSTroChuyen.Items[lbDSTroChuyen.SelectedIndex] = newActivePartner; // Cập nhật lại item trong listbox
-            // }
 
             activeChatPartner = newActivePartner;
+
+            tbNguoiNhan.ReadOnly = true;
+
             tbNguoiNhan.Text = activeChatPartner;
-            tbNguoiNhan.ReadOnly = true; // Không cho sửa người nhận khi đã chọn từ danh sách
-            bGui.Enabled = true; // Cho phép gửi
+            
+            bGui.Enabled = true; 
 
             rtbKhungTroChuyen.Clear();
-            // Không hiển thị từ cache client ngay, luôn yêu cầu server để đảm bảo dữ liệu mới nhất
-            // Hoặc có thể hiển thị từ cache trước, sau đó cập nhật từ server
 
             if (connection != null && connection.State == HubConnectionState.Connected)
             {
@@ -414,5 +494,6 @@ namespace MentorMenteeUI
         public string SenderUsername { get; set; }
         public string Content { get; set; }
         public DateTime Timestamp { get; set; } 
+        public bool IsMyMessage { get; set; }
     }
 }

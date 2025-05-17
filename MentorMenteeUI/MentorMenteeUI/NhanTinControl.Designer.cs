@@ -71,7 +71,7 @@
             tbNguoiNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbNguoiNhan.Location = new Point(228, 14);
             tbNguoiNhan.Name = "tbNguoiNhan";
-            tbNguoiNhan.Size = new Size(183, 39);
+            tbNguoiNhan.Size = new Size(183, 35);
             tbNguoiNhan.TabIndex = 1;
             // 
             // lbUserSuggestions
