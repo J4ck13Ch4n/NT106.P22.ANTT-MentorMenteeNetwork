@@ -24,6 +24,7 @@
             tbTinNhan = new TextBox();
             bGui = new Button();
             tbNguoiNhan = new TextBox();
+            lbUserSuggestions = new ListBox();
             SuspendLayout();
             // 
             // lbDSTroChuyen
@@ -45,7 +46,6 @@
             rtbKhungTroChuyen.Size = new Size(540, 626);
             rtbKhungTroChuyen.TabIndex = 1;
             rtbKhungTroChuyen.Text = "";
-            //rtbKhungTroChuyen.TextChanged += rtbKhungTroChuyen_TextChanged;
             // 
             // tbTinNhan
             // 
@@ -71,15 +71,24 @@
             tbNguoiNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tbNguoiNhan.Location = new Point(228, 14);
             tbNguoiNhan.Name = "tbNguoiNhan";
-            tbNguoiNhan.ReadOnly = false;
             tbNguoiNhan.Size = new Size(183, 39);
             tbNguoiNhan.TabIndex = 1;
+            // 
+            // lbUserSuggestions
+            // 
+            lbUserSuggestions.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbUserSuggestions.Location = new Point(228, 56);
+            lbUserSuggestions.Name = "lbUserSuggestions";
+            lbUserSuggestions.Size = new Size(183, 86);
+            lbUserSuggestions.TabIndex = 4;
+            lbUserSuggestions.SelectedIndexChanged += lbUserSuggestion_SelectedIndexChanged;
             // 
             // NhanTinControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
+            Controls.Add(lbUserSuggestions);
             Controls.Add(tbNguoiNhan);
             Controls.Add(bGui);
             Controls.Add(tbTinNhan);
@@ -100,5 +109,6 @@
         private TextBox tbTinNhan;
         private Button bGui;
         private TextBox tbNguoiNhan;
+        private ListBox lbUserSuggestions;
     }
 }
