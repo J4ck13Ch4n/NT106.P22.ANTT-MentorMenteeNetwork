@@ -45,7 +45,7 @@
             rtbKhungTroChuyen.Size = new Size(540, 626);
             rtbKhungTroChuyen.TabIndex = 1;
             rtbKhungTroChuyen.Text = "";
-            rtbKhungTroChuyen.TextChanged += rtbKhungTroChuyen_TextChanged;
+            //rtbKhungTroChuyen.TextChanged += rtbKhungTroChuyen_TextChanged;
             // 
             // tbTinNhan
             // 
