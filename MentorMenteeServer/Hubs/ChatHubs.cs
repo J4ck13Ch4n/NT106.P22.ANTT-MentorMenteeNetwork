@@ -50,7 +50,7 @@ namespace MentorMenteeServer.Hubs
                     if (_users.TryGetValue(recipientUsername, out string recipientConnectionId))
                     {
                         _logger.LogInformation("Recipient {RecipientUsername} (Connection: {RecipientConnectionId}) is online and different from sender. Sending message.", recipientUsername, recipientConnectionId);
-                        await Clients.Client(recipientConnectionId).SendAsync("ReceiveMessage", senderUsername, message);
+                        await Clients.Client(recipientConnectionId).SendAsync("ReceiveMessage", senderUsername, message, senderUsername);
                     }
                     else
                     {
@@ -63,7 +63,7 @@ namespace MentorMenteeServer.Hubs
                 }
 
                 _logger.LogInformation("Sending message back to sender {SenderUsername} (Caller Connection: {ConnectionId}).", senderUsername, Context.ConnectionId);
-                await Clients.Caller.SendAsync("ReceiveMessage", senderUsername, message);
+                await Clients.Caller.SendAsync("ReceiveMessage", senderUsername, message, recipientUsername);
             }
             catch (Exception ex)
             {
