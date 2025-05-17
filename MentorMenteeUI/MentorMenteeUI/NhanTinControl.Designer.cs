@@ -81,7 +81,6 @@
             lbUserSuggestions.Name = "lbUserSuggestions";
             lbUserSuggestions.Size = new Size(183, 86);
             lbUserSuggestions.TabIndex = 4;
-            lbUserSuggestions.SelectedIndexChanged += lbUserSuggestion_SelectedIndexChanged;
             // 
             // NhanTinControl
             // 

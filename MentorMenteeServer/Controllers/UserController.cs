@@ -10,6 +10,7 @@ namespace MentorMenteeServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize] 
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -19,22 +20,29 @@ namespace MentorMenteeServer.Controllers
             _context = context;
         }
 
-        [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<string>>> SearchUsers([FromQuery] string query)
+            public async Task<ActionResult<IEnumerable<string>>> SearchUsers([FromQuery] string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
         {
-            if (string.IsNullOrWhiteSpace(query))
-            {
-                return Ok(new List<string>());
-            }
-
-            var users = await _context.Users
-                .Where(u => u.Username != currentUsername && u.Username.Contains(query))
-                .Where(u => u.Username.Contains(query))
-                .Select(u => u.Username)
-                .Take(12)
-                .ToListAsync();
-
-            return Ok(users);
+            return Ok(new List<string>());
         }
+
+        var currentUsername = User.Identity?.Name; 
+
+        var queryableUsers = _context.Users.AsQueryable();
+
+        if (!string.IsNullOrEmpty(currentUsername))
+        {
+            queryableUsers = queryableUsers.Where(u => u.Username != currentUsername);
+        }
+
+        var users = await queryableUsers
+            .Where(u => u.Username.Contains(query)) 
+            .Select(u => u.Username)
+            .Take(12)
+            .ToListAsync();
+
+        return Ok(users);
+    }
     }
 }
