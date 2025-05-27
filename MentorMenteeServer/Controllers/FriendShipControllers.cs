@@ -128,6 +128,29 @@ namespace MentorMenteeServer.Controllers
 
             return Ok("Đã hủy kết bạn!");
         }
-
+        [HttpGet("friends/{userId}")]
+        public async Task<IActionResult> GetFriends(int userId)
+        {
+            var friends = await _context.Relationships
+                .Where(r => (r.MentorId == userId || r.MenteeId == userId) && r.Status == "accepted")
+                .Select(r => new
+                {
+                    FriendId = r.MentorId == userId ? r.MenteeId : r.MentorId,
+                    FriendName = r.MentorId == userId ? r.Mentee.Username : r.Mentor.Username
+                })
+                .ToListAsync();
+            return Ok(friends);
+        }
+        [HttpGet("pending-request/{userId}")]
+        public async Task<IActionResult> GetPendingRequests(int userId)
+        {
+            var pendingRequests = await _context.Relationships
+                .Where(r => r.MenteeId == userId && r.Status == "pending")
+                .Select(r => new
+                {
+                    SenderId = r.MentorId,
+                    SenderName = r.Mentor.Username
+                })
+        }
     }
 }

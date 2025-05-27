@@ -13,6 +13,7 @@ using MentorMentee.Cryptography.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.IO;
 using System.Text.Json;
+using System.Net.Http;
 
 
 namespace MentorMenteeUI
@@ -26,129 +27,79 @@ namespace MentorMenteeUI
 
         private string activeChatPartner = null; 
         private Dictionary<string, List<MessageEntry>> chatHistories = new Dictionary<string, List<MessageEntry>>();
-        private System.Windows.Forms.Timer searchDebounceTimer;
         public NhanTinControl(string userId, Form loginForm, string userName)
         {
-            InitializeComponent();
+            InitializeComponent(); 
             this.userId = userId;
             this.loginForm = loginForm;
             this.userName = userName;
-
-            var suggestionsListBox = this.Controls.Find("lbUserSuggestions", true).FirstOrDefault() as ListBox;
-                        if (suggestionsListBox == null) // Nếu không tìm thấy trong Designer, tạo mới
-            {
-                suggestionsListBox = new ListBox
-                {
-                    Name = "lbUserSuggestions",
-                    Visible = false,
-                    // Đặt Location, Width, Height phù hợp, ví dụ:
-                    Location = new Point(tbNguoiNhan.Location.X, tbNguoiNhan.Location.Y + tbNguoiNhan.Height + 2),
-                    Width = tbNguoiNhan.Width,
-                    Height = 80, // Hoặc chiều cao bạn muốn
-                    IntegralHeight = false // Cho phép chiều cao không cố định theo số item
-                };
-                this.Controls.Add(suggestionsListBox); // Thêm vào UserControl
-            }
-            suggestionsListBox.BringToFront();
-            suggestionsListBox.DoubleClick += LbUserSuggestions_DoubleClick;
-
+            this.lbUserSuggestions.BringToFront();
+            this.lbUserSuggestions.DoubleClick += LbUserSuggestions_DoubleClick;
 
             tbNguoiNhan.TextChanged += TbNguoiNhan_TextChanged;
-            // Không cần LostFocus/GotFocus phức tạp cho phiên bản đơn giản
-
-            searchDebounceTimer = new System.Windows.Forms.Timer { Interval = 500 }; // 500ms delay
-            searchDebounceTimer.Tick += SearchDebounceTimer_Tick;
 
             lbDSTroChuyen.SelectedIndexChanged += LstConversations_SelectedIndexChanged;
             ConnectSignalR();
         }
-        private void TbNguoiNhan_TextChanged(object sender, EventArgs e)
+        private async void TbNguoiNhan_TextChanged(object sender, EventArgs e)
         {
-            searchDebounceTimer.Stop();
-            if (!string.IsNullOrWhiteSpace(tbNguoiNhan.Text) && !tbNguoiNhan.ReadOnly)
-            {
-                searchDebounceTimer.Start();
-            }
-            else
-            {
-                var suggestionsBox = this.Controls.Find("lbUserSuggestions", true).FirstOrDefault() as ListBox;
-                if (suggestionsBox != null)
-                {
-                    suggestionsBox.Visible = false;
-                    suggestionsBox.Items.Clear();
-                }
-            }
-        }
-
-        private async void SearchDebounceTimer_Tick(object sender, EventArgs e)
-        {
-            searchDebounceTimer.Stop();
+            
             string searchText = tbNguoiNhan.Text.Trim();
-            var suggestionsBox = this.Controls.Find("lbUserSuggestions", true).FirstOrDefault() as ListBox;
-
-            if (suggestionsBox == null) 
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
-                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: suggestionsBox is NULL.");
-                return;
-            }
+                this.lbUserSuggestions.Visible = false; 
+                this.lbUserSuggestions.Items.Clear();
 
-            suggestionsBox.Visible = false;
-            suggestionsBox.Items.Clear();
-
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: searchText is empty.");
-                return; 
-            }
-
-            System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Searching for '{searchText}'");
-
-            using (var httpClient = new HttpClient())
-            {
-                try
+                using (var httpClient = new HttpClient())
                 {
-                    var response = await httpClient.GetAsync($"https://localhost:5268/api/user/search?query={Uri.EscapeDataString(searchText)}");
-                    if (response.IsSuccessStatusCode)
+                    try
                     {
-                        var jsonResponse = await response.Content.ReadAsStringAsync();
-                        var users = JsonSerializer.Deserialize<List<string>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                        System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: API returned {users?.Count ?? 0} users.");
-
-                        if (users != null) 
+                        var response = await httpClient.GetAsync($"https://localhost:5268/api/user/search?query={Uri.EscapeDataString(searchText)}");
+                        var jsonResponsed = await response.Content.ReadAsStringAsync();
+                        Console.WriteLine($"API Response: {jsonResponsed}");
+                        if (response.IsSuccessStatusCode)
                         {
-                            foreach (var user in users.Where(u => u != this.userName)) 
-                            {
-                                suggestionsBox.Items.Add(user);
-                            }
+                            var jsonResponse = await response.Content.ReadAsStringAsync();
+                            var usersFound = JsonSerializer.Deserialize<List<string>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                            if (suggestionsBox.Items.Count > 0) 
+                            if (usersFound != null && usersFound.Any(user => user != this.userName))
                             {
-                                suggestionsBox.Visible = true;
-                                System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: suggestionsBox should be VISIBLE. Items: {suggestionsBox.Items.Count}");
-                                System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Location: {suggestionsBox.Location}, Size: {suggestionsBox.Size}, Parent: {suggestionsBox.Parent?.Name}");
-                                // Thêm dòng này để đảm bảo nó được vẽ lại
-                                suggestionsBox.Invalidate(); 
-                                suggestionsBox.Update();
+                                foreach (var user in usersFound)
+                                {
+                                    if (user != this.userName)
+                                    {
+                                        this.lbUserSuggestions.Items.Add(user);
+                                    }
+                                }
+
+                                this.lbUserSuggestions.Visible = this.lbUserSuggestions.Items.Count > 0;
+                                if (this.lbUserSuggestions.Visible)
+                                {
+                                    this.lbUserSuggestions.BringToFront();
+                                }
                             }
                             else
                             {
-                                System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: No items to show in suggestionsBox.");
+                                this.lbUserSuggestions.Visible = false;
                             }
                         }
                         else
                         {
-                             System.Diagnostics.Debug.WriteLine("SearchDebounceTimer_Tick: Users list from API is null.");
+                            this.lbUserSuggestions.Visible = false; 
+                            this.lbUserSuggestions.Items.Clear();
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: API Error - {response.StatusCode}: {response.ReasonPhrase}");
+                        this.lbUserSuggestions.Visible = false; 
+                        this.lbUserSuggestions.Items.Clear();
                     }
                 }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine($"SearchDebounceTimer_Tick: Exception - {ex.Message}");
-                }
+            }
+            else
+            {
+                this.lbUserSuggestions.Visible = false;
+                this.lbUserSuggestions.Items.Clear();
             }
         }
 
@@ -160,7 +111,6 @@ namespace MentorMenteeUI
                 tbNguoiNhan.Text = suggestionsBox.SelectedItem.ToString();
                 suggestionsBox.Visible = false;
                 tbNguoiNhan.Focus();
-                // Tùy chọn: tự động chọn trong lbDSTroChuyen hoặc gửi tin nhắn
             }
         }
         private async void ConnectSignalR()
@@ -205,9 +155,7 @@ namespace MentorMenteeUI
                     {
                         chatHistories[chatPartner] = new List<MessageEntry>();
                     }
-                    // Sử dụng timestamp từ server
                     chatHistories[chatPartner].Add(new MessageEntry { SenderUsername = messageSender, Content = messageContent, Timestamp = timestamp.ToLocalTime(), IsMyMessage = isMyMessageForDisplay });
-                    // Sắp xếp lại nếu cần
                     chatHistories[chatPartner] = chatHistories[chatPartner].OrderBy(m => m.Timestamp).ToList();
 
 
