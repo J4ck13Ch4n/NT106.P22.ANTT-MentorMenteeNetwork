@@ -20,7 +20,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(buil
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+    options.AddPolicy("AllowAll", policy => policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
 
@@ -37,13 +37,17 @@ builder.WebHost.ConfigureKestrel(options =>
         listenOptions.UseHttps();
     });
 });
-
+//Add swagger
+builder.Services.AddSwaggerGen(c =>
+{
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 }
 
 
@@ -112,7 +116,6 @@ app.UseRouting();
               .AllowAnyMethod()
               .AllowAnyOrigin());
 });*/
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
@@ -120,4 +123,5 @@ app.MapControllers();  // Định tuyến API Controllers
 app.MapHub<ChatHub>("/chathub"); // Định tuyến SignalR Hub
 
 app.UseCors("AllowAll");
+
 app.Run();
