@@ -87,5 +87,13 @@ namespace MentorMenteeUI
         {
 
         }
+
+        private void btGoal_Click(object sender, EventArgs e)
+        {
+            pContent.Controls.Clear();
+            MucTieuMenteeControl mucTieuMentee = new MucTieuMenteeControl();
+            mucTieuMentee.Dock = DockStyle.Fill;
+            pContent.Controls.Add(mucTieuMentee);
+        }
     }
 }
