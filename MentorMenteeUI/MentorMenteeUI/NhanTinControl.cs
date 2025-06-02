@@ -21,15 +21,15 @@ namespace MentorMenteeUI
     public partial class NhanTinControl : UserControl
     {
         private HubConnection connection;
-        private string userId; 
-        private string userName; 
-        private readonly Form loginForm; 
+        private string userId;
+        private string userName;
+        private readonly Form loginForm;
 
-        private string activeChatPartner = null; 
+        private string activeChatPartner = null;
         private Dictionary<string, List<MessageEntry>> chatHistories = new Dictionary<string, List<MessageEntry>>();
         public NhanTinControl(string userId, Form loginForm, string userName)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             this.userId = userId;
             this.loginForm = loginForm;
             this.userName = userName;
@@ -43,11 +43,11 @@ namespace MentorMenteeUI
         }
         private async void TbNguoiNhan_TextChanged(object sender, EventArgs e)
         {
-            
+
             string searchText = tbNguoiNhan.Text.Trim();
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                this.lbUserSuggestions.Visible = false; 
+                this.lbUserSuggestions.Visible = false;
                 this.lbUserSuggestions.Items.Clear();
 
                 using (var httpClient = new HttpClient())
@@ -85,13 +85,13 @@ namespace MentorMenteeUI
                         }
                         else
                         {
-                            this.lbUserSuggestions.Visible = false; 
+                            this.lbUserSuggestions.Visible = false;
                             this.lbUserSuggestions.Items.Clear();
                         }
                     }
                     catch (Exception ex)
                     {
-                        this.lbUserSuggestions.Visible = false; 
+                        this.lbUserSuggestions.Visible = false;
                         this.lbUserSuggestions.Items.Clear();
                     }
                 }
@@ -122,7 +122,7 @@ namespace MentorMenteeUI
             }
 
             connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:5268/chathub") 
+                .WithUrl("https://localhost:5268/chathub")
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -144,10 +144,10 @@ namespace MentorMenteeUI
 
                     if (string.IsNullOrEmpty(chatPartner))
                     {
-                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left; 
+                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
                         rtbKhungTroChuyen.SelectionColor = Color.Gray;
                         rtbKhungTroChuyen.AppendText($"{messageSender}: {messageContent} [{timestamp.ToLocalTime():HH:mm}]\n");
-                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor; 
+                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
                         return;
                     }
 
@@ -172,7 +172,7 @@ namespace MentorMenteeUI
                     {
                         lbDSTroChuyen.Items.Insert(0, chatPartner);
                     }
-                    else if (lbDSTroChuyen.Items.IndexOf(chatPartner) > 0) 
+                    else if (lbDSTroChuyen.Items.IndexOf(chatPartner) > 0)
                     {
                         lbDSTroChuyen.Items.Remove(chatPartner);
                         lbDSTroChuyen.Items.Insert(0, chatPartner);
@@ -205,10 +205,10 @@ namespace MentorMenteeUI
 
                         rtbKhungTroChuyen.AppendText($"[{displayUser} - {timestamp.ToLocalTime():HH:mm}]\n");
 
-                        rtbKhungTroChuyen.AppendText($"{messageContent}\n\n"); 
+                        rtbKhungTroChuyen.AppendText($"{messageContent}\n\n");
 
-                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor; 
-                                                                                        
+                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
+
                         rtbKhungTroChuyen.ScrollToCaret();
                     }
                     else
@@ -227,10 +227,10 @@ namespace MentorMenteeUI
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    lbDSTroChuyen.BeginUpdate(); 
+                    lbDSTroChuyen.BeginUpdate();
                     object currentSelection = lbDSTroChuyen.SelectedItem;
                     lbDSTroChuyen.Items.Clear();
-                    foreach (var partner in partners.OrderBy(p => p)) 
+                    foreach (var partner in partners.OrderBy(p => p))
                     {
                         if (!string.IsNullOrEmpty(partner) && partner != this.userName)
                         {
@@ -261,11 +261,12 @@ namespace MentorMenteeUI
                     // Ghi đè lịch sử từ server vào cache client
                     chatHistories[partnerName] = messages.OrderBy(m => m.Timestamp).ToList();
 
-                    var processedMessages = messages.Select(m => new MessageEntry {
-                    SenderUsername = m.SenderUsername,
-                    Content = m.Content,
-                    Timestamp = m.Timestamp, 
-                    IsMyMessage = (m.SenderUsername == this.userName) 
+                    var processedMessages = messages.Select(m => new MessageEntry
+                    {
+                        SenderUsername = m.SenderUsername,
+                        Content = m.Content,
+                        Timestamp = m.Timestamp,
+                        IsMyMessage = (m.SenderUsername == this.userName)
                     }).OrderBy(m => m.Timestamp).ToList();
 
                     chatHistories[partnerName] = processedMessages;
@@ -273,29 +274,29 @@ namespace MentorMenteeUI
                     rtbKhungTroChuyen.Clear();
                     foreach (var msg in chatHistories[partnerName])
                     {
-                    string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
-                    // rtbKhungTroChuyen.AppendText("\n"); // Dòng trống phân cách
+                        string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
+                        // rtbKhungTroChuyen.AppendText("\n"); // Dòng trống phân cách
 
-                    rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
-                    rtbKhungTroChuyen.SelectionLength = 0;
+                        rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
+                        rtbKhungTroChuyen.SelectionLength = 0;
 
-                    if (msg.IsMyMessage)
-                    {
-                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Right;
-                        rtbKhungTroChuyen.SelectionColor = Color.Blue;
+                        if (msg.IsMyMessage)
+                        {
+                            rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Right;
+                            rtbKhungTroChuyen.SelectionColor = Color.Blue;
+                        }
+                        else
+                        {
+                            rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
+                            rtbKhungTroChuyen.SelectionColor = Color.DarkGreen;
+                        }
+
+                        rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp.ToLocalTime():HH:mm}]\n");
+                        rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n"); // Thêm dòng trống sau tin nhắn
+
+                        rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
                     }
-                    else
-                    {
-                        rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
-                        rtbKhungTroChuyen.SelectionColor = Color.DarkGreen; 
-                    }
-                    
-                    rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp.ToLocalTime():HH:mm}]\n");
-                    rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n"); // Thêm dòng trống sau tin nhắn
-
-                    rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
-                }
-                rtbKhungTroChuyen.ScrollToCaret();
+                    rtbKhungTroChuyen.ScrollToCaret();
                 }));
             });
 
@@ -352,7 +353,7 @@ namespace MentorMenteeUI
             try
             {
                 await connection.InvokeAsync("SendPrivateMessage", userName, recipientForThisMessage, message);
-                
+
                 tbTinNhan.Clear();
 
                 if (string.IsNullOrEmpty(activeChatPartner) || activeChatPartner != recipientForThisMessage)
@@ -374,7 +375,7 @@ namespace MentorMenteeUI
         {
             if (disposing)
             {
-                if (components != null) 
+                if (components != null)
                 {
                     components.Dispose();
                 }
@@ -395,9 +396,9 @@ namespace MentorMenteeUI
             {
                 activeChatPartner = null;
                 tbNguoiNhan.Text = "";
-                tbNguoiNhan.ReadOnly = false; 
+                tbNguoiNhan.ReadOnly = false;
                 rtbKhungTroChuyen.Clear();
-                bGui.Enabled = false; 
+                bGui.Enabled = false;
                 return;
             }
 
@@ -409,8 +410,8 @@ namespace MentorMenteeUI
             tbNguoiNhan.ReadOnly = true;
 
             tbNguoiNhan.Text = activeChatPartner;
-            
-            bGui.Enabled = true; 
+
+            bGui.Enabled = true;
 
             rtbKhungTroChuyen.Clear();
 
@@ -433,6 +434,7 @@ namespace MentorMenteeUI
                 MessageBox.Show("Chưa kết nối tới server để tải lịch sử.", "Lỗi kết nối", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
+
     }
 
 
