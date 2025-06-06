@@ -151,6 +151,8 @@ namespace MentorMenteeServer.Controllers
                     SenderId = r.MentorId,
                     SenderName = r.Mentor.Username
                 })
+                .ToListAsync();
+            return Ok(pendingRequests);
         }
     }
 }
