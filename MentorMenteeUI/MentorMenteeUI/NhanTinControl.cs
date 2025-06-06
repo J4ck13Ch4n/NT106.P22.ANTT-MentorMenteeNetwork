@@ -27,6 +27,19 @@ namespace MentorMenteeUI
 
         private string activeChatPartner = null;
         private Dictionary<string, List<MessageEntry>> chatHistories = new Dictionary<string, List<MessageEntry>>();
+
+        //lưu id người nhận được chọn
+        private int? _selectedRecipientId = null;
+        private string _selectedRecipientUsername = null;
+        private class UserSuggestion
+        {
+            public int Id { get; set; }
+            public string Username { get; set; }
+            public string Role { get; set; }
+            public string Email { get; set; }
+            public override string ToString() => $"{Username} - {Email}";
+        }
+
         public NhanTinControl(string userId, Form loginForm, string userName)
         {
             InitializeComponent();
@@ -45,48 +58,42 @@ namespace MentorMenteeUI
         {
 
             string searchText = tbNguoiNhan.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(searchText))
+            if (!string.IsNullOrWhiteSpace(searchText)) 
             {
                 this.lbUserSuggestions.Visible = false;
                 this.lbUserSuggestions.Items.Clear();
+
+                _selectedRecipientId = null;
+                _selectedRecipientUsername = null;
 
                 using (var httpClient = new HttpClient())
                 {
                     try
                     {
                         var response = await httpClient.GetAsync($"https://localhost:5268/api/user/search?query={Uri.EscapeDataString(searchText)}");
+
+                        //kiểm tra response có thành công không
                         var jsonResponsed = await response.Content.ReadAsStringAsync();
                         Console.WriteLine($"API Response: {jsonResponsed}");
+
                         if (response.IsSuccessStatusCode)
                         {
                             var jsonResponse = await response.Content.ReadAsStringAsync();
-                            var usersFound = JsonSerializer.Deserialize<List<string>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                            var usersFound = JsonSerializer.Deserialize<List<UserSuggestion>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-                            if (usersFound != null && usersFound.Any(user => user != this.userName))
+                            lbUserSuggestions.Items.Clear();
+                            if (usersFound != null)
                             {
                                 foreach (var user in usersFound)
                                 {
-                                    if (user != this.userName)
-                                    {
-                                        this.lbUserSuggestions.Items.Add(user);
-                                    }
+                                    // Không hiển thị chính mình
+                                    if (!user.Username.Equals(this.userName, StringComparison.OrdinalIgnoreCase))
+                                        lbUserSuggestions.Items.Add(user);
                                 }
-
-                                this.lbUserSuggestions.Visible = this.lbUserSuggestions.Items.Count > 0;
-                                if (this.lbUserSuggestions.Visible)
-                                {
-                                    this.lbUserSuggestions.BringToFront();
-                                }
+                                lbUserSuggestions.Visible = lbUserSuggestions.Items.Count > 0;
+                                if (lbUserSuggestions.Visible)
+                                    lbUserSuggestions.BringToFront();
                             }
-                            else
-                            {
-                                this.lbUserSuggestions.Visible = false;
-                            }
-                        }
-                        else
-                        {
-                            this.lbUserSuggestions.Visible = false;
-                            this.lbUserSuggestions.Items.Clear();
                         }
                     }
                     catch (Exception ex)
@@ -100,15 +107,19 @@ namespace MentorMenteeUI
             {
                 this.lbUserSuggestions.Visible = false;
                 this.lbUserSuggestions.Items.Clear();
+                _selectedRecipientId = null;
+                _selectedRecipientUsername = null;
             }
         }
 
         private void LbUserSuggestions_DoubleClick(object sender, EventArgs e)
         {
             var suggestionsBox = sender as ListBox;
-            if (suggestionsBox != null && suggestionsBox.SelectedItem != null)
+            if (suggestionsBox?.SelectedItem is UserSuggestion selectedUser)
             {
-                tbNguoiNhan.Text = suggestionsBox.SelectedItem.ToString();
+                tbNguoiNhan.Text = $"{selectedUser.Username} - {selectedUser.Email}";
+                _selectedRecipientId = selectedUser.Id;
+                _selectedRecipientUsername = selectedUser.Username;
                 suggestionsBox.Visible = false;
                 tbNguoiNhan.Focus();
             }
@@ -329,41 +340,33 @@ namespace MentorMenteeUI
                 return;
             }
 
-            string recipientForThisMessage;
+            int recipientId;
+            string recipientUsername;
 
             if (!string.IsNullOrEmpty(activeChatPartner))
             {
-                recipientForThisMessage = activeChatPartner;
+                // cần mapping từ username sang ID 
+                MessageBox.Show("Hãy chọn người nhận từ gợi ý để đảm bảo gửi đúng người (theo ID)!");
+                return;
             }
             else
             {
-                recipientForThisMessage = tbNguoiNhan.Text.Trim();
-                if (string.IsNullOrEmpty(recipientForThisMessage))
+                // user phải chọn từ gợi ý, nếu không thì không gửi
+                if (_selectedRecipientId == null || _selectedRecipientUsername == null)
                 {
-                    MessageBox.Show("Vui lòng chọn một cuộc trò chuyện hoặc nhập tên người nhận.");
+                    MessageBox.Show("Vui lòng chọn người nhận từ danh sách gợi ý!");
                     return;
                 }
-                if (recipientForThisMessage == userName)
-                {
-                    MessageBox.Show("Bạn không thể tự gửi tin nhắn cho chính mình theo cách này. Nếu muốn ghi chú, hãy gửi cho một người dùng khác (có thể là tài khoản test của bạn).");
-                    return;
-                }
+                recipientId = _selectedRecipientId.Value;
+                recipientUsername = _selectedRecipientUsername;
             }
 
             try
             {
-                await connection.InvokeAsync("SendPrivateMessage", userName, recipientForThisMessage, message);
+                // gửi bằng Id 
+                await connection.InvokeAsync("SendPrivateMessageById", int.Parse(userId), recipientId, message);
 
                 tbTinNhan.Clear();
-
-                if (string.IsNullOrEmpty(activeChatPartner) || activeChatPartner != recipientForThisMessage)
-                {
-                    if (!lbDSTroChuyen.Items.Contains(recipientForThisMessage))
-                    {
-                        lbDSTroChuyen.Items.Insert(0, recipientForThisMessage);
-                    }
-                    lbDSTroChuyen.SelectedItem = recipientForThisMessage;
-                }
             }
             catch (Exception ex)
             {
@@ -436,8 +439,6 @@ namespace MentorMenteeUI
         }
 
     }
-
-
 
     public class MessageEntry
     {

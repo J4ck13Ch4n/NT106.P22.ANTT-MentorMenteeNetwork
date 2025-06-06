@@ -37,8 +37,13 @@ namespace MentorMenteeServer.Controllers
             }
 
             var users = await queryableUsers
-                .Where(u => u.Username.Contains(query))
-                .Select(u => u.Username)
+                .Where(u => u.Username.Contains(query) || u.Role.Contains(query) || u.Email.Contains(query))
+                .Select(u => new {
+                    u.Id,
+                    u.Username,
+                    u.Role,
+                    u.Email
+                })
                 .Take(12)
                 .ToListAsync();
 

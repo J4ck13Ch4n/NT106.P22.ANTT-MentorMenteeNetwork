@@ -142,6 +142,7 @@ namespace MentorMenteeServer.Controllers
             return Ok(friends);
         }
         [HttpGet("pending-request/{userId}")]
+
         public async Task<IActionResult> GetPendingRequests(int userId)
         {
             var pendingRequests = await _context.Relationships
@@ -151,6 +152,9 @@ namespace MentorMenteeServer.Controllers
                     SenderId = r.MentorId,
                     SenderName = r.Mentor.Username
                 })
+                .ToListAsync();
+
+            return Ok(pendingRequests);
         }
     }
 }
