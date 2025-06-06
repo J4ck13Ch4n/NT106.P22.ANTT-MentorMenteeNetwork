@@ -54,5 +54,26 @@ namespace MentorMenteeUI
             }
         }
 
+        // In code-behind file (DangNhap.cs):
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+            System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+            int radius = 20;
+            path.AddArc(0, 0, radius, radius, 180, 90);
+            path.AddArc(panel2.Width - radius, 0, radius, radius, 270, 90);
+            path.AddArc(panel2.Width - radius, panel2.Height - radius, radius, radius, 0, 90);
+            path.AddArc(0, panel2.Height - radius, radius, radius, 90, 90);
+            path.CloseAllFigures();
+            panel2.Region = new System.Drawing.Region(path);
+        }
+        // 
+        private void btDangNhap_MouseEnter(object sender, EventArgs e)
+        {
+            btDangNhap.BackColor = System.Drawing.Color.FromArgb(0, 140, 200);
+        }
+         private void btDangNhap_MouseLeave(object sender, EventArgs e)
+         {
+            btDangNhap.BackColor = System.Drawing.Color.FromArgb(0, 116, 152);
+          }
     }
 }
