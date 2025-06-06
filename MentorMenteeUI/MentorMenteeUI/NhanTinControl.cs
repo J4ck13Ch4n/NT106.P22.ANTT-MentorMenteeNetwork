@@ -21,7 +21,7 @@ namespace MentorMenteeUI
     public partial class NhanTinControl : UserControl
     {
         private HubConnection connection;
-        private string userId;
+        private int userId;
         private string userName;
         private readonly Form loginForm;
 
@@ -40,7 +40,7 @@ namespace MentorMenteeUI
             public override string ToString() => $"{Username} - {Email}";
         }
 
-        public NhanTinControl(string userId, Form loginForm, string userName)
+        public NhanTinControl(int userId, Form loginForm, string userName)
         {
             InitializeComponent();
             this.userId = userId;
@@ -343,30 +343,41 @@ namespace MentorMenteeUI
             int recipientId;
             string recipientUsername;
 
-            if (!string.IsNullOrEmpty(activeChatPartner))
+            // Ưu tiên: Nếu vừa chọn gợi ý, dùng gợi ý
+            if (_selectedRecipientId != null && _selectedRecipientUsername != null)
             {
-                // cần mapping từ username sang ID 
-                MessageBox.Show("Hãy chọn người nhận từ gợi ý để đảm bảo gửi đúng người (theo ID)!");
-                return;
+                recipientId = _selectedRecipientId.Value;
+                recipientUsername = _selectedRecipientUsername;
+            }
+            // Nếu đã chọn từ danh sách trò chuyện (bên trái)
+            else if (!string.IsNullOrEmpty(activeChatPartner))
+            {
+                recipientUsername = activeChatPartner;
+                // Tìm Id từ cache gợi ý từng chat trước đó (bạn nên lưu Id khi nhận history hoặc gợi ý user)
+                var cached = lbUserSuggestions.Items
+                    .OfType<UserSuggestion>()
+                    .FirstOrDefault(u => u.Username.Equals(recipientUsername, StringComparison.OrdinalIgnoreCase));
+                if (cached != null)
+                {
+                    recipientId = cached.Id;
+                }
+                else
+                {
+                    MessageBox.Show("Không xác định được ID người nhận. Hãy chọn lại từ gợi ý.");
+                    return;
+                }
             }
             else
             {
-                // user phải chọn từ gợi ý, nếu không thì không gửi
-                if (_selectedRecipientId == null || _selectedRecipientUsername == null)
-                {
-                    MessageBox.Show("Vui lòng chọn người nhận từ danh sách gợi ý!");
-                    return;
-                }
-                recipientId = _selectedRecipientId.Value;
-                recipientUsername = _selectedRecipientUsername;
+                MessageBox.Show("Vui lòng chọn người nhận từ danh sách gợi ý hoặc trò chuyện.");
+                return;
             }
 
             try
             {
-                // gửi bằng Id 
-                await connection.InvokeAsync("SendPrivateMessageById", int.Parse(userId), recipientId, message);
-
+                await connection.InvokeAsync("SendPrivateMessageById", userId, recipientId, message);
                 tbTinNhan.Clear();
+                // Reset _selectedRecipientId nếu cần
             }
             catch (Exception ex)
             {
@@ -391,6 +402,13 @@ namespace MentorMenteeUI
                 }
             }
             base.Dispose(disposing);
+        }
+
+        private class PartnerInfo
+        {
+            public int Id { get; set; }
+            public string Username { get; set; }
+            public override string ToString() => Username;
         }
 
         private async void LstConversations_SelectedIndexChanged(object sender, EventArgs e) // Thêm async
