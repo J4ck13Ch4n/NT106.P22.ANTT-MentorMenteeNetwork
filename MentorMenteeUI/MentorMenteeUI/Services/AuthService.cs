@@ -71,6 +71,12 @@ namespace MentorMenteeUI.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var loginResult = await response.Content.ReadFromJsonAsync<LoginResult>();
+                    // Xóa dòng này vì không cần thiết và gây lỗi:
+                    // if (loginResult != null && !string.IsNullOrEmpty(loginResult.Token))
+                    // {
+                    //     Token = loginResult.Token;
+                    // }
+                    // Trả về loginResult, token sẽ lấy từ loginResult.Token ở nơi gọi
                     return loginResult;
                 }
                 else
@@ -90,7 +96,8 @@ namespace MentorMenteeUI.Services
         {
             public bool Success { get; set; }
             public string UserId { get; set; }
-            public string FullName { get; set; } // Tùy chọn nếu server trả về thêm tên
+            public string FullName { get; set; }
+            public string Token { get; set; } // Thêm dòng này
         }
 
 

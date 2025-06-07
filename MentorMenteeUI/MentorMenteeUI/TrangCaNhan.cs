@@ -17,6 +17,9 @@ namespace MentorMenteeUI
     {
         private readonly string userId, userName;
         private readonly Form loginForm;
+        // Thêm biến lưu control
+        private NhanTinControl nhanTinControl;
+        private KetBanControl ketBanControl;
         public TrangCaNhan(string userId, Form loginForm, string userName)
         {
             InitializeComponent();
@@ -24,6 +27,10 @@ namespace MentorMenteeUI
             this.loginForm = loginForm;
             this.userName = userName;
             lbTen.Text = userName;
+            // Khởi tạo control một lần
+            nhanTinControl = new NhanTinControl(int.Parse(this.userId), this.loginForm, this.userName);
+            ketBanControl = new KetBanControl(int.Parse(this.userId));
+            ketBanControl.FriendListChanged += (s, e) => nhanTinControl.Invoke(new Action(async () => await nhanTinControl.LoadFriendsToConversationList()));
         }
 
         private void btTrangChu_Click(object sender, EventArgs e)
@@ -37,9 +44,9 @@ namespace MentorMenteeUI
         private void btNhanTin_Click(object sender, EventArgs e)
         {
             pContent.Controls.Clear();
-            NhanTinControl nhantin = new NhanTinControl(this.userId, this.loginForm, this.userName);
-            nhantin.Dock = DockStyle.Fill;
-            pContent.Controls.Add(nhantin);
+            nhanTinControl.Dock = DockStyle.Fill;
+            pContent.Controls.Add(nhanTinControl);
+            _ = nhanTinControl.LoadFriendsToConversationList();
         }
 
         private async void TrangCaNhan_FormClosing(object sender, FormClosingEventArgs e)
@@ -94,6 +101,13 @@ namespace MentorMenteeUI
             MucTieuMenteeControl mucTieuMentee = new MucTieuMenteeControl();
             mucTieuMentee.Dock = DockStyle.Fill;
             pContent.Controls.Add(mucTieuMentee);
+        }
+
+        private void btKetBan_Click(object sender, EventArgs e)
+        {
+            pContent.Controls.Clear();
+            ketBanControl.Dock = DockStyle.Fill;
+            pContent.Controls.Add(ketBanControl);
         }
     }
 }

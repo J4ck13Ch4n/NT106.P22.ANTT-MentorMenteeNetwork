@@ -13,7 +13,9 @@ namespace MentorMenteeUI
 {
     public partial class DangNhap : Form
     {
-        
+        [NonSerialized] // Thêm attribute này để tránh lỗi serialization
+        public static string JwtToken = string.Empty; // Thêm thuộc tính tĩnh để lưu trữ JWT token
+
         public DangNhap()
         {
             InitializeComponent();
@@ -43,6 +45,7 @@ namespace MentorMenteeUI
 
             if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
             {
+                JwtToken = loginResult.Token; // Lưu token lấy từ loginResult
                 MessageBox.Show("Đăng nhập thành công!");
                 TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName); // Truyền userId
                 trangCaNhan.Show();
@@ -71,9 +74,9 @@ namespace MentorMenteeUI
         {
             btDangNhap.BackColor = System.Drawing.Color.FromArgb(0, 140, 200);
         }
-         private void btDangNhap_MouseLeave(object sender, EventArgs e)
-         {
+        private void btDangNhap_MouseLeave(object sender, EventArgs e)
+        {
             btDangNhap.BackColor = System.Drawing.Color.FromArgb(0, 116, 152);
-          }
+        }
     }
 }

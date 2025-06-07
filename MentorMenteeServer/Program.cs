@@ -9,6 +9,8 @@ using Microsoft.OpenApi.Models;
 using System.Net.WebSockets;
 using System.Text;
 using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +44,36 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
+// Thêm cấu hình authentication (Cookie, có thể thay bằng JWT nếu muốn)
+builder.Services.AddAuthentication("Cookies")
+    .AddCookie("Cookies", options =>
+    {
+        options.LoginPath = "/api/auth/login";
+        options.AccessDeniedPath = "/api/auth/denied";
+    });
+
+// Thêm cấu hình JWT authentication
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_key_123!";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "MentorMenteeServer";
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtIssuer,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+    };
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -117,6 +149,7 @@ app.UseRouting();
               .AllowAnyOrigin());
 });*/
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();  // Định tuyến API Controllers

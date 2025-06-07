@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Security.Cryptography;
-using MentorMentee.Cryptography.Helpers; 
+using MentorMentee.Cryptography.Helpers;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.IO;
 using System.Text.Json;
@@ -53,12 +53,13 @@ namespace MentorMenteeUI
 
             lbDSTroChuyen.SelectedIndexChanged += LstConversations_SelectedIndexChanged;
             ConnectSignalR();
+            _ = LoadFriendsToConversationList(); // Tải bạn bè vào danh sách chat khi khởi tạo
         }
         private async void TbNguoiNhan_TextChanged(object sender, EventArgs e)
         {
 
             string searchText = tbNguoiNhan.Text.Trim();
-            if (!string.IsNullOrWhiteSpace(searchText)) 
+            if (!string.IsNullOrWhiteSpace(searchText))
             {
                 this.lbUserSuggestions.Visible = false;
                 this.lbUserSuggestions.Items.Clear();
@@ -411,7 +412,72 @@ namespace MentorMenteeUI
             public override string ToString() => Username;
         }
 
-        private async void LstConversations_SelectedIndexChanged(object sender, EventArgs e) // Thêm async
+        private string GetFriendNameById(int id)
+        {
+            foreach (var pair in chatHistories)
+            {
+                // Nếu có mapping id-name, có thể mở rộng ở đây
+            }
+            return null;
+        }
+        private int? GetFriendIdByName(string name)
+        {
+            // Tìm trong danh sách bạn bè đã load
+            foreach (var f in chatHistories.Keys)
+            {
+                if (f == name)
+                {
+                    // Tìm id từ FriendInfo
+                    // Nếu cần, lưu mapping id-name khi load friends
+                }
+            }
+            // Nếu có danh sách FriendInfo, nên lưu mapping name-id
+            if (_friendListCache != null)
+            {
+                var found = _friendListCache.FirstOrDefault(x => x.FriendName == name);
+                if (found != null) return found.FriendId;
+            }
+            return null;
+        }
+        private List<FriendInfo> _friendListCache;
+        private async Task LoadFriendsToConversationList()
+        {
+            try
+            {
+                using (var httpClient = new HttpClient())
+                {
+                    if (!string.IsNullOrEmpty(DangNhap.JwtToken))
+                        httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", DangNhap.JwtToken);
+                    var response = await httpClient.GetAsync($"https://localhost:5268/api/friendship/friends/{userId}");
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = await response.Content.ReadAsStringAsync();
+                        var friends = System.Text.Json.JsonSerializer.Deserialize<List<FriendInfo>>(json, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                        _friendListCache = friends;
+                        if (friends != null)
+                        {
+                            lbDSTroChuyen.Items.Clear();
+                            foreach (var f in friends)
+                            {
+                                if (f.FriendName != userName)
+                                {
+                                    lbDSTroChuyen.Items.Add(f.FriendName);
+                                    if (!chatHistories.ContainsKey(f.FriendName))
+                                    {
+                                        chatHistories[f.FriendName] = new List<MessageEntry>
+                                        {
+                                            new MessageEntry { SenderUsername = userName, Content = "hi", Timestamp = DateTime.Now, IsMyMessage = true }
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
+        }
+        private async void LstConversations_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lbDSTroChuyen.SelectedItem == null)
             {
@@ -424,24 +490,42 @@ namespace MentorMenteeUI
             }
 
             string newActivePartner = lbDSTroChuyen.SelectedItem.ToString();
-
-
             activeChatPartner = newActivePartner;
-
             tbNguoiNhan.ReadOnly = true;
-
             tbNguoiNhan.Text = activeChatPartner;
-
             bGui.Enabled = true;
-
             rtbKhungTroChuyen.Clear();
 
+            if (chatHistories.ContainsKey(activeChatPartner) && chatHistories[activeChatPartner] != null && chatHistories[activeChatPartner].Count > 0)
+            {
+                foreach (var msg in chatHistories[activeChatPartner])
+                {
+                    string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
+                    rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
+                    rtbKhungTroChuyen.SelectionLength = 0;
+                    rtbKhungTroChuyen.SelectionAlignment = msg.IsMyMessage ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+                    rtbKhungTroChuyen.SelectionColor = msg.IsMyMessage ? Color.Blue : Color.DarkGreen;
+                    rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp:HH:mm}]");
+                    rtbKhungTroChuyen.AppendText($"\n{msg.Content}\n\n");
+                    rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
+                }
+                rtbKhungTroChuyen.ScrollToCaret();
+                return;
+            }
+
+            // Sửa: lấy đúng FriendId để truyền cho server
+            int? friendId = GetFriendIdByName(activeChatPartner);
+            if (friendId == null)
+            {
+                rtbKhungTroChuyen.AppendText($"Chưa có lịch sử trò chuyện với {activeChatPartner}. Hãy bắt đầu nhắn tin!\n");
+                return;
+            }
             if (connection != null && connection.State == HubConnectionState.Connected)
             {
                 rtbKhungTroChuyen.AppendText($"Đang tải lịch sử với {activeChatPartner}...\n");
                 try
                 {
-                    await connection.InvokeAsync("LoadChatHistory", activeChatPartner);
+                    await connection.InvokeAsync("LoadChatHistory", friendId.Value);
                 }
                 catch (Exception ex)
                 {
@@ -456,13 +540,18 @@ namespace MentorMenteeUI
             }
         }
 
+        private class FriendInfo
+        {
+            public int FriendId { get; set; }
+            public string FriendName { get; set; }
+        }
     }
 
     public class MessageEntry
     {
         public string SenderUsername { get; set; }
         public string Content { get; set; }
-        public DateTime Timestamp { get; set; } 
+        public DateTime Timestamp { get; set; }
         public bool IsMyMessage { get; set; }
     }
 }
