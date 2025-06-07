@@ -1,4 +1,5 @@
 ﻿using MentorMenteeServer.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace MentorMenteeServer.Controllers
 {
     [Route("api/friendship")]
     [ApiController]
+    [Authorize]
     public class FriendshipController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -28,11 +30,11 @@ namespace MentorMenteeServer.Controllers
             if (sender == null || receiver == null)
                 return NotFound("Người dùng không tồn tại!");
 
-            // Tìm existing relationship cả 2 chiều (mentor-mentee và mentee-mentor)
+            // Tìm existing relationship cả 2 chiều
             var existing = await _context.Relationships
                 .FirstOrDefaultAsync(r =>
-                    (r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId) ||
-                    (r.MentorId == request.ReceiverId && r.MenteeId == request.SenderId));
+                    (r.UserId == request.SenderId && r.FriendId == request.ReceiverId) ||
+                    (r.UserId == request.ReceiverId && r.FriendId == request.SenderId));
 
             if (existing != null)
             {
@@ -44,34 +46,14 @@ namespace MentorMenteeServer.Controllers
                     return BadRequest("Lời mời trước đó đã bị từ chối!");
             }
 
-            Relationship relationship;
-
-            if (sender.Role == "mentor")
+            var relationship = new Relationship
             {
-                relationship = new Relationship
-                {
-                    Mentor = sender,
-                    MentorId = sender.Id,
-                    Mentee = receiver,
-                    MenteeId = receiver.Id,
-                    Status = "pending"
-                };
-            }
-            else if (sender.Role == "mentee")
-            {
-                relationship = new Relationship
-                {
-                    Mentor = receiver,
-                    MentorId = receiver.Id,
-                    Mentee = sender,
-                    MenteeId = sender.Id,
-                    Status = "pending"
-                };
-            }
-            else
-            {
-                return BadRequest("Role người gửi không hợp lệ.");
-            }
+                UserId = request.SenderId,
+                FriendId = request.ReceiverId,
+                Status = "pending",
+                User = sender,
+                Friend = receiver
+            };
 
             _context.Relationships.Add(relationship);
             await _context.SaveChangesAsync();
@@ -82,12 +64,12 @@ namespace MentorMenteeServer.Controllers
         [HttpPost("accept-request")]
         public async Task<IActionResult> AcceptFriendRequest([FromBody] FriendRequestDto request)
         {
-            // Tìm relationship theo đúng chiều mentor-mentee
+            // Tìm relationship đúng chiều
             var relationship = await _context.Relationships
                 .FirstOrDefaultAsync(r =>
-                    r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId);
+                    r.UserId == request.SenderId && r.FriendId == request.ReceiverId && r.Status == "pending");
 
-            if (relationship == null || relationship.Status != "pending")
+            if (relationship == null)
                 return BadRequest("Lời mời không hợp lệ!");
 
             relationship.Status = "accepted";
@@ -101,9 +83,9 @@ namespace MentorMenteeServer.Controllers
         {
             var relationship = await _context.Relationships
                 .FirstOrDefaultAsync(r =>
-                    r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId);
+                    r.UserId == request.SenderId && r.FriendId == request.ReceiverId && r.Status == "pending");
 
-            if (relationship == null || relationship.Status != "pending")
+            if (relationship == null)
                 return BadRequest("Lời mời không hợp lệ!");
 
             relationship.Status = "rejected";
@@ -117,10 +99,11 @@ namespace MentorMenteeServer.Controllers
         {
             var relationship = await _context.Relationships
                 .FirstOrDefaultAsync(r =>
-                    (r.MentorId == request.SenderId && r.MenteeId == request.ReceiverId) ||
-                    (r.MentorId == request.ReceiverId && r.MenteeId == request.SenderId));
+                    ((r.UserId == request.SenderId && r.FriendId == request.ReceiverId) ||
+                     (r.UserId == request.ReceiverId && r.FriendId == request.SenderId)) &&
+                    r.Status == "accepted");
 
-            if (relationship == null || relationship.Status != "accepted")
+            if (relationship == null)
                 return BadRequest("Không phải bạn bè!");
 
             _context.Relationships.Remove(relationship);
@@ -128,32 +111,44 @@ namespace MentorMenteeServer.Controllers
 
             return Ok("Đã hủy kết bạn!");
         }
+
         [HttpGet("friends/{userId}")]
         public async Task<IActionResult> GetFriends(int userId)
         {
             var friends = await _context.Relationships
-                .Where(r => (r.MentorId == userId || r.MenteeId == userId) && r.Status == "accepted")
+                .Where(r => (r.UserId == userId || r.FriendId == userId) && r.Status == "accepted")
                 .Select(r => new
                 {
-                    FriendId = r.MentorId == userId ? r.MenteeId : r.MentorId,
-                    FriendName = r.MentorId == userId ? r.Mentee.Username : r.Mentor.Username
+                    FriendId = r.UserId == userId ? r.FriendId : r.UserId,
+                    FriendName = r.UserId == userId ? r.Friend.Username : r.User.Username
                 })
                 .ToListAsync();
             return Ok(friends);
         }
-        [HttpGet("pending-request/{userId}")]
 
+        [HttpGet("pending-request/{userId}")]
         public async Task<IActionResult> GetPendingRequests(int userId)
         {
             var pendingRequests = await _context.Relationships
-                .Where(r => r.MenteeId == userId && r.Status == "pending")
+                .Where(r => r.FriendId == userId && r.Status == "pending")
                 .Select(r => new
                 {
-                    SenderId = r.MentorId,
-                    SenderName = r.Mentor.Username
+                    SenderId = r.UserId,
+                    SenderName = r.User.Username
                 })
                 .ToListAsync();
             return Ok(pendingRequests);
+        }
+
+        [HttpGet("status")]
+        public async Task<IActionResult> GetRelationshipStatus([FromQuery] int userId, [FromQuery] int friendId)
+        {
+            var relationship = await _context.Relationships.FirstOrDefaultAsync(r =>
+                (r.UserId == userId && r.FriendId == friendId) ||
+                (r.UserId == friendId && r.FriendId == userId));
+            if (relationship == null)
+                return Ok("none");
+            return Ok(relationship.Status);
         }
     }
 }

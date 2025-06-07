@@ -10,7 +10,7 @@ namespace MentorMenteeServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize] // <-- Bỏ hoặc comment dòng này để cho phép truy cập không cần đăng nhập
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -38,7 +38,8 @@ namespace MentorMenteeServer.Controllers
 
             var users = await queryableUsers
                 .Where(u => u.Username.Contains(query) || u.Role.Contains(query) || u.Email.Contains(query))
-                .Select(u => new {
+                .Select(u => new
+                {
                     u.Id,
                     u.Username,
                     u.Role,

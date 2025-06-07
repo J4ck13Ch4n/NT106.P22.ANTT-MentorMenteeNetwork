@@ -11,7 +11,7 @@ public class User
     public bool IsOnline { get; set; } = false;
 
     public string? AvatarPath { get; set; }
-    public string? Gender { get; set; } 
+    public string? Gender { get; set; }
 
     [Required, MaxLength(100)]
     public required string Email { get; set; }
@@ -29,8 +29,7 @@ public class User
     public string? Bio { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public ICollection<Relationship>? MentorRelationships { get; set; }
-    public ICollection<Relationship>? MenteeRelationships { get; set; }
+    // Xóa các property MentorRelationships, MenteeRelationships vì đã không còn dùng Mentor/Mentee
 
     public virtual ICollection<Message> SentMessages { get; set; } = new List<Message>();
     public virtual ICollection<Message> ReceivedMessages { get; set; } = new List<Message>();
