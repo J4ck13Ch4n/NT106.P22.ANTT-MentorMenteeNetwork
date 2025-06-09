@@ -41,7 +41,7 @@ namespace MentorMenteeUI
             var authService = new AuthService("https://localhost:5268");
             var loginResult = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
 
-            if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
+            if (loginResult.Success && loginResult.UserId != 0)
             {
                 MessageBox.Show("Đăng nhập thành công!");
                 TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName); // Truyền userId

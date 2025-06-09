@@ -15,9 +15,10 @@ namespace MentorMenteeUI
 {
     public partial class TrangCaNhan : Form
     {
-        private readonly string userId, userName;
+        private readonly string userName;
+        private readonly int userId;
         private readonly Form loginForm;
-        public TrangCaNhan(string userId, Form loginForm, string userName)
+        public TrangCaNhan(int userId, Form loginForm, string userName)
         {
             InitializeComponent();
             this.userId = userId;

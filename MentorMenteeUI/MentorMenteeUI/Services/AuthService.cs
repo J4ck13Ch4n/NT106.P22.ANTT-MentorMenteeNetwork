@@ -89,7 +89,7 @@ namespace MentorMenteeUI.Services
         public class LoginResult
         {
             public bool Success { get; set; }
-            public string UserId { get; set; }
+            public int UserId { get; set; }
             public string FullName { get; set; } // Tùy chọn nếu server trả về thêm tên
         }
 

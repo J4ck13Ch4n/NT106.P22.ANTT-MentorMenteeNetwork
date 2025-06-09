@@ -10,7 +10,6 @@ namespace MentorMenteeServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
