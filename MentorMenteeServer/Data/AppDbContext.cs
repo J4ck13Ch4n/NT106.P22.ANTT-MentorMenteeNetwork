@@ -23,23 +23,18 @@ namespace MentorMenteeServer.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Quan hệ giữa User và Relationship
+            // Quan hệ giữa User và Relationship (kiểu mới)
             modelBuilder.Entity<Relationship>()
-                .HasOne(r => r.Mentor)
-                .WithMany(u => u.MentorRelationships)
-                .HasForeignKey(r => r.MentorId)
+                .HasOne(r => r.User)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Relationship>()
-                .HasOne(r => r.Mentee)
-                .WithMany(u => u.MenteeRelationships)
-                .HasForeignKey(r => r.MenteeId)
+                .HasOne(r => r.Friend)
+                .WithMany()
+                .HasForeignKey(r => r.FriendId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-
-            modelBuilder.Entity<Relationship>()
-                .ToTable(t => t.HasCheckConstraint("chk_self_relationship", "[MentorId] <> [MenteeId]"));
-
 
 
             // Quan hệ Review (không thể tự đánh giá chính mình)
@@ -112,13 +107,13 @@ namespace MentorMenteeServer.Data
 
             modelBuilder.Entity<VideoCall>()
                 .HasOne(v => v.Caller)
-                .WithMany()  
+                .WithMany()
                 .HasForeignKey(v => v.CallerId)
-                .OnDelete(DeleteBehavior.Restrict);  
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<VideoCall>()
                 .HasOne(v => v.Receiver)
-                .WithMany() 
+                .WithMany()
                 .HasForeignKey(v => v.ReceiverId)
                 .OnDelete(DeleteBehavior.Restrict);
 

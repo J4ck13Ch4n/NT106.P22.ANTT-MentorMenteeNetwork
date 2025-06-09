@@ -2,6 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using MentorMenteeServer.Data;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace MentorMenteeServer.Controllers
 {
@@ -71,14 +75,37 @@ namespace MentorMenteeServer.Controllers
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
                 return Unauthorized("Email hoặc mật khẩu không đúng!");
 
-            user.IsOnline = true;  //lưu trạng thái online
+            user.IsOnline = true;
             await _context.SaveChangesAsync();
 
-            return Ok(new LoginResult
+            // Tạo JWT token
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role ?? "mentee")
+            };
+            var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? "super_secret_key_123!"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: config["Jwt:Issuer"] ?? "MentorMenteeServer",
+                audience: null,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(7),
+                signingCredentials: creds
+            );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            HttpContext.Session.SetInt32("UserId", user.Id);
+
+            return Ok(new
             {
                 Success = true,
                 UserId = user.Id.ToString(),
-                FullName = user.Username
+                FullName = user.Username,
+                Token = tokenString
             });
         }
 
