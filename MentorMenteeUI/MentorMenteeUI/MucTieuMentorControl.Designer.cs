@@ -30,88 +30,17 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            dataGridView1 = new DataGridView();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            btEditGoal = new Button();
+            dgvGoal = new DataGridView();
             STT = new DataGridViewTextBoxColumn();
             MucTieu = new DataGridViewTextBoxColumn();
-            ThoiGian = new DataGridViewTextBoxColumn();
+            ThoiHan = new DataGridViewTextBoxColumn();
             MoTa = new DataGridViewTextBoxColumn();
             TinhTrang = new DataGridViewTextBoxColumn();
             DanhGia = new DataGridViewTextBoxColumn();
-            btEditGoal = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvGoal).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView1.ColumnHeadersHeight = 50;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { STT, MucTieu, ThoiGian, MoTa, TinhTrang, DanhGia });
-            dataGridView1.GridColor = Color.FromArgb(0, 132, 168);
-            dataGridView1.Location = new Point(18, 77);
-            dataGridView1.MultiSelect = false;
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(0, 132, 168);
-            dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1079, 819);
-            dataGridView1.TabIndex = 1;
-            // 
-            // STT
-            // 
-            STT.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            STT.FillWeight = 35F;
-            STT.HeaderText = "STT";
-            STT.MinimumWidth = 6;
-            STT.Name = "STT";
-            // 
-            // MucTieu
-            // 
-            MucTieu.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            MucTieu.FillWeight = 150F;
-            MucTieu.HeaderText = "Mục Tiêu";
-            MucTieu.MinimumWidth = 6;
-            MucTieu.Name = "MucTieu";
-            // 
-            // ThoiGian
-            // 
-            ThoiGian.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ThoiGian.FillWeight = 80F;
-            ThoiGian.HeaderText = "Thời Gian";
-            ThoiGian.MinimumWidth = 6;
-            ThoiGian.Name = "ThoiGian";
-            // 
-            // MoTa
-            // 
-            MoTa.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            MoTa.FillWeight = 180F;
-            MoTa.HeaderText = "Mô Tả";
-            MoTa.MinimumWidth = 6;
-            MoTa.Name = "MoTa";
-            // 
-            // TinhTrang
-            // 
-            TinhTrang.FillWeight = 150F;
-            TinhTrang.HeaderText = "Tình Trạng";
-            TinhTrang.MinimumWidth = 6;
-            TinhTrang.Name = "TinhTrang";
-            TinhTrang.Width = 150;
-            // 
-            // DanhGia
-            // 
-            DanhGia.HeaderText = "Đánh Giá";
-            DanhGia.MinimumWidth = 6;
-            DanhGia.Name = "DanhGia";
-            DanhGia.Width = 125;
             // 
             // btEditGoal
             // 
@@ -122,29 +51,124 @@
             btEditGoal.TabIndex = 2;
             btEditGoal.Text = "Đánh Giá/Chỉnh sửa Mục Tiêu";
             btEditGoal.UseVisualStyleBackColor = true;
+            btEditGoal.Click += btEditGoal_Click;
+            // 
+            // dgvGoal
+            // 
+            dgvGoal.AllowUserToAddRows = false;
+            dgvGoal.AllowUserToDeleteRows = false;
+            dgvGoal.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dgvGoal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.ButtonFace;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvGoal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvGoal.ColumnHeadersHeight = 50;
+            dgvGoal.Columns.AddRange(new DataGridViewColumn[] { STT, MucTieu, ThoiHan, MoTa, TinhTrang, DanhGia });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ButtonHighlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvGoal.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvGoal.GridColor = Color.FromArgb(0, 132, 168);
+            dgvGoal.Location = new Point(17, 80);
+            dgvGoal.MultiSelect = false;
+            dgvGoal.Name = "dgvGoal";
+            dgvGoal.ReadOnly = true;
+            dgvGoal.RowHeadersVisible = false;
+            dgvGoal.RowHeadersWidth = 51;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dgvGoal.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dgvGoal.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvGoal.Size = new Size(1080, 819);
+            dgvGoal.TabIndex = 3;
+            // 
+            // STT
+            // 
+            STT.FillWeight = 35F;
+            STT.HeaderText = "STT";
+            STT.MinimumWidth = 6;
+            STT.Name = "STT";
+            STT.ReadOnly = true;
+            STT.Width = 60;
+            // 
+            // MucTieu
+            // 
+            MucTieu.FillWeight = 150F;
+            MucTieu.HeaderText = "Mục Tiêu";
+            MucTieu.MinimumWidth = 6;
+            MucTieu.Name = "MucTieu";
+            MucTieu.ReadOnly = true;
+            MucTieu.Width = 240;
+            // 
+            // ThoiHan
+            // 
+            ThoiHan.FillWeight = 80F;
+            ThoiHan.HeaderText = "Thời Hạn";
+            ThoiHan.MinimumWidth = 6;
+            ThoiHan.Name = "ThoiHan";
+            ThoiHan.ReadOnly = true;
+            ThoiHan.Width = 150;
+            // 
+            // MoTa
+            // 
+            MoTa.FillWeight = 180F;
+            MoTa.HeaderText = "Mô Tả";
+            MoTa.MinimumWidth = 6;
+            MoTa.Name = "MoTa";
+            MoTa.ReadOnly = true;
+            MoTa.Width = 350;
+            // 
+            // TinhTrang
+            // 
+            TinhTrang.FillWeight = 150F;
+            TinhTrang.HeaderText = "Tình Trạng";
+            TinhTrang.MinimumWidth = 6;
+            TinhTrang.Name = "TinhTrang";
+            TinhTrang.ReadOnly = true;
+            TinhTrang.Width = 140;
+            // 
+            // DanhGia
+            // 
+            DanhGia.HeaderText = "Đánh Giá";
+            DanhGia.MinimumWidth = 6;
+            DanhGia.Name = "DanhGia";
+            DanhGia.ReadOnly = true;
+            DanhGia.Width = 140;
             // 
             // MucTieuMentorControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
+            Controls.Add(dgvGoal);
             Controls.Add(btEditGoal);
-            Controls.Add(dataGridView1);
             Name = "MucTieuMentorControl";
             Size = new Size(1117, 917);
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            Load += MucTieuMentorControl_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvGoal).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private DataGridView dataGridView1;
+        private Button btEditGoal;
+        private DataGridView dgvGoal;
         private DataGridViewTextBoxColumn STT;
         private DataGridViewTextBoxColumn MucTieu;
-        private DataGridViewTextBoxColumn ThoiGian;
+        private DataGridViewTextBoxColumn ThoiHan;
         private DataGridViewTextBoxColumn MoTa;
         private DataGridViewTextBoxColumn TinhTrang;
         private DataGridViewTextBoxColumn DanhGia;
-        private Button btEditGoal;
     }
 }

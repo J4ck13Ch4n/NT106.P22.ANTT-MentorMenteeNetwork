@@ -15,18 +15,19 @@ namespace MentorMenteeUI
 {
     public partial class TrangCaNhan : Form
     {
-        private readonly string userId, userName;
+        private readonly string userId, userName, role;
         private readonly Form loginForm;
         // Thêm biến lưu control
         private NhanTinControl nhanTinControl;
         private KetBanControl ketBanControl;
-        public TrangCaNhan(string userId, Form loginForm, string userName)
+        public TrangCaNhan(string userId, Form loginForm, string userName, string role)
         {
             InitializeComponent();
             this.userId = userId;
             this.loginForm = loginForm;
             this.userName = userName;
             lbTen.Text = userName;
+            this.role = role;
             // Khởi tạo control một lần
             nhanTinControl = new NhanTinControl(int.Parse(this.userId), this.loginForm, this.userName);
             ketBanControl = new KetBanControl(int.Parse(this.userId));
@@ -98,9 +99,18 @@ namespace MentorMenteeUI
         private void btGoal_Click(object sender, EventArgs e)
         {
             pContent.Controls.Clear();
-            MucTieuMenteeControl mucTieuMentee = new MucTieuMenteeControl();
-            mucTieuMentee.Dock = DockStyle.Fill;
-            pContent.Controls.Add(mucTieuMentee);
+            if (role == "Mentor")
+            {
+                MucTieuMentorControl mentorGoalControl = new MucTieuMentorControl(int.Parse(userId));
+                mentorGoalControl.Dock = DockStyle.Fill;
+                pContent.Controls.Add(mentorGoalControl);
+            }
+            else if (role == "Mentee")
+            {
+                MucTieuMenteeControl menteeGoalControl = new MucTieuMenteeControl(int.Parse(userId));
+                menteeGoalControl.Dock = DockStyle.Fill;
+                pContent.Controls.Add(menteeGoalControl);
+            }
         }
 
         private void btKetBan_Click(object sender, EventArgs e)

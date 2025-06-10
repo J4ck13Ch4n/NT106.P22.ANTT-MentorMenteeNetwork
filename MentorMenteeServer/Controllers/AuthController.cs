@@ -25,6 +25,7 @@ namespace MentorMenteeServer.Controllers
             public bool Success { get; set; }
             public string UserId { get; set; }
             public string FullName { get; set; }
+            public string Role { get; set; }
         }
 
         [HttpPost("register")]
@@ -88,7 +89,7 @@ namespace MentorMenteeServer.Controllers
                 new Claim(ClaimTypes.Role, user.Role ?? "mentee")
             };
             var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? "super_secret_key_123!"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? "super_secret_key_123!super_secret_key_123!"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: config["Jwt:Issuer"] ?? "MentorMenteeServer",
@@ -104,6 +105,7 @@ namespace MentorMenteeServer.Controllers
                 Success = true,
                 UserId = user.Id.ToString(),
                 FullName = user.Username,
+                Role = user.Role,
                 Token = tokenString
             });
         }

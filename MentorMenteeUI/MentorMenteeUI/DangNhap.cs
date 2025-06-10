@@ -47,7 +47,7 @@ namespace MentorMenteeUI
             {
                 JwtToken = loginResult.Token; // Lưu token lấy từ loginResult
                 MessageBox.Show("Đăng nhập thành công!");
-                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName); // Truyền userId
+                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName, loginResult.Role); // Truyền userId
                 trangCaNhan.Show();
                 this.Hide();
             }
