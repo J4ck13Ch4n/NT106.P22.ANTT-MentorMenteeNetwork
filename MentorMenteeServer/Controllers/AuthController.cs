@@ -99,6 +99,7 @@ namespace MentorMenteeServer.Controllers
                 signingCredentials: creds
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            HttpContext.Session.SetInt32("UserId", user.Id);
 
             return Ok(new
             {

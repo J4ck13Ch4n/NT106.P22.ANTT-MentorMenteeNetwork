@@ -43,7 +43,8 @@ namespace MentorMenteeUI
             var authService = new AuthService("https://localhost:5268");
             var loginResult = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
 
-            if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
+
+            if (loginResult.Success && loginResult.UserId != 0)
             {
                 JwtToken = loginResult.Token; // Lưu token lấy từ loginResult
                 MessageBox.Show("Đăng nhập thành công!");

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace MentorMenteeServer.Data
 {
     public class FriendRequestDto
@@ -21,5 +23,23 @@ namespace MentorMenteeServer.Data
     {
         public required string Email { get; set; }
         public required string Password { get; set; }
+    }
+
+    public class UpdateUserDto
+    {
+        [MaxLength(50)]
+        public string? Username { get; set; }
+
+        public string? AvatarPath { get; set; }
+        public string? Gender { get; set; }
+
+        [MaxLength(100)]
+        public string? Email { get; set; }
+
+        [MaxLength(10)]
+        public string? Role { get; set; }
+
+        public string? ProfilePicture { get; set; }
+        public string? Bio { get; set; }
     }
 }

@@ -7,14 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-using System.Security.Cryptography;
-using MentorMentee.Cryptography.Helpers;
-using Microsoft.AspNetCore.SignalR.Client;
-using System.IO;
 using System.Text.Json;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Net.Http;
-
 
 namespace MentorMenteeUI
 {
@@ -25,12 +20,12 @@ namespace MentorMenteeUI
         private string userName;
         private readonly Form loginForm;
 
-        private string activeChatPartner = null;
-        private Dictionary<string, List<MessageEntry>> chatHistories = new Dictionary<string, List<MessageEntry>>();
+        private PartnerInfo activeChatPartner = null;
+        private Dictionary<int, List<MessageEntry>> chatHistories = new Dictionary<int, List<MessageEntry>>();
 
-        //lưu id người nhận được chọn
         private int? _selectedRecipientId = null;
         private string _selectedRecipientUsername = null;
+
         private class UserSuggestion
         {
             public int Id { get; set; }
@@ -38,6 +33,13 @@ namespace MentorMenteeUI
             public string Role { get; set; }
             public string Email { get; set; }
             public override string ToString() => $"{Username} - {Email}";
+        }
+
+        private class PartnerInfo
+        {
+            public int Id { get; set; }
+            public string Username { get; set; }
+            public override string ToString() => Username;
         }
 
         public NhanTinControl(int userId, Form loginForm, string userName)
@@ -55,14 +57,14 @@ namespace MentorMenteeUI
             ConnectSignalR();
             _ = LoadFriendsToConversationList(); // Tải bạn bè vào danh sách chat khi khởi tạo
         }
+
         private async void TbNguoiNhan_TextChanged(object sender, EventArgs e)
         {
-
             string searchText = tbNguoiNhan.Text.Trim();
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                this.lbUserSuggestions.Visible = false;
-                this.lbUserSuggestions.Items.Clear();
+                lbUserSuggestions.Visible = false;
+                lbUserSuggestions.Items.Clear();
 
                 _selectedRecipientId = null;
                 _selectedRecipientUsername = null;
@@ -72,22 +74,17 @@ namespace MentorMenteeUI
                     try
                     {
                         var response = await httpClient.GetAsync($"https://localhost:5268/api/user/search?query={Uri.EscapeDataString(searchText)}");
-
-                        //kiểm tra response có thành công không
                         var jsonResponsed = await response.Content.ReadAsStringAsync();
                         Console.WriteLine($"API Response: {jsonResponsed}");
 
                         if (response.IsSuccessStatusCode)
                         {
-                            var jsonResponse = await response.Content.ReadAsStringAsync();
-                            var usersFound = JsonSerializer.Deserialize<List<UserSuggestion>>(jsonResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
+                            var usersFound = JsonSerializer.Deserialize<List<UserSuggestion>>(jsonResponsed, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                             lbUserSuggestions.Items.Clear();
                             if (usersFound != null)
                             {
                                 foreach (var user in usersFound)
                                 {
-                                    // Không hiển thị chính mình
                                     if (!user.Username.Equals(this.userName, StringComparison.OrdinalIgnoreCase))
                                         lbUserSuggestions.Items.Add(user);
                                 }
@@ -97,19 +94,20 @@ namespace MentorMenteeUI
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        this.lbUserSuggestions.Visible = false;
-                        this.lbUserSuggestions.Items.Clear();
+                        lbUserSuggestions.Visible = false;
+                        lbUserSuggestions.Items.Clear();
                     }
                 }
             }
             else
             {
-                this.lbUserSuggestions.Visible = false;
-                this.lbUserSuggestions.Items.Clear();
+                lbUserSuggestions.Visible = false;
+                lbUserSuggestions.Items.Clear();
                 _selectedRecipientId = null;
                 _selectedRecipientUsername = null;
+                bGui.Enabled = false;
             }
         }
 
@@ -123,8 +121,10 @@ namespace MentorMenteeUI
                 _selectedRecipientUsername = selectedUser.Username;
                 suggestionsBox.Visible = false;
                 tbNguoiNhan.Focus();
+                bGui.Enabled = true;
             }
         }
+
         private async void ConnectSignalR()
         {
             if (string.IsNullOrEmpty(this.userName))
@@ -142,19 +142,23 @@ namespace MentorMenteeUI
             {
                 Invoke((MethodInvoker)(() =>
                 {
-                    string chatPartner;
+                    PartnerInfo chatPartnerObj = null;
                     bool isMyMessageForDisplay = messageSender == userName;
 
                     if (isMyMessageForDisplay)
                     {
-                        chatPartner = originalIntendedRecipient;
+                        chatPartnerObj = lbDSTroChuyen.Items
+                            .OfType<PartnerInfo>()
+                            .FirstOrDefault(p => p.Username == originalIntendedRecipient);
                     }
                     else
                     {
-                        chatPartner = messageSender;
+                        chatPartnerObj = lbDSTroChuyen.Items
+                            .OfType<PartnerInfo>()
+                            .FirstOrDefault(p => p.Username == messageSender);
                     }
 
-                    if (string.IsNullOrEmpty(chatPartner))
+                    if (chatPartnerObj == null)
                     {
                         rtbKhungTroChuyen.SelectionAlignment = HorizontalAlignment.Left;
                         rtbKhungTroChuyen.SelectionColor = Color.Gray;
@@ -163,13 +167,20 @@ namespace MentorMenteeUI
                         return;
                     }
 
-                    if (!chatHistories.ContainsKey(chatPartner))
-                    {
-                        chatHistories[chatPartner] = new List<MessageEntry>();
-                    }
-                    chatHistories[chatPartner].Add(new MessageEntry { SenderUsername = messageSender, Content = messageContent, Timestamp = timestamp.ToLocalTime(), IsMyMessage = isMyMessageForDisplay });
-                    chatHistories[chatPartner] = chatHistories[chatPartner].OrderBy(m => m.Timestamp).ToList();
+                    int partnerId = chatPartnerObj.Id;
 
+                    if (!chatHistories.ContainsKey(partnerId))
+                    {
+                        chatHistories[partnerId] = new List<MessageEntry>();
+                    }
+                    chatHistories[partnerId].Add(new MessageEntry
+                    {
+                        SenderUsername = messageSender,
+                        Content = messageContent,
+                        Timestamp = timestamp.ToLocalTime(),
+                        IsMyMessage = isMyMessageForDisplay
+                    });
+                    chatHistories[partnerId] = chatHistories[partnerId].OrderBy(m => m.Timestamp).ToList();
 
                     object previouslySelectedItem = lbDSTroChuyen.SelectedItem;
                     bool wasHandlerAttached = true;
@@ -179,26 +190,32 @@ namespace MentorMenteeUI
                     }
                     catch { wasHandlerAttached = false; }
 
-
-                    if (!lbDSTroChuyen.Items.Contains(chatPartner))
+                    if (!lbDSTroChuyen.Items.Contains(chatPartnerObj))
                     {
-                        lbDSTroChuyen.Items.Insert(0, chatPartner);
+                        lbDSTroChuyen.Items.Insert(0, chatPartnerObj);
                     }
-                    else if (lbDSTroChuyen.Items.IndexOf(chatPartner) > 0)
+                    else if (lbDSTroChuyen.Items.IndexOf(chatPartnerObj) > 0)
                     {
-                        lbDSTroChuyen.Items.Remove(chatPartner);
-                        lbDSTroChuyen.Items.Insert(0, chatPartner);
+                        lbDSTroChuyen.Items.Remove(chatPartnerObj);
+                        lbDSTroChuyen.Items.Insert(0, chatPartnerObj);
                     }
 
-                    if (activeChatPartner == chatPartner && lbDSTroChuyen.Items.Contains(chatPartner)) { lbDSTroChuyen.SelectedItem = chatPartner; }
-                    else if (previouslySelectedItem != null && lbDSTroChuyen.Items.Contains(previouslySelectedItem)) { lbDSTroChuyen.SelectedItem = previouslySelectedItem; }
-                    else if (lbDSTroChuyen.Items.Contains(chatPartner)) { lbDSTroChuyen.SelectedItem = chatPartner; }
-
+                    if (activeChatPartner != null && activeChatPartner.Id == chatPartnerObj.Id && lbDSTroChuyen.Items.Contains(chatPartnerObj))
+                    {
+                        lbDSTroChuyen.SelectedItem = chatPartnerObj;
+                    }
+                    else if (previouslySelectedItem != null && lbDSTroChuyen.Items.Contains(previouslySelectedItem))
+                    {
+                        lbDSTroChuyen.SelectedItem = previouslySelectedItem;
+                    }
+                    else if (lbDSTroChuyen.Items.Contains(chatPartnerObj))
+                    {
+                        lbDSTroChuyen.SelectedItem = chatPartnerObj;
+                    }
 
                     if (wasHandlerAttached) lbDSTroChuyen.SelectedIndexChanged += LstConversations_SelectedIndexChanged;
 
-
-                    if (activeChatPartner == chatPartner)
+                    if (activeChatPartner != null && activeChatPartner.Id == chatPartnerObj.Id)
                     {
                         string displayUser = isMyMessageForDisplay ? "Bạn" : messageSender;
 
@@ -216,35 +233,23 @@ namespace MentorMenteeUI
                         }
 
                         rtbKhungTroChuyen.AppendText($"[{displayUser} - {timestamp.ToLocalTime():HH:mm}]\n");
-
                         rtbKhungTroChuyen.AppendText($"{messageContent}\n\n");
-
                         rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
-
                         rtbKhungTroChuyen.ScrollToCaret();
-                    }
-                    else
-                    {
-                        int itemIndex = lbDSTroChuyen.Items.IndexOf(chatPartner);
-                        if (itemIndex != -1)
-                        {
-                            lbDSTroChuyen.Items[itemIndex] = $"{chatPartner}";
-                        }
                     }
                 }));
             });
 
-            // Handler để nhận danh sách các cuộc trò chuyện
-            connection.On<List<string>>("ReceiveConversationPartners", (partners) =>
+            connection.On<List<PartnerInfo>>("ReceiveConversationPartners", (partners) =>
             {
                 Invoke((MethodInvoker)(() =>
                 {
                     lbDSTroChuyen.BeginUpdate();
                     object currentSelection = lbDSTroChuyen.SelectedItem;
                     lbDSTroChuyen.Items.Clear();
-                    foreach (var partner in partners.OrderBy(p => p))
+                    foreach (var partner in partners.OrderBy(p => p.Username))
                     {
-                        if (!string.IsNullOrEmpty(partner) && partner != this.userName)
+                        if (!string.IsNullOrEmpty(partner.Username) && partner.Username != this.userName)
                         {
                             lbDSTroChuyen.Items.Add(partner);
                         }
@@ -257,37 +262,24 @@ namespace MentorMenteeUI
                 }));
             });
 
-            // Handler để nhận lịch sử chat
-            connection.On<string, List<MessageEntry>, string>("ReceiveChatHistory", (partnerName, messages, errorMessage) =>
+            connection.On<int, List<MessageEntry>, string>("ReceiveChatHistory", (partnerId, messages, errorMessage) =>
             {
                 Invoke((MethodInvoker)(() =>
                 {
                     if (!string.IsNullOrEmpty(errorMessage))
                     {
-                        rtbKhungTroChuyen.AppendText($"Lỗi tải lịch sử với {partnerName}: {errorMessage}\n");
+                        rtbKhungTroChuyen.AppendText($"Lỗi tải lịch sử với ID {partnerId}: {errorMessage}\n");
                         return;
                     }
 
-                    if (activeChatPartner != partnerName) return; // Chỉ cập nhật nếu là cuộc trò chuyện đang active
+                    if (activeChatPartner == null || activeChatPartner.Id != partnerId) return;
 
-                    // Ghi đè lịch sử từ server vào cache client
-                    chatHistories[partnerName] = messages.OrderBy(m => m.Timestamp).ToList();
-
-                    var processedMessages = messages.Select(m => new MessageEntry
-                    {
-                        SenderUsername = m.SenderUsername,
-                        Content = m.Content,
-                        Timestamp = m.Timestamp,
-                        IsMyMessage = (m.SenderUsername == this.userName)
-                    }).OrderBy(m => m.Timestamp).ToList();
-
-                    chatHistories[partnerName] = processedMessages;
-
+                    chatHistories[partnerId] = messages.OrderBy(m => m.Timestamp).ToList();
                     rtbKhungTroChuyen.Clear();
-                    foreach (var msg in chatHistories[partnerName])
+
+                    foreach (var msg in chatHistories[partnerId])
                     {
                         string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
-                        // rtbKhungTroChuyen.AppendText("\n"); // Dòng trống phân cách
 
                         rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
                         rtbKhungTroChuyen.SelectionLength = 0;
@@ -304,8 +296,7 @@ namespace MentorMenteeUI
                         }
 
                         rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp.ToLocalTime():HH:mm}]\n");
-                        rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n"); // Thêm dòng trống sau tin nhắn
-
+                        rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n");
                         rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
                     }
                     rtbKhungTroChuyen.ScrollToCaret();
@@ -344,29 +335,15 @@ namespace MentorMenteeUI
             int recipientId;
             string recipientUsername;
 
-            // Ưu tiên: Nếu vừa chọn gợi ý, dùng gợi ý
             if (_selectedRecipientId != null && _selectedRecipientUsername != null)
             {
                 recipientId = _selectedRecipientId.Value;
                 recipientUsername = _selectedRecipientUsername;
             }
-            // Nếu đã chọn từ danh sách trò chuyện (bên trái)
-            else if (!string.IsNullOrEmpty(activeChatPartner))
+            else if (activeChatPartner != null)
             {
-                recipientUsername = activeChatPartner;
-                // Tìm Id từ cache gợi ý từng chat trước đó (bạn nên lưu Id khi nhận history hoặc gợi ý user)
-                var cached = lbUserSuggestions.Items
-                    .OfType<UserSuggestion>()
-                    .FirstOrDefault(u => u.Username.Equals(recipientUsername, StringComparison.OrdinalIgnoreCase));
-                if (cached != null)
-                {
-                    recipientId = cached.Id;
-                }
-                else
-                {
-                    MessageBox.Show("Không xác định được ID người nhận. Hãy chọn lại từ gợi ý.");
-                    return;
-                }
+                recipientId = activeChatPartner.Id;
+                recipientUsername = activeChatPartner.Username;
             }
             else
             {
@@ -378,7 +355,6 @@ namespace MentorMenteeUI
             {
                 await connection.InvokeAsync("SendPrivateMessageById", userId, recipientId, message);
                 tbTinNhan.Clear();
-                // Reset _selectedRecipientId nếu cần
             }
             catch (Exception ex)
             {
@@ -405,40 +381,6 @@ namespace MentorMenteeUI
             base.Dispose(disposing);
         }
 
-        private class PartnerInfo
-        {
-            public int Id { get; set; }
-            public string Username { get; set; }
-            public override string ToString() => Username;
-        }
-
-        private string GetFriendNameById(int id)
-        {
-            foreach (var pair in chatHistories)
-            {
-                // Nếu có mapping id-name, có thể mở rộng ở đây
-            }
-            return null;
-        }
-        private int? GetFriendIdByName(string name)
-        {
-            // Tìm trong danh sách bạn bè đã load
-            foreach (var f in chatHistories.Keys)
-            {
-                if (f == name)
-                {
-                    // Tìm id từ FriendInfo
-                    // Nếu cần, lưu mapping id-name khi load friends
-                }
-            }
-            // Nếu có danh sách FriendInfo, nên lưu mapping name-id
-            if (_friendListCache != null)
-            {
-                var found = _friendListCache.FirstOrDefault(x => x.FriendName == name);
-                if (found != null) return found.FriendId;
-            }
-            return null;
-        }
         private List<FriendInfo> _friendListCache;
         public async Task LoadFriendsToConversationList()
         {
@@ -461,13 +403,11 @@ namespace MentorMenteeUI
                             {
                                 if (f.FriendName != userName)
                                 {
-                                    lbDSTroChuyen.Items.Add(f.FriendName);
-                                    if (!chatHistories.ContainsKey(f.FriendName))
+                                    var partner = new PartnerInfo { Id = f.FriendId, Username = f.FriendName };
+                                    lbDSTroChuyen.Items.Add(partner);
+                                    if (!chatHistories.ContainsKey(f.FriendId))
                                     {
-                                        chatHistories[f.FriendName] = new List<MessageEntry>
-                                        {
-                                            new MessageEntry { SenderUsername = userName, Content = "hi", Timestamp = DateTime.Now, IsMyMessage = true }
-                                        };
+                                        chatHistories[f.FriendId] = new List<MessageEntry>();
                                     }
                                 }
                             }
@@ -477,9 +417,11 @@ namespace MentorMenteeUI
             }
             catch { }
         }
+
         private async void LstConversations_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lbDSTroChuyen.SelectedItem == null)
+            var partnerInfo = lbDSTroChuyen.SelectedItem as PartnerInfo;
+            if (partnerInfo == null)
             {
                 activeChatPartner = null;
                 tbNguoiNhan.Text = "";
@@ -489,43 +431,35 @@ namespace MentorMenteeUI
                 return;
             }
 
-            string newActivePartner = lbDSTroChuyen.SelectedItem.ToString();
-            activeChatPartner = newActivePartner;
+            activeChatPartner = partnerInfo;
             tbNguoiNhan.ReadOnly = true;
-            tbNguoiNhan.Text = activeChatPartner;
+            tbNguoiNhan.Text = activeChatPartner.Username;
             bGui.Enabled = true;
             rtbKhungTroChuyen.Clear();
 
-            if (chatHistories.ContainsKey(activeChatPartner) && chatHistories[activeChatPartner] != null && chatHistories[activeChatPartner].Count > 0)
+            if (chatHistories.ContainsKey(activeChatPartner.Id) && chatHistories[activeChatPartner.Id] != null && chatHistories[activeChatPartner.Id].Count > 0)
             {
-                foreach (var msg in chatHistories[activeChatPartner])
+                foreach (var msg in chatHistories[activeChatPartner.Id])
                 {
                     string displayUser = msg.IsMyMessage ? "Bạn" : msg.SenderUsername;
                     rtbKhungTroChuyen.SelectionStart = rtbKhungTroChuyen.TextLength;
                     rtbKhungTroChuyen.SelectionLength = 0;
                     rtbKhungTroChuyen.SelectionAlignment = msg.IsMyMessage ? HorizontalAlignment.Right : HorizontalAlignment.Left;
                     rtbKhungTroChuyen.SelectionColor = msg.IsMyMessage ? Color.Blue : Color.DarkGreen;
-                    rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp:HH:mm}]");
-                    rtbKhungTroChuyen.AppendText($"\n{msg.Content}\n\n");
+                    rtbKhungTroChuyen.AppendText($"[{displayUser} - {msg.Timestamp:HH:mm}]\n");
+                    rtbKhungTroChuyen.AppendText($"{msg.Content}\n\n");
                     rtbKhungTroChuyen.SelectionColor = rtbKhungTroChuyen.ForeColor;
                 }
                 rtbKhungTroChuyen.ScrollToCaret();
                 return;
             }
 
-            // Sửa: lấy đúng FriendId để truyền cho server
-            int? friendId = GetFriendIdByName(activeChatPartner);
-            if (friendId == null)
-            {
-                rtbKhungTroChuyen.AppendText($"Chưa có lịch sử trò chuyện với {activeChatPartner}. Hãy bắt đầu nhắn tin!\n");
-                return;
-            }
             if (connection != null && connection.State == HubConnectionState.Connected)
             {
-                rtbKhungTroChuyen.AppendText($"Đang tải lịch sử với {activeChatPartner}...\n");
+                rtbKhungTroChuyen.AppendText($"Đang tải lịch sử với {activeChatPartner.Username}...\n");
                 try
                 {
-                    await connection.InvokeAsync("LoadChatHistory", friendId.Value);
+                    await connection.InvokeAsync("LoadChatHistory", activeChatPartner.Id);
                 }
                 catch (Exception ex)
                 {

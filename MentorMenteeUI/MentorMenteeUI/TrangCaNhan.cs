@@ -16,6 +16,8 @@ namespace MentorMenteeUI
     public partial class TrangCaNhan : Form
     {
         private readonly string userId, userName, role;
+        private readonly string userName;
+        private readonly int userId;
         private readonly Form loginForm;
         // Thêm biến lưu control
         private NhanTinControl nhanTinControl;

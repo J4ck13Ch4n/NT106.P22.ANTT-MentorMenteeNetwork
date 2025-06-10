@@ -1,4 +1,4 @@
-using MentorMenteeServer.Data;
+﻿using MentorMenteeServer.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -52,6 +52,7 @@ namespace MentorMenteeServer.Controllers
             return Ok(users);
         }
 
+
         public class MentorDto
         {
             public int Id { get; set; }
@@ -73,6 +74,59 @@ namespace MentorMenteeServer.Controllers
                 .ToListAsync();
 
             return Ok(mentors);
+        }
+        
+        // api/User/me
+        [HttpPut("me")]
+        [Authorize] // Require authentication
+        public async Task<IActionResult> UpdateMe([FromBody] UpdateUserDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            // Lấy userId từ JWT (giả định claim name là "id")
+            var userIdStr = User.FindFirst("id")?.Value;
+            if (userIdStr == null) return Unauthorized();
+
+            if (!int.TryParse(userIdStr, out int userId))
+                return Unauthorized();
+
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            // Chỉ cập nhật các field được phép sửa
+            if (!string.IsNullOrEmpty(dto.Username)) user.Username = dto.Username;
+            if (!string.IsNullOrEmpty(dto.AvatarPath)) user.AvatarPath = dto.AvatarPath;
+            if (!string.IsNullOrEmpty(dto.Gender)) user.Gender = dto.Gender;
+            // Kiểm tra Email
+            if (!string.IsNullOrEmpty(dto.Email))
+            {
+                if (!IsValidEmail(dto.Email))
+                    return BadRequest(new { message = "Invalid email format" });
+                var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.Id != userId);
+                if (emailExists)
+                    return BadRequest(new { message = "Email already exists" });
+                user.Email = dto.Email;
+            }
+            if (!string.IsNullOrEmpty(dto.Role)) user.Role = dto.Role;
+            if (!string.IsNullOrEmpty(dto.ProfilePicture)) user.ProfilePicture = dto.ProfilePicture;
+            if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
+
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Profile updated successfully" });
+        }
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
