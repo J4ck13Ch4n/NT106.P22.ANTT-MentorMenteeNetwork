@@ -32,35 +32,39 @@
             lbDSTroChuyen.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbDSTroChuyen.FormattingEnabled = true;
             lbDSTroChuyen.Items.AddRange(new object[] { "Trống" });
-            lbDSTroChuyen.Location = new Point(20, 141);
+            lbDSTroChuyen.Location = new Point(23, 188);
+            lbDSTroChuyen.Margin = new Padding(3, 4, 3, 4);
             lbDSTroChuyen.Name = "lbDSTroChuyen";
-            lbDSTroChuyen.Size = new Size(202, 544);
+            lbDSTroChuyen.Size = new Size(230, 684);
             lbDSTroChuyen.TabIndex = 0;
             // 
             // rtbKhungTroChuyen
             // 
             rtbKhungTroChuyen.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            rtbKhungTroChuyen.Location = new Point(227, 14);
+            rtbKhungTroChuyen.Location = new Point(259, 19);
+            rtbKhungTroChuyen.Margin = new Padding(3, 4, 3, 4);
             rtbKhungTroChuyen.Name = "rtbKhungTroChuyen";
             rtbKhungTroChuyen.ReadOnly = true;
-            rtbKhungTroChuyen.Size = new Size(731, 626);
+            rtbKhungTroChuyen.Size = new Size(835, 833);
             rtbKhungTroChuyen.TabIndex = 1;
             rtbKhungTroChuyen.Text = "";
             // 
             // tbTinNhan
             // 
             tbTinNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbTinNhan.Location = new Point(227, 645);
+            tbTinNhan.Location = new Point(259, 860);
+            tbTinNhan.Margin = new Padding(3, 4, 3, 4);
             tbTinNhan.Name = "tbTinNhan";
-            tbTinNhan.Size = new Size(599, 39);
+            tbTinNhan.Size = new Size(684, 47);
             tbTinNhan.TabIndex = 2;
             // 
             // bGui
             // 
             bGui.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            bGui.Location = new Point(830, 645);
+            bGui.Location = new Point(949, 860);
+            bGui.Margin = new Padding(3, 4, 3, 4);
             bGui.Name = "bGui";
-            bGui.Size = new Size(127, 35);
+            bGui.Size = new Size(145, 47);
             bGui.TabIndex = 3;
             bGui.Text = "Gửi";
             bGui.UseVisualStyleBackColor = true;
@@ -68,24 +72,26 @@
             // 
             // tbNguoiNhan
             // 
+            tbNguoiNhan.AllowDrop = true;
             tbNguoiNhan.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tbNguoiNhan.Location = new Point(20, 14);
+            tbNguoiNhan.Location = new Point(23, 19);
+            tbNguoiNhan.Margin = new Padding(3, 4, 3, 4);
             tbNguoiNhan.Name = "tbNguoiNhan";
-            tbNguoiNhan.ReadOnly = true;
-            tbNguoiNhan.Size = new Size(202, 39);
+            tbNguoiNhan.Size = new Size(230, 47);
             tbNguoiNhan.TabIndex = 1;
             // 
             // lbUserSuggestions
             // 
             lbUserSuggestions.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbUserSuggestions.Location = new Point(20, 56);
+            lbUserSuggestions.Location = new Point(23, 75);
+            lbUserSuggestions.Margin = new Padding(3, 4, 3, 4);
             lbUserSuggestions.Name = "lbUserSuggestions";
-            lbUserSuggestions.Size = new Size(202, 45);
+            lbUserSuggestions.Size = new Size(230, 55);
             lbUserSuggestions.TabIndex = 4;
             // 
             // NhanTinControl
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
             Controls.Add(lbUserSuggestions);
@@ -94,8 +100,9 @@
             Controls.Add(tbTinNhan);
             Controls.Add(rtbKhungTroChuyen);
             Controls.Add(lbDSTroChuyen);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "NhanTinControl";
-            Size = new Size(977, 688);
+            Size = new Size(1117, 917);
             ResumeLayout(false);
             PerformLayout();
 

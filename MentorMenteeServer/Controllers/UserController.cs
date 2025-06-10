@@ -8,8 +8,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MentorMenteeServer.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
+    //[Authorize] // <-- Bỏ hoặc comment dòng này để cho phép truy cập không cần đăng nhập
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -18,6 +19,7 @@ namespace MentorMenteeServer.Controllers
         {
             _context = context;
         }
+
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<string>>> SearchUsers([FromQuery] string query)
         {
@@ -50,6 +52,30 @@ namespace MentorMenteeServer.Controllers
             return Ok(users);
         }
 
+
+        public class MentorDto
+        {
+            public int Id { get; set; }
+            public string Username { get; set; }
+        }
+
+        [HttpGet("search/mentor")]
+        public async Task<ActionResult<IEnumerable<MentorDto>>> SearchMentors()
+        {
+            var mentorsQuery = _context.Users
+                .Where(u => u.Role == "Mentor");
+
+            var mentors = await mentorsQuery
+                .Select(u => new MentorDto
+                {
+                    Id = u.Id,
+                    Username = u.Username
+                })
+                .ToListAsync();
+
+            return Ok(mentors);
+        }
+        
         // api/User/me
         [HttpPut("me")]
         [Authorize] // Require authentication

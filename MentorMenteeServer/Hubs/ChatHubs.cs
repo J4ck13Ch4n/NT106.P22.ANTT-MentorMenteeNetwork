@@ -172,7 +172,12 @@ namespace MentorMenteeServer.Hubs
             await Clients.Caller.SendAsync("ReceiveChatHistory", partnerId, messagesFromDb, null);
             _logger.LogInformation("Sent chat history between {CurrentId} and {PartnerId} to {CurrentId}.", currentId, partnerId, currentId);
         }
-
+        
+        public async Task NotifyGoalUpdated(int menteeId)
+        {
+            await Clients.Group($"user_{menteeId}").SendAsync("ReceiveGoalUpdate");
+        }
+        
         // Định nghĩa PartnerInfo cho truyền SignalR
         public class PartnerInfo
         {

@@ -382,7 +382,7 @@ namespace MentorMenteeUI
         }
 
         private List<FriendInfo> _friendListCache;
-        private async Task LoadFriendsToConversationList()
+        public async Task LoadFriendsToConversationList()
         {
             try
             {

@@ -28,43 +28,113 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             dgvGoal = new DataGridView();
-            btAddGoal = new Button();
             STT = new DataGridViewTextBoxColumn();
             MucTieu = new DataGridViewTextBoxColumn();
-            ThoiGian = new DataGridViewTextBoxColumn();
+            ThoiHan = new DataGridViewTextBoxColumn();
             MoTa = new DataGridViewTextBoxColumn();
             TinhTrang = new DataGridViewTextBoxColumn();
             DanhGia = new DataGridViewTextBoxColumn();
+            btAddGoal = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvGoal).BeginInit();
             SuspendLayout();
             // 
             // dgvGoal
             // 
+            dgvGoal.AllowUserToAddRows = false;
+            dgvGoal.AllowUserToDeleteRows = false;
             dgvGoal.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvGoal.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(0, 132, 168);
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvGoal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.ButtonFace;
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvGoal.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvGoal.ColumnHeadersHeight = 50;
-            dgvGoal.Columns.AddRange(new DataGridViewColumn[] { STT, MucTieu, ThoiGian, MoTa, TinhTrang, DanhGia });
+            dgvGoal.Columns.AddRange(new DataGridViewColumn[] { STT, MucTieu, ThoiHan, MoTa, TinhTrang, DanhGia });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.ButtonHighlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvGoal.DefaultCellStyle = dataGridViewCellStyle2;
             dgvGoal.GridColor = Color.FromArgb(0, 132, 168);
             dgvGoal.Location = new Point(20, 78);
             dgvGoal.MultiSelect = false;
             dgvGoal.Name = "dgvGoal";
+            dgvGoal.ReadOnly = true;
+            dgvGoal.RowHeadersVisible = false;
             dgvGoal.RowHeadersWidth = 51;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(0, 132, 168);
-            dgvGoal.RowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.LightGray;
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dgvGoal.RowsDefaultCellStyle = dataGridViewCellStyle3;
             dgvGoal.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvGoal.Size = new Size(1079, 819);
+            dgvGoal.Size = new Size(1080, 819);
             dgvGoal.TabIndex = 0;
+            // 
+            // STT
+            // 
+            STT.FillWeight = 35F;
+            STT.HeaderText = "STT";
+            STT.MinimumWidth = 6;
+            STT.Name = "STT";
+            STT.ReadOnly = true;
+            STT.Width = 60;
+            // 
+            // MucTieu
+            // 
+            MucTieu.FillWeight = 150F;
+            MucTieu.HeaderText = "Mục Tiêu";
+            MucTieu.MinimumWidth = 6;
+            MucTieu.Name = "MucTieu";
+            MucTieu.ReadOnly = true;
+            MucTieu.Width = 240;
+            // 
+            // ThoiHan
+            // 
+            ThoiHan.FillWeight = 80F;
+            ThoiHan.HeaderText = "Thời Hạn";
+            ThoiHan.MinimumWidth = 6;
+            ThoiHan.Name = "ThoiHan";
+            ThoiHan.ReadOnly = true;
+            ThoiHan.Width = 150;
+            // 
+            // MoTa
+            // 
+            MoTa.FillWeight = 180F;
+            MoTa.HeaderText = "Mô Tả";
+            MoTa.MinimumWidth = 6;
+            MoTa.Name = "MoTa";
+            MoTa.ReadOnly = true;
+            MoTa.Width = 350;
+            // 
+            // TinhTrang
+            // 
+            TinhTrang.FillWeight = 150F;
+            TinhTrang.HeaderText = "Tình Trạng";
+            TinhTrang.MinimumWidth = 6;
+            TinhTrang.Name = "TinhTrang";
+            TinhTrang.ReadOnly = true;
+            TinhTrang.Width = 140;
+            // 
+            // DanhGia
+            // 
+            DanhGia.HeaderText = "Đánh Giá";
+            DanhGia.MinimumWidth = 6;
+            DanhGia.Name = "DanhGia";
+            DanhGia.ReadOnly = true;
+            DanhGia.Width = 140;
             // 
             // btAddGoal
             // 
@@ -75,53 +145,7 @@
             btAddGoal.TabIndex = 1;
             btAddGoal.Text = "Thêm Mục Tiêu";
             btAddGoal.UseVisualStyleBackColor = true;
-            // 
-            // STT
-            // 
-            STT.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            STT.FillWeight = 35F;
-            STT.HeaderText = "STT";
-            STT.MinimumWidth = 6;
-            STT.Name = "STT";
-            // 
-            // MucTieu
-            // 
-            MucTieu.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            MucTieu.FillWeight = 150F;
-            MucTieu.HeaderText = "Mục Tiêu";
-            MucTieu.MinimumWidth = 6;
-            MucTieu.Name = "MucTieu";
-            // 
-            // ThoiGian
-            // 
-            ThoiGian.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            ThoiGian.FillWeight = 80F;
-            ThoiGian.HeaderText = "Thời Gian";
-            ThoiGian.MinimumWidth = 6;
-            ThoiGian.Name = "ThoiGian";
-            // 
-            // MoTa
-            // 
-            MoTa.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            MoTa.FillWeight = 180F;
-            MoTa.HeaderText = "Mô Tả";
-            MoTa.MinimumWidth = 6;
-            MoTa.Name = "MoTa";
-            // 
-            // TinhTrang
-            // 
-            TinhTrang.FillWeight = 150F;
-            TinhTrang.HeaderText = "Tình Trạng";
-            TinhTrang.MinimumWidth = 6;
-            TinhTrang.Name = "TinhTrang";
-            TinhTrang.Width = 150;
-            // 
-            // DanhGia
-            // 
-            DanhGia.HeaderText = "Đánh Giá";
-            DanhGia.MinimumWidth = 6;
-            DanhGia.Name = "DanhGia";
-            DanhGia.Width = 125;
+            btAddGoal.Click += btAddGoal_Click;
             // 
             // MucTieuMenteeControl
             // 
@@ -132,6 +156,7 @@
             Controls.Add(dgvGoal);
             Name = "MucTieuMenteeControl";
             Size = new Size(1117, 917);
+            Load += MucTieuMenteeControl_Load;
             ((System.ComponentModel.ISupportInitialize)dgvGoal).EndInit();
             ResumeLayout(false);
         }
@@ -142,7 +167,7 @@
         private Button btAddGoal;
         private DataGridViewTextBoxColumn STT;
         private DataGridViewTextBoxColumn MucTieu;
-        private DataGridViewTextBoxColumn ThoiGian;
+        private DataGridViewTextBoxColumn ThoiHan;
         private DataGridViewTextBoxColumn MoTa;
         private DataGridViewTextBoxColumn TinhTrang;
         private DataGridViewTextBoxColumn DanhGia;

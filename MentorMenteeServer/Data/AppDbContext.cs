@@ -19,6 +19,8 @@ namespace MentorMenteeServer.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<SupportTicket> SupportTickets { get; set; }
 
+        public DbSet<Goal> Goals { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -122,6 +124,20 @@ namespace MentorMenteeServer.Data
                 .WithMany()
                 .HasForeignKey(gcm => gcm.UserId)
                 .OnDelete(DeleteBehavior.Restrict);  // Hoặc DeleteBehavior.SetNull
+
+            // Cấu hình khóa ngoại cho MenteeId
+            modelBuilder.Entity<Goal>()
+                .HasOne<User>() // Quan hệ với User (không cần thuộc tính điều hướng)
+                .WithMany()     // Một User có thể có nhiều Goal
+                .HasForeignKey(g => g.MenteeId)
+                .OnDelete(DeleteBehavior.Restrict); // Ngăn xóa lan (tùy chọn)
+
+            // Cấu hình khóa ngoại cho MentorId
+            modelBuilder.Entity<Goal>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(g => g.MentorId)
+                .OnDelete(DeleteBehavior.Restrict); // Ngăn xóa lan (tùy chọn)
 
         }
     }
