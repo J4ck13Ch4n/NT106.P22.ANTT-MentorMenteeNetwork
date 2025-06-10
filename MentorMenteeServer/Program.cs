@@ -31,6 +31,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
 // Cấu hình Kestrel để lắng nghe trên cổng 5268 với HTTPS
