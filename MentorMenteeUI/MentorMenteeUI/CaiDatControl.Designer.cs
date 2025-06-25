@@ -28,87 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dateTimePicker1 = new DateTimePicker();
-            richTextBox1 = new RichTextBox();
-            comboBox2 = new ComboBox();
-            comboBox1 = new ComboBox();
-            textBox5 = new TextBox();
-            textBox3 = new TextBox();
-            textBox1 = new TextBox();
+            Bio = new RichTextBox();
+            Gender = new ComboBox();
+            Role = new ComboBox();
+            Email = new TextBox();
+            Username = new TextBox();
             btLuu = new Button();
             label7 = new Label();
-            label8 = new Label();
-            label6 = new Label();
             label5 = new Label();
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
             SuspendLayout();
             // 
-            // dateTimePicker1
+            // Bio
             // 
-            dateTimePicker1.CalendarFont = new Font("Sans Serif Collection", 9.749998F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Location = new Point(267, 445);
-            dateTimePicker1.Margin = new Padding(3, 4, 3, 4);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(251, 27);
-            dateTimePicker1.TabIndex = 20;
+            Bio.Location = new Point(267, 441);
+            Bio.Margin = new Padding(3, 4, 3, 4);
+            Bio.Name = "Bio";
+            Bio.Size = new Size(575, 143);
+            Bio.TabIndex = 19;
+            Bio.Text = "";
             // 
-            // richTextBox1
+            // Gender
             // 
-            richTextBox1.Location = new Point(267, 615);
-            richTextBox1.Margin = new Padding(3, 4, 3, 4);
-            richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new Size(575, 143);
-            richTextBox1.TabIndex = 19;
-            richTextBox1.Text = "";
+            Gender.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Gender.FormattingEnabled = true;
+            Gender.Location = new Point(269, 243);
+            Gender.Margin = new Padding(3, 4, 3, 4);
+            Gender.Name = "Gender";
+            Gender.Size = new Size(575, 59);
+            Gender.TabIndex = 17;
             // 
-            // comboBox2
+            // Role
             // 
-            comboBox2.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(269, 243);
-            comboBox2.Margin = new Padding(3, 4, 3, 4);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(575, 59);
-            comboBox2.TabIndex = 17;
+            Role.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Role.FormattingEnabled = true;
+            Role.Location = new Point(267, 139);
+            Role.Margin = new Padding(3, 4, 3, 4);
+            Role.Name = "Role";
+            Role.Size = new Size(575, 59);
+            Role.TabIndex = 18;
             // 
-            // comboBox1
+            // Email
             // 
-            comboBox1.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(267, 139);
-            comboBox1.Margin = new Padding(3, 4, 3, 4);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(575, 59);
-            comboBox1.TabIndex = 18;
+            Email.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Email.Location = new Point(269, 348);
+            Email.Margin = new Padding(3, 4, 3, 4);
+            Email.Name = "Email";
+            Email.Size = new Size(575, 47);
+            Email.TabIndex = 15;
             // 
-            // textBox5
+            // Username
             // 
-            textBox5.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox5.Location = new Point(269, 508);
-            textBox5.Margin = new Padding(3, 4, 3, 4);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(575, 47);
-            textBox5.TabIndex = 14;
-            // 
-            // textBox3
-            // 
-            textBox3.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox3.Location = new Point(269, 348);
-            textBox3.Margin = new Padding(3, 4, 3, 4);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(575, 47);
-            textBox3.TabIndex = 15;
-            // 
-            // textBox1
-            // 
-            textBox1.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(267, 49);
-            textBox1.Margin = new Padding(3, 4, 3, 4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(575, 47);
-            textBox1.TabIndex = 16;
+            Username.Font = new Font("Sans Serif Collection", 8.999999F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            Username.Location = new Point(267, 49);
+            Username.Margin = new Padding(3, 4, 3, 4);
+            Username.Name = "Username";
+            Username.Size = new Size(575, 47);
+            Username.TabIndex = 16;
             // 
             // btLuu
             // 
@@ -116,7 +94,7 @@
             btLuu.FlatAppearance.BorderSize = 0;
             btLuu.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btLuu.ForeColor = Color.White;
-            btLuu.Location = new Point(699, 811);
+            btLuu.Location = new Point(451, 642);
             btLuu.Margin = new Padding(3, 4, 3, 4);
             btLuu.Name = "btLuu";
             btLuu.Size = new Size(144, 69);
@@ -129,33 +107,11 @@
             label7.AutoSize = true;
             label7.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label7.ForeColor = Color.White;
-            label7.Location = new Point(154, 615);
+            label7.Location = new Point(135, 427);
             label7.Name = "label7";
             label7.Size = new Size(91, 68);
             label7.TabIndex = 6;
             label7.Text = "Mô tả:";
-            // 
-            // label8
-            // 
-            label8.AutoSize = true;
-            label8.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label8.ForeColor = Color.White;
-            label8.Location = new Point(102, 508);
-            label8.Name = "label8";
-            label8.Size = new Size(128, 68);
-            label8.TabIndex = 7;
-            label8.Text = "Mật khẩu:";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(89, 435);
-            label6.Name = "label6";
-            label6.Size = new Size(134, 68);
-            label6.TabIndex = 8;
-            label6.Text = "Ngày sinh:";
             // 
             // label5
             // 
@@ -206,17 +162,13 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            Controls.Add(dateTimePicker1);
-            Controls.Add(richTextBox1);
-            Controls.Add(comboBox2);
-            Controls.Add(comboBox1);
-            Controls.Add(textBox5);
-            Controls.Add(textBox3);
-            Controls.Add(textBox1);
+            Controls.Add(Bio);
+            Controls.Add(Gender);
+            Controls.Add(Role);
+            Controls.Add(Email);
+            Controls.Add(Username);
             Controls.Add(btLuu);
             Controls.Add(label7);
-            Controls.Add(label8);
-            Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -230,18 +182,13 @@
         }
 
         #endregion
-
-        private DateTimePicker dateTimePicker1;
-        private RichTextBox richTextBox1;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
-        private TextBox textBox5;
-        private TextBox textBox3;
-        private TextBox textBox1;
+        private RichTextBox Bio;
+        private ComboBox Gender;
+        private ComboBox Role;
+        private TextBox Email;
+        private TextBox Username;
         private Button btLuu;
         private Label label7;
-        private Label label8;
-        private Label label6;
         private Label label5;
         private Label label4;
         private Label label3;

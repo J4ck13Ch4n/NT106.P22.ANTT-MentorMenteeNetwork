@@ -10,7 +10,7 @@ namespace MentorMenteeServer.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    //[Authorize] // <-- Bỏ hoặc comment dòng này để cho phép truy cập không cần đăng nhập
+    //[Authorize] 
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -75,10 +75,10 @@ namespace MentorMenteeServer.Controllers
 
             return Ok(mentors);
         }
-        
+
         // api/User/me
         [HttpPut("me")]
-        [Authorize] // Require authentication
+        [Authorize]
         public async Task<IActionResult> UpdateMe([FromBody] UpdateUserDto dto)
         {
             if (!ModelState.IsValid)
@@ -95,7 +95,7 @@ namespace MentorMenteeServer.Controllers
 
             // Chỉ cập nhật các field được phép sửa
             if (!string.IsNullOrEmpty(dto.Username)) user.Username = dto.Username;
-            if (!string.IsNullOrEmpty(dto.AvatarPath)) user.AvatarPath = dto.AvatarPath;
+            if (!string.IsNullOrEmpty(dto.Role)) user.Role = dto.Role;
             if (!string.IsNullOrEmpty(dto.Gender)) user.Gender = dto.Gender;
             // Kiểm tra Email
             if (!string.IsNullOrEmpty(dto.Email))
@@ -107,9 +107,9 @@ namespace MentorMenteeServer.Controllers
                     return BadRequest(new { message = "Email already exists" });
                 user.Email = dto.Email;
             }
-            if (!string.IsNullOrEmpty(dto.Role)) user.Role = dto.Role;
-            if (!string.IsNullOrEmpty(dto.ProfilePicture)) user.ProfilePicture = dto.ProfilePicture;
-            if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
+            if (!string.IsNullOrEmpty(dto.))
+                if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
+
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();

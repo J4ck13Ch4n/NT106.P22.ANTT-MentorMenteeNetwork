@@ -1,13 +1,7 @@
-﻿using MentorMenteeServer.Data;  
-using MentorMenteeServer.Hubs;   
+﻿using MentorMenteeServer.Data;    
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore; 
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic; 
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MentorMenteeServer.Hubs
 {
