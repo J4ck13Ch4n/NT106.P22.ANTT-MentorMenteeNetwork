@@ -11,7 +11,7 @@ namespace MentorMenteeUI
     public partial class CaiDatControl : UserControl
     {
         // Đổi URL cho phù hợp với backend của bạn
-        private readonly string apiBaseUrl = "https://your-backend-url/api";
+        private readonly string apiBaseUrl = "https://localhost:5268/api";
         private HttpClient httpClient;
 
         private readonly string _jwtToken;
