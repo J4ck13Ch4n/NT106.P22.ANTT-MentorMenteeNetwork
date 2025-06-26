@@ -48,12 +48,12 @@ builder.Services.AddSwaggerGen(c =>
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 });
 // Thêm cấu hình authentication (Cookie, có thể thay bằng JWT nếu muốn)
-builder.Services.AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/api/auth/login";
-        options.AccessDeniedPath = "/api/auth/denied";
-    });
+//builder.Services.AddAuthentication("Cookies")
+//    .AddCookie("Cookies", options =>
+//    {
+//        options.LoginPath = "/api/auth/login";
+//        options.AccessDeniedPath = "/api/auth/denied";
+//    });
 
 // Thêm cấu hình JWT authentication
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "super_secret_key_123!";
@@ -75,6 +75,16 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtIssuer,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
     };
+
+    // Bật log lỗi chi tiết JWT (giúp debug 401)
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine("JWT Error: " + context.Exception.ToString());
+            return Task.CompletedTask;
+        }
+    };
 });
 
 var app = builder.Build();
@@ -95,7 +105,6 @@ if (app.Environment.IsDevelopment())
 
 var clients = new ConcurrentDictionary<string, WebSocket>();
 
-app.MapControllers();
 
 /*builder.Services.AddCors(options =>
 {

@@ -27,6 +27,7 @@ namespace MentorMenteeServer.Data
 
     public class UpdateUserDto
     {
+        public int UserId { get; set; }
         [MaxLength(50)]
         public string? Username { get; set; }
 
@@ -40,6 +41,19 @@ namespace MentorMenteeServer.Data
         public string? Role { get; set; }
 
         public string? ProfilePicture { get; set; }
+        public string? Bio { get; set; }
+    }
+
+    public class UserDto
+    {
+        public string? Username { get; set; }
+        public string? Gender { get; set; }
+
+        [MaxLength(100)]
+        public string? Email { get; set; }
+
+        [MaxLength(10)]
+        public string? Role { get; set; }
         public string? Bio { get; set; }
     }
 }

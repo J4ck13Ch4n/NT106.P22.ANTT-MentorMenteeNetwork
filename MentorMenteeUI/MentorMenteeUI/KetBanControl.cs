@@ -43,6 +43,7 @@ namespace MentorMenteeUI
             string keyword = txtTimKiem.Text.Trim();
             if (string.IsNullOrEmpty(keyword)) return;
             _searchResults = await _userService.SearchUsersAsync(keyword);
+
             HienThiKetQua();
         }
 

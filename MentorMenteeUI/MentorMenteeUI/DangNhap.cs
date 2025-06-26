@@ -15,6 +15,7 @@ namespace MentorMenteeUI
     {
         [NonSerialized] // Thêm attribute này để tránh lỗi serialization
         public static string JwtToken = string.Empty; // Thêm thuộc tính tĩnh để lưu trữ JWT token
+        public static string UserId = string.Empty;
 
         public DangNhap()
         {
@@ -43,10 +44,10 @@ namespace MentorMenteeUI
             var authService = new AuthService("https://localhost:5268");
             var loginResult = await authService.LoginAsync(tbEmail.Text, tbMatKhau.Text);
 
-
             if (loginResult.Success && !string.IsNullOrEmpty(loginResult.UserId))
             {
-                JwtToken = loginResult.Token; // Lưu token lấy từ loginResult
+                JwtToken = loginResult.Token;
+                UserId = loginResult.UserId;
                 MessageBox.Show("Đăng nhập thành công!");
                 TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName, loginResult.Role); // Truyền userId
                 trangCaNhan.Show();

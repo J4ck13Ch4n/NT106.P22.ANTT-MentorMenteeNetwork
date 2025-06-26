@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace MentorMenteeServer.Controllers
 {
     [Route("api/user")]
     [ApiController]
-    //[Authorize] 
     public class UserController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -71,26 +71,19 @@ namespace MentorMenteeServer.Controllers
                     Id = u.Id,
                     Username = u.Username
                 })
-                .ToListAsync();
+                .ToListAsync(); 
 
             return Ok(mentors);
         }
 
-        // api/User/me
-        [HttpPut("me")]
-        [Authorize]
+        // api/user/update
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateMe([FromBody] UpdateUserDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            // Lấy userId từ JWT (giả định claim name là "id")
-            var userIdStr = User.FindFirst("id")?.Value;
-            if (userIdStr == null) return Unauthorized();
 
-            if (!int.TryParse(userIdStr, out int userId))
-                return Unauthorized();
-
-            var user = await _context.Users.FindAsync(userId);
+            var user = await _context.Users.FindAsync(dto.UserId);
             if (user == null) return NotFound();
 
             // Chỉ cập nhật các field được phép sửa
@@ -102,19 +95,37 @@ namespace MentorMenteeServer.Controllers
             {
                 if (!IsValidEmail(dto.Email))
                     return BadRequest(new { message = "Invalid email format" });
-                var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.Id != userId);
+                var emailExists = await _context.Users.AnyAsync(u => u.Email == dto.Email && u.Id != user.Id);
                 if (emailExists)
                     return BadRequest(new { message = "Email already exists" });
                 user.Email = dto.Email;
             }
-            if (!string.IsNullOrEmpty(dto.))
-                if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
+            if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
 
 
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
             return Ok(new { message = "Profile updated successfully" });
+        }
+
+        //api/user/me
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe([FromQuery] int userId)
+        {   
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null) return NotFound();
+
+            var userDto = new UserDto
+            {
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role,
+                Gender = user.Gender,
+                Bio = user.Bio
+            };
+
+            return Ok(userDto);
         }
         private bool IsValidEmail(string email)
         {

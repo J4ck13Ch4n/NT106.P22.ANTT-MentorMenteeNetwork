@@ -57,6 +57,7 @@
             Gender.Location = new Point(269, 243);
             Gender.Margin = new Padding(3, 4, 3, 4);
             Gender.Name = "Gender";
+            Gender.Items.AddRange(new object[] { "Nam", "Nữ" });
             Gender.Size = new Size(575, 59);
             Gender.TabIndex = 17;
             // 
@@ -66,6 +67,7 @@
             Role.FormattingEnabled = true;
             Role.Location = new Point(267, 139);
             Role.Margin = new Padding(3, 4, 3, 4);
+            Role.Items.AddRange(new object[] { "Mentor", "Mentee" });
             Role.Name = "Role";
             Role.Size = new Size(575, 59);
             Role.TabIndex = 18;
@@ -101,6 +103,7 @@
             btLuu.TabIndex = 13;
             btLuu.Text = "Lưu";
             btLuu.UseVisualStyleBackColor = false;
+            btLuu.Click += btLuu_Click;
             // 
             // label7
             // 
@@ -179,6 +182,11 @@
             Load += CaiDatControl_Load;
             ResumeLayout(false);
             PerformLayout();
+        }
+
+        private void BtLuu_ClickHandler(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

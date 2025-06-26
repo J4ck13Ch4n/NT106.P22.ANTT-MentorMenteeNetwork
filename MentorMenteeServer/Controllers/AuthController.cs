@@ -86,7 +86,7 @@ namespace MentorMenteeServer.Controllers
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role ?? "mentee")
+                new Claim(ClaimTypes.Role, user.Role ?? "mentee"),
             };
             var config = HttpContext.RequestServices.GetRequiredService<IConfiguration>();
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"] ?? "super_secret_key_123!super_secret_key_123!"));
