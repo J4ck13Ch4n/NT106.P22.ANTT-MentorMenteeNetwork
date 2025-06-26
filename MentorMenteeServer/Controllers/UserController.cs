@@ -107,8 +107,8 @@ namespace MentorMenteeServer.Controllers
                     return BadRequest(new { message = "Email already exists" });
                 user.Email = dto.Email;
             }
-            if (!string.IsNullOrEmpty(dto.))
-                if (!string.IsNullOrEmpty(dto.Bio)) user.Bio = dto.Bio;
+            if (!string.IsNullOrEmpty(dto.Bio)) 
+                user.Bio = dto.Bio;
 
 
             _context.Users.Update(user);
