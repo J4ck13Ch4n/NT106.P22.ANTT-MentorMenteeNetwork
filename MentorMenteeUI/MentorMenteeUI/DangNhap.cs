@@ -49,7 +49,7 @@ namespace MentorMenteeUI
                 JwtToken = loginResult.Token;
                 UserId = loginResult.UserId;
                 MessageBox.Show("Đăng nhập thành công!");
-                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName, loginResult.Role); // Truyền userId
+                TrangCaNhan trangCaNhan = new TrangCaNhan(loginResult.UserId, this, loginResult.FullName, loginResult.Role, loginResult.Token); // Truyền userId và token
                 trangCaNhan.Show();
                 this.Hide();
             }

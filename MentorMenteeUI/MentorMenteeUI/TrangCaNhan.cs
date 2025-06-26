@@ -15,12 +15,12 @@ namespace MentorMenteeUI
 {
     public partial class TrangCaNhan : Form
     {
-        private readonly string userId, userName, role;
+        private readonly string userId, userName, role, jwtToken;
         private readonly Form loginForm;
         // Thêm biến lưu control
         private NhanTinControl nhanTinControl;
         private KetBanControl ketBanControl;
-        public TrangCaNhan(string userId, Form loginForm, string userName, string role)
+        public TrangCaNhan(string userId, Form loginForm, string userName, string role, string jwtToken)
         {
             InitializeComponent();
             this.userId = userId;
@@ -28,6 +28,7 @@ namespace MentorMenteeUI
             this.userName = userName;
             lbTen.Text = userName;
             this.role = role;
+            this.jwtToken = jwtToken;
             // Khởi tạo control một lần
             nhanTinControl = new NhanTinControl(int.Parse(this.userId), this.loginForm, this.userName);
             ketBanControl = new KetBanControl(int.Parse(this.userId));

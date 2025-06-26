@@ -12,7 +12,7 @@ namespace MentorMenteeUI
     {
         private readonly UserService _userService = new UserService();
         private readonly FriendService _friendService = new FriendService();
-        private List<UserDto> _searchResults = new List<UserDto>();
+        private List<Services.UserDto> _searchResults = new List<Services.UserDto>();
         private List<Services.PendingRequestDto> _pendingRequests = new List<Services.PendingRequestDto>();
         private int _currentUserId;
 
@@ -50,7 +50,7 @@ namespace MentorMenteeUI
         private async void btnKetBan_Click(object sender, EventArgs e)
         {
             if (dgvKetQua.SelectedRows.Count == 0) return;
-            var user = (UserDto)dgvKetQua.SelectedRows[0].DataBoundItem;
+            var user = (Services.UserDto)dgvKetQua.SelectedRows[0].DataBoundItem;
             var status = await _friendService.GetRelationshipStatus(_currentUserId, user.Id);
             if (status == "none")
             {
