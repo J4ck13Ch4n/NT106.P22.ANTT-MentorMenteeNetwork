@@ -32,7 +32,7 @@ namespace MentorMenteeUI
             // Khởi tạo control một lần
             nhanTinControl = new NhanTinControl(int.Parse(this.userId), this.loginForm, this.userName);
             ketBanControl = new KetBanControl(int.Parse(this.userId));
-            ketBanControl.FriendListChanged += (s, e) => nhanTinControl.Invoke(new Action(async () => await nhanTinControl.LoadFriendsToConversationList()));
+            ketBanControl.FriendListChanged += (s, e) => nhanTinControl.Invoke(new Action(async () => await nhanTinControl.RefreshConversationListAsync()));
         }
 
         private void btTrangChu_Click(object sender, EventArgs e)
@@ -48,7 +48,7 @@ namespace MentorMenteeUI
             pContent.Controls.Clear();
             nhanTinControl.Dock = DockStyle.Fill;
             pContent.Controls.Add(nhanTinControl);
-            _ = nhanTinControl.LoadFriendsToConversationList();
+            _ = nhanTinControl.RefreshConversationListAsync();
         }
 
         private async void TrangCaNhan_FormClosing(object sender, FormClosingEventArgs e)

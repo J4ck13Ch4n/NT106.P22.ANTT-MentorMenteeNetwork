@@ -31,11 +31,11 @@
             // 
             lbDSTroChuyen.Font = new Font("Sans Serif Collection", 11.9999981F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lbDSTroChuyen.FormattingEnabled = true;
-            lbDSTroChuyen.Items.AddRange(new object[] { "Trống" });
-            lbDSTroChuyen.Location = new Point(23, 188);
+            lbDSTroChuyen.Items.AddRange(new object[] { "Danh sách trò chuyện" });
+            lbDSTroChuyen.Location = new Point(23, 77);
             lbDSTroChuyen.Margin = new Padding(3, 4, 3, 4);
             lbDSTroChuyen.Name = "lbDSTroChuyen";
-            lbDSTroChuyen.Size = new Size(230, 684);
+            lbDSTroChuyen.Size = new Size(230, 820);
             lbDSTroChuyen.TabIndex = 0;
             // 
             // rtbKhungTroChuyen
@@ -86,8 +86,9 @@
             lbUserSuggestions.Location = new Point(23, 75);
             lbUserSuggestions.Margin = new Padding(3, 4, 3, 4);
             lbUserSuggestions.Name = "lbUserSuggestions";
-            lbUserSuggestions.Size = new Size(230, 55);
+            lbUserSuggestions.Size = new Size(230, 310);
             lbUserSuggestions.TabIndex = 4;
+            lbUserSuggestions.Visible = false;
             // 
             // NhanTinControl
             // 

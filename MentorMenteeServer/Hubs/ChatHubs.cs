@@ -1,6 +1,6 @@
-﻿using MentorMenteeServer.Data;    
+﻿using MentorMenteeServer.Data;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore; 
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Concurrent;
 
 namespace MentorMenteeServer.Hubs
@@ -9,7 +9,7 @@ namespace MentorMenteeServer.Hubs
     {
         private readonly ILogger<ChatHub> _logger;
         private readonly AppDbContext _context;
-        private static readonly ConcurrentDictionary<int, string> _usersOnlineById = new ConcurrentDictionary<int, string>();
+        private static readonly ConcurrentDictionary<int, string> _usersOnlineById = new();
 
         public ChatHub(ILogger<ChatHub> logger, AppDbContext context)
         {
@@ -23,6 +23,9 @@ namespace MentorMenteeServer.Hubs
             await base.OnConnectedAsync();
         }
 
+        /// <summary>
+        /// Đăng ký user, gửi về danh sách cuộc trò chuyện gần nhất (partner).
+        /// </summary>
         public async Task RegisterUser(string username)
         {
             if (string.IsNullOrEmpty(username)) return;
@@ -33,13 +36,13 @@ namespace MentorMenteeServer.Hubs
                 _usersOnlineById[userEntity.Id] = Context.ConnectionId;
                 _logger.LogInformation("User {Username} (Id: {Id}) registered with connection {ConnectionId}", username, userEntity.Id, Context.ConnectionId);
 
-                // Lấy danh sách partner (cả Id và Username)
+                // Lấy danh sách partner (gồm cả username/email)
                 var sentToPartners = _context.Messages
                     .Where(m => m.SenderId == userEntity.Id && m.ReceiverId != null && m.GroupId == null && m.ReceiverId != userEntity.Id)
-                    .Select(m => new { Id = m.Receiver.Id, Username = m.Receiver.Username });
+                    .Select(m => new { Id = m.Receiver.Id, Username = m.Receiver.Username, Email = m.Receiver.Email });
                 var receivedFromPartners = _context.Messages
                     .Where(m => m.ReceiverId == userEntity.Id && m.SenderId != null && m.GroupId == null && m.SenderId != userEntity.Id)
-                    .Select(m => new { Id = m.Sender.Id, Username = m.Sender.Username });
+                    .Select(m => new { Id = m.Sender.Id, Username = m.Sender.Username, Email = m.Sender.Email });
 
                 // Hợp nhất, loại trùng, loại null, loại chính mình
                 var partners = await sentToPartners
@@ -49,12 +52,15 @@ namespace MentorMenteeServer.Hubs
                     .Select(g => new PartnerInfo
                     {
                         Id = g.Key,
-                        Username = g.First().Username
+                        Username = g.First().Username,
+                        Email = g.First().Email
                     })
                     .ToListAsync();
 
                 await Clients.Caller.SendAsync("ReceiveConversationPartners", partners);
                 _logger.LogInformation("Sent conversation partners to {Username}", username);
+
+                await LoadConversations();
             }
             else
             {
@@ -68,11 +74,40 @@ namespace MentorMenteeServer.Hubs
             if (userId != 0)
             {
                 _usersOnlineById.TryRemove(userId, out _);
-                _logger.LogInformation("UserId {UserId} disconnected.", userId);
+                _logger.LogInformation("UserId {UserId} disconnected.", userId);    
             }
             await base.OnDisconnectedAsync(exception);
         }
 
+        /// <summary>
+        /// Tìm user theo username (gợi ý tìm kiếm), trả về kèm email cho UI chọn chat.
+        /// </summary>
+        public async Task SearchUsers(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                await Clients.Caller.SendAsync("ReceiveUserSearchResults", new List<object>());
+                return;
+            }
+
+            // Có thể giới hạn số lượng kết quả trả về
+            var users = await _context.Users
+                .Where(u => u.Username.Contains(searchTerm))
+                .Select(u => new
+                {
+                    u.Id,
+                    u.Username,
+                    u.Email
+                })
+                .Take(10)
+                .ToListAsync();
+
+            await Clients.Caller.SendAsync("ReceiveUserSearchResults", users);
+        }
+
+        /// <summary>
+        /// Gửi tin nhắn riêng tư dựa vào userId
+        /// </summary>
         public async Task SendPrivateMessageById(int senderId, int recipientId, string messageContent)
         {
             try
@@ -82,7 +117,7 @@ namespace MentorMenteeServer.Hubs
 
                 if (senderUser == null || recipientUser == null)
                 {
-                    await Clients.Caller.SendAsync("ReceiveMessage", "Hệ thống", "Lỗi: Không tìm thấy người dùng.", recipientId.ToString(), DateTime.UtcNow);
+                    await Clients.Caller.SendAsync("ReceiveMessage", "System", "Error: User not found.", recipientId.ToString(), DateTime.UtcNow);
                     return;
                 }
 
@@ -93,10 +128,7 @@ namespace MentorMenteeServer.Hubs
                     ReceiverId = recipientUser.Id,
                     MessageText = messageContent,
                     CreatedAt = DateTime.UtcNow,
-                    IsRead = false,
-                    EncryptedContent = null,
-                    EncryptedSymmetricKey = null,
-                    InitializationVector = null
+                    IsRead = false
                 };
 
                 _context.Messages.Add(messageToSave);
@@ -123,19 +155,22 @@ namespace MentorMenteeServer.Hubs
             }
             catch (Exception ex)
             {
-                await Clients.Caller.SendAsync("ReceiveMessage", "Hệ thống", "Lỗi khi gửi tin nhắn.", recipientId.ToString(), DateTime.UtcNow);
+                _logger.LogError(ex, "Error sending message");
+                await Clients.Caller.SendAsync("ReceiveMessage", "System", "Error sending message.", recipientId.ToString(), DateTime.UtcNow);
             }
         }
 
+        /// <summary>
+        /// Lấy lịch sử trò chuyện với 1 user (theo partnerId)
+        /// </summary>
         public async Task LoadChatHistory(int partnerId)
         {
             var currentId = _usersOnlineById.FirstOrDefault(x => x.Value == Context.ConnectionId).Key;
             if (currentId == 0)
             {
-                _logger.LogWarning("Could not find username for connection {ConnectionId} requesting chat history.", Context.ConnectionId);
+                _logger.LogWarning("Could not find user for connection {ConnectionId} requesting chat history.", Context.ConnectionId);
                 return;
             }
-            _logger.LogInformation("User {CurrentId} requesting chat history with {PartnerId}", currentId, partnerId);
 
             var currentUserEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == currentId);
             var partnerUserEntity = await _context.Users.FirstOrDefaultAsync(u => u.Id == partnerId);
@@ -143,7 +178,7 @@ namespace MentorMenteeServer.Hubs
             if (currentUserEntity == null || partnerUserEntity == null)
             {
                 _logger.LogWarning("User not found for history: Current: {CurrentId}, Partner: {PartnerId}", currentId, partnerId);
-                await Clients.Caller.SendAsync("ReceiveChatHistory", partnerId, new List<object>(), "Lỗi: Không tìm thấy người dùng.");
+                await Clients.Caller.SendAsync("ReceiveChatHistory", partnerId, new List<object>(), "Error: User not found.");
                 return;
             }
 
@@ -164,27 +199,75 @@ namespace MentorMenteeServer.Hubs
                 .ToListAsync();
 
             await Clients.Caller.SendAsync("ReceiveChatHistory", partnerId, messagesFromDb, null);
-            _logger.LogInformation("Sent chat history between {CurrentId} and {PartnerId} to {CurrentId}.", currentId, partnerId, currentId);
         }
-        
-        public async Task NotifyGoalUpdated(int menteeId)
+
+        /// <summary>
+        /// Lấy danh sách cuộc trò chuyện của user hiện tại (partner + last message)
+        /// </summary>
+        public async Task LoadConversations()
         {
-            await Clients.Group($"user_{menteeId}").SendAsync("ReceiveGoalUpdate");
+            var currentId = _usersOnlineById.FirstOrDefault(x => x.Value == Context.ConnectionId).Key;
+            if (currentId == 0)
+            {
+                _logger.LogWarning("Could not find user for connection {ConnectionId} requesting conversations.", Context.ConnectionId);
+                return;
+            }
+
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == currentId);
+            if (currentUser == null) return;
+
+            var latestMsgs = await _context.Messages
+                .Where(m => m.GroupId == null &&
+                            (m.SenderId == currentId || m.ReceiverId == currentId))
+                .OrderByDescending(m => m.CreatedAt)
+                .ToListAsync();
+
+            var partnerDict = new Dictionary<int, ConversationInfo>();
+
+            foreach (var msg in latestMsgs)
+            {
+                int partnerId = msg.SenderId == currentId ? msg.ReceiverId.Value : msg.SenderId;
+                if (!partnerDict.ContainsKey(partnerId))
+                {
+                    var partner = await _context.Users.FindAsync(partnerId);
+                    if (partner == null) continue;
+
+                    partnerDict[partnerId] = new ConversationInfo
+                    {
+                        PartnerId = partner.Id,
+                        PartnerUsername = partner.Username,
+                        PartnerEmail = partner.Email,
+                        LastMessage = msg.MessageText,
+                        LastMessageTime = msg.CreatedAt
+                    };
+                }
+            }
+
+            await Clients.Caller.SendAsync("ReceiveConversationList", partnerDict.Values.ToList());
         }
-        
-        // Định nghĩa PartnerInfo cho truyền SignalR
+
+        // Định nghĩa các class truyền SignalR
         public class PartnerInfo
         {
             public int Id { get; set; }
             public string Username { get; set; }
+            public string Email { get; set; }
         }
 
-        // Định nghĩa MessageEntry cho truyền SignalR
         public class MessageEntry
         {
             public string SenderUsername { get; set; }
             public string Content { get; set; }
             public DateTime Timestamp { get; set; }
+        }
+
+        public class ConversationInfo
+        {
+            public int PartnerId { get; set; }
+            public string PartnerUsername { get; set; }
+            public string PartnerEmail { get; set; }
+            public string LastMessage { get; set; }
+            public DateTime LastMessageTime { get; set; }
         }
     }
 }
