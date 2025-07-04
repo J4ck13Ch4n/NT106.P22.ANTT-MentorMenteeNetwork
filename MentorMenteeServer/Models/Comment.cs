@@ -12,11 +12,8 @@ public class Comment
 
     [ForeignKey("PostId")]
 
-    
-    public required Post Post { get; set; }
+    public Post Post { get; set; }
 
     [ForeignKey("UserId")]
-
-    [Required]
-    public required User User { get; set; }
+    public User User { get; set; }
 }

@@ -56,4 +56,57 @@ namespace MentorMenteeServer.Data
         public string? Role { get; set; }
         public string? Bio { get; set; }
     }
+
+    public class PostDto
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string? Content { get; set; }
+        public string? Image { get; set; }
+        public string? Video { get; set; }
+        public string Visibility { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public UserSimpleDto User { get; set; }
+        public List<CommentDto> Comments { get; set; } = new();
+        public List<LikeDto> Likes { get; set; } = new();
+    }
+
+    public class CreatePostDto
+    {
+        public int UserId { get; set; }
+        public string? Content { get; set; }
+        public string? Image { get; set; }
+        public string? Video { get; set; }
+        public string Visibility { get; set; } = "public";
+    }
+
+    public class CommentDto
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public string? CommentText { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public UserSimpleDto User { get; set; }
+    }
+
+    public class CreateCommentDto
+    {
+        public int UserId { get; set; }
+        public string? CommentText { get; set; }
+    }
+
+    public class LikeDto
+    {
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public UserSimpleDto User { get; set; }
+    }
+
+    public class UserSimpleDto
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string? AvatarPath { get; set; }
+    }
 }

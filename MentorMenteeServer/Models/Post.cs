@@ -16,7 +16,7 @@ public class Post
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [ForeignKey("UserId")]
-    public required User User { get; set; }
+    public User User { get; set; }
 
     // Thêm danh sách comment
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

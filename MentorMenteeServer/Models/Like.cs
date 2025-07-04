@@ -9,8 +9,8 @@ public class Like
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [ForeignKey("PostId")]
-    public required Post Post { get; set; }
+    public Post Post { get; set; }
 
     [ForeignKey("UserId")]
-    public required User User { get; set; }
+    public User User { get; set; }
 }
