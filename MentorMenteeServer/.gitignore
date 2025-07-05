@@ -20,3 +20,9 @@ appsettings.json
 appsettings.Development.json
 **bin/
 **obj/
+
+Client/**
+!Client/Avatar/default_generic.jpg
+!Client/Avatar/default_mentor.jpg
+!Client/Avatar/default_mentee.jpg
+
