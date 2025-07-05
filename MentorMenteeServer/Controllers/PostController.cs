@@ -1,6 +1,8 @@
 using MentorMenteeServer.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Net.Mime.MediaTypeNames;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -71,21 +73,52 @@ public class PostsController : ControllerBase
 
     // POST: /api/posts
     [HttpPost]
-    public async Task<ActionResult<PostDto>> CreatePost([FromBody] CreatePostDto dto)
+    public async Task<ActionResult<PostDto>> CreatePost([FromBody] CreatePostDto dto, [FromForm] IFormFile? image, [FromForm] IFormFile? video)
     {
+        // Xử lý lưu ảnh
+        string? imagePath = null;
+        if (image != null && image.Length > 0)
+        {
+            var ext = Path.GetExtension(image.FileName);
+            var fileName = $"{Guid.NewGuid()}{ext}";
+            var savePath = Path.Combine("Client/Post", fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            using (var stream = new FileStream(savePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+            imagePath = savePath;
+        }
+
+        // Xử lý lưu video
+        string? videoPath = null;
+        if (video != null && video.Length > 0)
+        {
+            var ext = Path.GetExtension(video.FileName);
+            var fileName = $"{Guid.NewGuid()}{ext}";
+            var savePath = Path.Combine("Client/Post_video", fileName);
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+            using (var stream = new FileStream(savePath, FileMode.Create))
+            {
+                await video.CopyToAsync(stream);
+            }
+            videoPath = savePath;
+        }
+
         var post = new Post
         {
             UserId = dto.UserId,
             Content = dto.Content,
-            Image = dto.Image,
+            Image = imagePath,
             Video = dto.Video,
             Visibility = dto.Visibility,
             CreatedAt = DateTime.UtcNow
         };
+
         _context.Posts.Add(post);
         await _context.SaveChangesAsync();
 
-        // Lấy lại post với User để trả về DTO
+        // Lấy lại post với User để trả về DTO (nếu cần)
         post = await _context.Posts.Include(p => p.User).FirstAsync(p => p.Id == post.Id);
 
         var postDto = new PostDto

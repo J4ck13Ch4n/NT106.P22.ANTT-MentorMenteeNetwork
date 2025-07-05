@@ -1,4 +1,5 @@
 ﻿using AxWMPLib;
+using System.Drawing.Drawing2D;
 
 namespace MentorMenteeUI
 {
@@ -24,173 +25,147 @@ namespace MentorMenteeUI
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        /// 
-        private System.Windows.Forms.PictureBox picAvatar;
-        private System.Windows.Forms.Label lblUser;
-        private System.Windows.Forms.Label lblContent;
-        private System.Windows.Forms.Label lblLikeCount;
-        private System.Windows.Forms.Button btnLike;
-        private System.Windows.Forms.Button btnUnlike;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.FlowLayoutPanel flowComments;
-        private System.Windows.Forms.TextBox txtComment;
-        private System.Windows.Forms.Button btnAddComment;
-        private System.Windows.Forms.PictureBox picImage;
-        private AxWMPLib.AxWindowsMediaPlayer videoPlayer;
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PostControl));
-            picAvatar = new PictureBox();
-            lblUser = new Label();
-            lblContent = new Label();
-            lblLikeCount = new Label();
-            btnLike = new Button();
-            btnUnlike = new Button();
-            btnDelete = new Button();
-            flowComments = new FlowLayoutPanel();
-            txtComment = new TextBox();
-            btnAddComment = new Button();
-            picImage = new PictureBox();
-            videoPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            ((System.ComponentModel.ISupportInitialize)picAvatar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)picImage).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)videoPlayer).BeginInit();
+            avatar = new PictureBox();
+            name = new Label();
+            content = new TextBox();
+            picture = new PictureBox();
+            create_at = new Label();
+            btLike = new Button();
+            commentList = new FlowLayoutPanel();
+            video = new AxWindowsMediaPlayer();
+            btComment = new Button();
+            avatar_current = new PictureBox();
+            commentContent = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picture).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)video).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)avatar_current).BeginInit();
             SuspendLayout();
             // 
-            // picAvatar
+            // avatar
             // 
-            picAvatar.Location = new Point(3, 3);
-            picAvatar.Name = "picAvatar";
-            picAvatar.Size = new Size(40, 40);
-            picAvatar.SizeMode = PictureBoxSizeMode.Zoom;
-            picAvatar.TabIndex = 0;
-            picAvatar.TabStop = false;
+            avatar.Location = new Point(20, 20);
+            avatar.Name = "avatar";
+            avatar.Size = new Size(35, 33);
+            avatar.SizeMode = PictureBoxSizeMode.StretchImage;
+            avatar.TabIndex = 0;
+            avatar.TabStop = false;
             // 
-            // lblUser
+            // name
             // 
-            lblUser.AutoSize = true;
-            lblUser.Location = new Point(50, 3);
-            lblUser.Name = "lblUser";
-            lblUser.Size = new Size(0, 15);
-            lblUser.TabIndex = 1;
+            name.AutoSize = true;
+            name.Location = new Point(61, 19);
+            name.Name = "name";
+            name.Size = new Size(38, 15);
+            name.TabIndex = 1;
+            name.Text = "label1";
             // 
-            // lblContent
+            // content
             // 
-            lblContent.AutoSize = true;
-            lblContent.Location = new Point(3, 50);
-            lblContent.Name = "lblContent";
-            lblContent.Size = new Size(0, 15);
-            lblContent.TabIndex = 2;
+            content.ForeColor = Color.Gray;
+            content.Location = new Point(61, 46);
+            content.Multiline = true;
+            content.Name = "content";
+            content.Size = new Size(567, 42);
+            content.TabIndex = 2;
             // 
-            // lblLikeCount
+            // picture
             // 
-            lblLikeCount.AutoSize = true;
-            lblLikeCount.Location = new Point(3, 75);
-            lblLikeCount.Name = "lblLikeCount";
-            lblLikeCount.Size = new Size(0, 15);
-            lblLikeCount.TabIndex = 3;
+            picture.Location = new Point(61, 94);
+            picture.Name = "picture";
+            picture.Size = new Size(567, 179);
+            picture.SizeMode = PictureBoxSizeMode.Zoom;
+            picture.TabIndex = 3;
+            picture.TabStop = false;
             // 
-            // btnLike
+            // create_at
             // 
-            btnLike.Location = new Point(120, 70);
-            btnLike.Name = "btnLike";
-            btnLike.Size = new Size(50, 25);
-            btnLike.TabIndex = 4;
-            btnLike.Text = "Like";
-            btnLike.Click += btnLike_Click;
+            create_at.AutoSize = true;
+            create_at.Location = new Point(579, 19);
+            create_at.Name = "create_at";
+            create_at.Size = new Size(38, 15);
+            create_at.TabIndex = 4;
+            create_at.Text = "label2";
             // 
-            // btnUnlike
+            // btLike
             // 
-            btnUnlike.Location = new Point(170, 70);
-            btnUnlike.Name = "btnUnlike";
-            btnUnlike.Size = new Size(60, 25);
-            btnUnlike.TabIndex = 5;
-            btnUnlike.Text = "Unlike";
-            btnUnlike.Click += btnUnlike_Click;
+            btLike.Location = new Point(74, 279);
+            btLike.Name = "btLike";
+            btLike.Size = new Size(75, 23);
+            btLike.TabIndex = 5;
+            btLike.Text = "Like";
+            btLike.UseVisualStyleBackColor = true;
             // 
-            // btnDelete
+            // commentList
             // 
-            btnDelete.Location = new Point(240, 3);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(60, 25);
-            btnDelete.TabIndex = 6;
-            btnDelete.Text = "Xóa";
-            btnDelete.Click += btnDelete_Click;
+            commentList.AutoScroll = true;
+            commentList.FlowDirection = FlowDirection.TopDown;
+            commentList.Location = new Point(61, 308);
+            commentList.Name = "commentList";
+            commentList.Size = new Size(567, 232);
+            commentList.TabIndex = 6;
             // 
-            // flowComments
+            // video
             // 
-            flowComments.AutoScroll = true;
-            flowComments.FlowDirection = FlowDirection.TopDown;
-            flowComments.Location = new Point(3, 110);
-            flowComments.Name = "flowComments";
-            flowComments.Size = new Size(350, 120);
-            flowComments.TabIndex = 7;
+            video.Enabled = true;
+            video.Location = new Point(61, 94);
+            video.Name = "video";
+            video.OcxState = (AxHost.State)resources.GetObject("video.OcxState");
+            video.Size = new Size(567, 179);
+            video.TabIndex = 7;
             // 
-            // txtComment
+            // btComment
             // 
-            txtComment.Location = new Point(3, 240);
-            txtComment.Name = "txtComment";
-            txtComment.Size = new Size(250, 23);
-            txtComment.TabIndex = 8;
+            btComment.Location = new Point(542, 545);
+            btComment.Name = "btComment";
+            btComment.Size = new Size(75, 34);
+            btComment.TabIndex = 8;
+            btComment.Text = "Comment";
+            btComment.UseVisualStyleBackColor = true;
             // 
-            // btnAddComment
+            // avatar_current
             // 
-            btnAddComment.Location = new Point(260, 240);
-            btnAddComment.Name = "btnAddComment";
-            btnAddComment.Size = new Size(80, 27);
-            btnAddComment.TabIndex = 9;
-            btnAddComment.Text = "Bình luận";
-            btnAddComment.Click += btnAddComment_Click;
+            avatar_current.Location = new Point(64, 546);
+            avatar_current.Name = "avatar_current";
+            avatar_current.Size = new Size(35, 33);
+            avatar_current.SizeMode = PictureBoxSizeMode.StretchImage;
+            avatar_current.TabIndex = 1;
+            avatar_current.TabStop = false;
             // 
-            // picImage
+            // commentContent
             // 
-            picImage.Location = new Point(3, 100);
-            picImage.Name = "picImage";
-            picImage.Size = new Size(200, 150);
-            picImage.SizeMode = PictureBoxSizeMode.Zoom;
-            picImage.TabIndex = 0;
-            picImage.TabStop = false;
-            picImage.Visible = false;
-            // 
-            // axWindowsMediaPlayer1
-            // 
-
-            this.videoPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            ((System.ComponentModel.ISupportInitialize)(this.videoPlayer)).BeginInit();
-            this.videoPlayer.Location = new System.Drawing.Point(3, 100);
-            this.videoPlayer.Name = "videoPlayer";
-            this.videoPlayer.Size = new System.Drawing.Size(300, 200);
-            this.videoPlayer.Visible = false;
-            ((System.ComponentModel.ISupportInitialize)(this.videoPlayer)).EndInit();
-
-            this.Controls.Add(this.picImage);
-            this.Controls.Add(this.videoPlayer);
+            commentContent.ForeColor = Color.Gray;
+            commentContent.Location = new Point(105, 546);
+            commentContent.Multiline = true;
+            commentContent.Name = "commentContent";
+            commentContent.Size = new Size(420, 42);
+            commentContent.TabIndex = 9;
+            commentContent.Text = "Nhập bình luận...";
             // 
             // PostControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(videoPlayer);
-            Controls.Add(picAvatar);
-            Controls.Add(lblUser);
-            Controls.Add(lblContent);
-            Controls.Add(lblLikeCount);
-            Controls.Add(btnLike);
-            Controls.Add(btnUnlike);
-            Controls.Add(btnDelete);
-            Controls.Add(flowComments);
-            Controls.Add(txtComment);
-            Controls.Add(btnAddComment);
+            Controls.Add(commentContent);
+            Controls.Add(avatar_current);
+            Controls.Add(btComment);
+            Controls.Add(video);
+            Controls.Add(commentList);
+            Controls.Add(btLike);
+            Controls.Add(create_at);
+            Controls.Add(picture);
+            Controls.Add(content);
+            Controls.Add(name);
+            Controls.Add(avatar);
             Name = "PostControl";
-            Size = new Size(370, 280);
-            ((System.ComponentModel.ISupportInitialize)picAvatar).EndInit();
-            ((System.ComponentModel.ISupportInitialize)picImage).EndInit();
-            ((System.ComponentModel.ISupportInitialize)videoPlayer).EndInit();
+            Size = new Size(643, 605);
+            ((System.ComponentModel.ISupportInitialize)avatar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picture).EndInit();
+            ((System.ComponentModel.ISupportInitialize)video).EndInit();
+            ((System.ComponentModel.ISupportInitialize)avatar_current).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -200,5 +175,16 @@ namespace MentorMenteeUI
 
 
 
+        private PictureBox avatar;
+        private Label name;
+        private TextBox content;
+        private PictureBox picture;
+        private Label create_at;
+        private Button btLike;
+        private FlowLayoutPanel commentList;
+        private AxWindowsMediaPlayer video;
+        private Button btComment;
+        private PictureBox avatar_current;
+        private TextBox commentContent;
     }
 }

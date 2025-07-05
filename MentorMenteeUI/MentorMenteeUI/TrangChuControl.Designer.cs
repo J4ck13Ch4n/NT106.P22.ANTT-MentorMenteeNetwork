@@ -1,16 +1,12 @@
-﻿namespace MentorMenteeUI
+﻿using System.Drawing.Drawing2D;
+using AxWMPLib;
+
+namespace MentorMenteeUI
 {
     partial class TrangChuControl
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
 
-        /// <summary> 
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        private System.ComponentModel.IContainer components = null;
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -21,106 +17,116 @@
         }
 
         #region Component Designer generated code
-
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        /// 
-
-        private System.Windows.Forms.FlowLayoutPanel flowPosts;
-        private System.Windows.Forms.TextBox txtPostContent;
-        private System.Windows.Forms.Button btnPost;
-        private System.Windows.Forms.Button btnChooseImage;
-        private System.Windows.Forms.Button btnChooseVideo;
-        private System.Windows.Forms.TextBox txtImagePath;
-        private System.Windows.Forms.TextBox txtVideoPath;
         private void InitializeComponent()
         {
-            flowPosts = new FlowLayoutPanel();
-            txtPostContent = new TextBox();
-            btnPost = new Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrangChuControl));
+            avatar = new PictureBox();
+            content = new TextBox();
+            btFile = new Button();
+            previewPic = new PictureBox();
+            btPost = new Button();
+            postList = new FlowLayoutPanel();
+            axWindowsMediaPlayer1 = new AxWindowsMediaPlayer();
+            ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)previewPic).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).BeginInit();
             SuspendLayout();
             // 
-            // flowPosts
+            // avatar
             // 
-            flowPosts.AutoScroll = true;
-            flowPosts.FlowDirection = FlowDirection.TopDown;
-            flowPosts.Location = new Point(9, 52);
-            flowPosts.Margin = new Padding(3, 2, 3, 2);
-            flowPosts.Name = "flowPosts";
-            flowPosts.Size = new Size(960, 628);
-            flowPosts.TabIndex = 0;
-            flowPosts.WrapContents = false;
+            avatar.Location = new Point(52, 12);
+            avatar.Name = "avatar";
+            avatar.Size = new Size(46, 43);
+            avatar.SizeMode = PictureBoxSizeMode.StretchImage;
+            avatar.TabIndex = 0;
+            avatar.TabStop = false;
             // 
-            // txtPostContent
+            // content
             // 
-            txtPostContent.Location = new Point(9, 8);
-            txtPostContent.Margin = new Padding(3, 2, 3, 2);
-            txtPostContent.Name = "txtPostContent";
-            txtPostContent.Size = new Size(623, 23);
-            txtPostContent.TabIndex = 1;
+            content.ForeColor = Color.Gray;
+            content.Location = new Point(122, 12);
+            content.Multiline = true;
+            content.Name = "content";
+            content.Size = new Size(491, 94);
+            content.TabIndex = 1;
+            content.Text = "Bạn đang nghĩ gì?";
             // 
-            // btnPost
+            // btFile
             // 
-            btnPost.Location = new Point(671, 8);
-            btnPost.Margin = new Padding(3, 2, 3, 2);
-            btnPost.Name = "btnPost";
-            btnPost.Size = new Size(70, 23);
-            btnPost.TabIndex = 2;
-            btnPost.Text = "Đăng bài";
-            btnPost.Click += btnPost_Click;
-
-            // btnChooseImage
-            this.btnChooseImage = new System.Windows.Forms.Button();
-            this.btnChooseImage.Location = new System.Drawing.Point(10, 40);
-            this.btnChooseImage.Name = "btnChooseImage";
-            this.btnChooseImage.Size = new System.Drawing.Size(100, 27);
-            this.btnChooseImage.Text = "Chọn ảnh";
-            this.btnChooseImage.Click += new System.EventHandler(this.btnChooseImage_Click);
-
-            // btnChooseVideo
-            this.btnChooseVideo = new System.Windows.Forms.Button();
-            this.btnChooseVideo.Location = new System.Drawing.Point(120, 40);
-            this.btnChooseVideo.Name = "btnChooseVideo";
-            this.btnChooseVideo.Size = new System.Drawing.Size(100, 27);
-            this.btnChooseVideo.Text = "Chọn video";
-            this.btnChooseVideo.Click += new System.EventHandler(this.btnChooseVideo_Click);
-
-            // txtImagePath (ẩn)
-            this.txtImagePath = new System.Windows.Forms.TextBox();
-            this.txtImagePath.Location = new System.Drawing.Point(230, 40);
-            this.txtImagePath.Size = new System.Drawing.Size(250, 27);
-            this.txtImagePath.Visible = false;
-
-            // txtVideoPath (ẩn)
-            this.txtVideoPath = new System.Windows.Forms.TextBox();
-            this.txtVideoPath.Location = new System.Drawing.Point(490, 40);
-            this.txtVideoPath.Size = new System.Drawing.Size(250, 27);
-            this.txtVideoPath.Visible = false;
-
-            // Thêm vào Controls
-            this.Controls.Add(this.btnChooseImage);
-            this.Controls.Add(this.btnChooseVideo);
-            this.Controls.Add(this.txtImagePath);
-            this.Controls.Add(this.txtVideoPath);
+            btFile.Location = new Point(122, 112);
+            btFile.Name = "btFile";
+            btFile.Size = new Size(77, 29);
+            btFile.TabIndex = 2;
+            btFile.Text = "Ảnh/Video";
+            btFile.UseVisualStyleBackColor = true;
+            // 
+            // previewPic
+            // 
+            previewPic.Location = new Point(649, 12);
+            previewPic.Name = "previewPic";
+            previewPic.Size = new Size(212, 123);
+            previewPic.SizeMode = PictureBoxSizeMode.Zoom;
+            previewPic.TabIndex = 3;
+            previewPic.TabStop = false;
+            // 
+            // btPost
+            // 
+            btPost.Location = new Point(219, 112);
+            btPost.Name = "btPost";
+            btPost.Size = new Size(83, 29);
+            btPost.TabIndex = 4;
+            btPost.Text = "Đăng bài";
+            btPost.UseVisualStyleBackColor = true;
+            // 
+            // postList
+            // 
+            postList.AutoScroll = true;
+            postList.FlowDirection = FlowDirection.TopDown;
+            postList.Location = new Point(20, 147);
+            postList.Name = "postList";
+            postList.Size = new Size(941, 530);
+            postList.TabIndex = 5;
+            postList.WrapContents = false;
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            axWindowsMediaPlayer1.Enabled = true;
+            axWindowsMediaPlayer1.Location = new Point(649, 12);
+            axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            axWindowsMediaPlayer1.OcxState = (AxHost.State)resources.GetObject("axWindowsMediaPlayer1.OcxState");
+            axWindowsMediaPlayer1.Size = new Size(212, 123);
+            axWindowsMediaPlayer1.TabIndex = 6;
             // 
             // TrangChuControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(0, 132, 168);
-            Controls.Add(flowPosts);
-            Controls.Add(txtPostContent);
-            Controls.Add(btnPost);
+            Controls.Add(axWindowsMediaPlayer1);
+            Controls.Add(postList);
+            Controls.Add(btPost);
+            Controls.Add(previewPic);
+            Controls.Add(btFile);
+            Controls.Add(content);
+            Controls.Add(avatar);
             Margin = new Padding(3, 2, 3, 2);
             Name = "TrangChuControl";
             Size = new Size(977, 688);
-            Load += TrangChuControl_Load;
+            ((System.ComponentModel.ISupportInitialize)avatar).EndInit();
+            ((System.ComponentModel.ISupportInitialize)previewPic).EndInit();
+            ((System.ComponentModel.ISupportInitialize)axWindowsMediaPlayer1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
+
+        private PictureBox avatar;
+        private TextBox content;
+        private Button btFile;
+        private PictureBox previewPic;
+        private Button btPost;
+        private FlowLayoutPanel postList;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }

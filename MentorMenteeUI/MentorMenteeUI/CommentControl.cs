@@ -15,19 +15,7 @@ namespace MentorMenteeUI
         public CommentControl(string user, string avatar, string content, int commentId, bool canDelete)
         {
             InitializeComponent();
-            lblUser.Text = user;
-            lblContent.Text = content;
-            CommentId = commentId;
-            btnDelete.Visible = canDelete;
-            if (!string.IsNullOrEmpty(avatar))
-            {
-                try { picAvatar.LoadAsync(avatar); } catch { }
-            }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            DeleteCommentClicked?.Invoke(this, EventArgs.Empty);
-        }
     }
 }

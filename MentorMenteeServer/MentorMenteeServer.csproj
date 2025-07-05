@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Client\Post_video\" />
+    <Folder Include="Client\Post\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

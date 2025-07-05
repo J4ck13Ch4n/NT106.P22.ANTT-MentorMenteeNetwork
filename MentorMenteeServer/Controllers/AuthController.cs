@@ -44,6 +44,22 @@ namespace MentorMenteeServer.Controllers
                     avatarFilePath = Path.Combine("Client/Avatar", $"{Guid.NewGuid()}.png");
                     await System.IO.File.WriteAllBytesAsync(avatarFilePath, avatarBytes);
                 }
+                else
+                {
+                    if (registerDto.Role == "mentor")
+                    {
+                        avatarFilePath = Path.Combine("Client/Avatar", "default_mentor.jpg");
+                    }
+                    else if (registerDto.Role == "mentee")
+                    {
+                        avatarFilePath = Path.Combine("Client/Avatar", "default_mentee.jpg");
+                    }
+                    else
+                    {
+                        // Trường hợp Role không xác định
+                        avatarFilePath = Path.Combine("Client/Avatar", "default_generic.jpg");
+                    }
+                }
 
                 var user = new User
                 {

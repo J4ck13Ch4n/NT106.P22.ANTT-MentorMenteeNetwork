@@ -1,4 +1,6 @@
-﻿namespace MentorMenteeUI
+﻿using System.Drawing.Drawing2D;
+
+namespace MentorMenteeUI
 {
     partial class CommentControl
     {
@@ -22,64 +24,69 @@
 
         #region Component Designer generated code
 
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        /// 
-        private System.Windows.Forms.PictureBox picAvatar;
-        private System.Windows.Forms.Label lblUser;
-        private System.Windows.Forms.Label lblContent;
-        private System.Windows.Forms.Button btnDelete;
-
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-
-            this.picAvatar = new System.Windows.Forms.PictureBox();
-            this.lblUser = new System.Windows.Forms.Label();
-            this.lblContent = new System.Windows.Forms.Label();
-            this.btnDelete = new System.Windows.Forms.Button();
-
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).BeginInit();
-            this.SuspendLayout();
-
-            // picAvatar
-            this.picAvatar.Location = new System.Drawing.Point(3, 3);
-            this.picAvatar.Name = "picAvatar";
-            this.picAvatar.Size = new System.Drawing.Size(30, 30);
-            this.picAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-
-            // lblUser
-            this.lblUser.AutoSize = true;
-            this.lblUser.Location = new System.Drawing.Point(40, 3);
-            this.lblUser.Name = "lblUser";
-            this.lblUser.Size = new System.Drawing.Size(50, 20);
-
-            // lblContent
-            this.lblContent.AutoSize = true;
-            this.lblContent.Location = new System.Drawing.Point(40, 23);
-            this.lblContent.Name = "lblContent";
-            this.lblContent.Size = new System.Drawing.Size(72, 20);
-
-            // btnDelete
-            this.btnDelete.Location = new System.Drawing.Point(200, 3);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(60, 25);
-            this.btnDelete.Text = "Xóa";
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-
-            this.Controls.Add(this.picAvatar);
-            this.Controls.Add(this.lblUser);
-            this.Controls.Add(this.lblContent);
-            this.Controls.Add(this.btnDelete);
-            this.Size = new System.Drawing.Size(270, 40);
-            ((System.ComponentModel.ISupportInitialize)(this.picAvatar)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            avatar = new PictureBox();
+            content = new TextBox();
+            name = new Label();
+            create_at = new Label();
+            ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
+            SuspendLayout();
+            // 
+            // avatar
+            // 
+            avatar.Location = new Point(20, 15);
+            avatar.Name = "avatar";
+            avatar.Size = new Size(35, 33);
+            avatar.TabIndex = 0;
+            avatar.TabStop = false;
+            // 
+            // content
+            // 
+            content.Location = new Point(58, 53);
+            content.Multiline = true;
+            content.Name = "content";
+            content.Size = new Size(252, 54);
+            content.TabIndex = 1;
+            // 
+            // name
+            // 
+            name.AutoSize = true;
+            name.Location = new Point(61, 24);
+            name.Name = "name";
+            name.Size = new Size(38, 15);
+            name.TabIndex = 2;
+            name.Text = "label1";
+            // 
+            // create_at
+            // 
+            create_at.AutoSize = true;
+            create_at.Location = new Point(261, 24);
+            create_at.Name = "create_at";
+            create_at.Size = new Size(38, 15);
+            create_at.TabIndex = 3;
+            create_at.Text = "label1";
+            // 
+            // CommentControl
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(create_at);
+            Controls.Add(name);
+            Controls.Add(content);
+            Controls.Add(avatar);
+            Name = "CommentControl";
+            Size = new Size(328, 125);
+            ((System.ComponentModel.ISupportInitialize)avatar).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private PictureBox avatar;
+        private TextBox content;
+        private Label name;
+        private Label create_at;
     }
 }
