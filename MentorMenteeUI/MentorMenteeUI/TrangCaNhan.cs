@@ -27,7 +27,7 @@ namespace MentorMenteeUI
         private void btTrangChu_Click(object sender, EventArgs e)
         {
             pContent.Controls.Clear();
-            TrangChuControl trangchu = new TrangChuControl();
+            TrangChuControl trangchu = new TrangChuControl(int.Parse(userId));
             trangchu.Dock = DockStyle.Fill;
             pContent.Controls.Add(trangchu);
         }
@@ -51,7 +51,7 @@ namespace MentorMenteeUI
 
         private void TrangCaNhan_Load(object sender, EventArgs e)
         {
-            TrangChuControl trangchu = new TrangChuControl();
+            TrangChuControl trangchu = new TrangChuControl(int.Parse(userId)); 
             trangchu.Dock = DockStyle.Fill;
             pContent.Controls.Add(trangchu);
         }
@@ -66,7 +66,6 @@ namespace MentorMenteeUI
             loginForm.Show();
             this.Close();
         }
-
 
         private void pContent_Paint(object sender, PaintEventArgs e)
         {

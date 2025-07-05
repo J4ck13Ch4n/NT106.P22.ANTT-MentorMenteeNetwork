@@ -22,7 +22,8 @@ public class CommentsController : ControllerBase
             return NotFound();
 
         _context.Comments.Remove(comment);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();  
         return NoContent();
     }
+
 }

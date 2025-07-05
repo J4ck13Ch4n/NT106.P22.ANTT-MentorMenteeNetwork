@@ -89,23 +89,5 @@ namespace MentorMenteeUI
         }
     }
 
-    // Model phù hợp với backend
-    public class UpdateUserDto
-    {
-        public int UserId { get; set; }
-        public string Username { get; set; }
-        public string Role { get; set; }
-        public string Gender { get; set; }
-        public string Email { get; set; }
-        public string Bio { get; set; }
-    }
 
-    public class UserDTO
-    {
-        public string Username { get; set; }
-        public string Role { get; set; }
-        public string Gender { get; set; }
-        public string Email { get; set; }
-        public string Bio { get; set; }
-    }
 }

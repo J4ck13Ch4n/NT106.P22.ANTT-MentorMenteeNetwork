@@ -55,6 +55,7 @@ namespace MentorMenteeServer.Data
         [MaxLength(10)]
         public string? Role { get; set; }
         public string? Bio { get; set; }
+        public string? AvatarPath { get; set; }
     }
 
     public class PostDto
@@ -71,13 +72,13 @@ namespace MentorMenteeServer.Data
         public List<LikeDto> Likes { get; set; } = new();
     }
 
-    public class CreatePostDto
+    public class CreatePostFormDto
     {
         public int UserId { get; set; }
         public string? Content { get; set; }
-        public string? Image { get; set; }
-        public string? Video { get; set; }
-        public string Visibility { get; set; } = "public";
+        public string Visibility { get; set; }
+        public IFormFile? Image { get; set; }
+        public IFormFile? Video { get; set; }
     }
 
     public class CommentDto
@@ -108,5 +109,6 @@ namespace MentorMenteeServer.Data
         public int Id { get; set; }
         public string Username { get; set; }
         public string? AvatarPath { get; set; }
+        public string Role { get; set; }
     }
 }

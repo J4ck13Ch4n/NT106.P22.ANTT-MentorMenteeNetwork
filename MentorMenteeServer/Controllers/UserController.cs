@@ -122,7 +122,8 @@ namespace MentorMenteeServer.Controllers
                 Email = user.Email,
                 Role = user.Role,
                 Gender = user.Gender,
-                Bio = user.Bio
+                Bio = user.Bio,
+                AvatarPath = user.AvatarPath
             };
 
             return Ok(userDto);

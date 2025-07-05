@@ -30,53 +30,67 @@ namespace MentorMenteeUI
             content = new TextBox();
             name = new Label();
             create_at = new Label();
+            btDeleteComment = new Button();
             ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
             SuspendLayout();
             // 
             // avatar
             // 
-            avatar.Location = new Point(20, 15);
+            avatar.Location = new Point(8, 7);
             avatar.Name = "avatar";
             avatar.Size = new Size(35, 33);
+            avatar.SizeMode = PictureBoxSizeMode.Zoom;
             avatar.TabIndex = 0;
             avatar.TabStop = false;
             // 
             // content
             // 
-            content.Location = new Point(58, 53);
+            content.Location = new Point(46, 45);
             content.Multiline = true;
             content.Name = "content";
-            content.Size = new Size(252, 54);
+            content.Size = new Size(377, 63);
             content.TabIndex = 1;
             // 
             // name
             // 
-            name.AutoSize = true;
-            name.Location = new Point(61, 24);
+            name.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            name.Location = new Point(49, 7);
             name.Name = "name";
-            name.Size = new Size(38, 15);
+            name.Size = new Size(40, 15);
             name.TabIndex = 2;
             name.Text = "label1";
             // 
             // create_at
             // 
-            create_at.AutoSize = true;
-            create_at.Location = new Point(261, 24);
+            create_at.ForeColor = SystemColors.GrayText;
+            create_at.Location = new Point(49, 22);
             create_at.Name = "create_at";
-            create_at.Size = new Size(38, 15);
+            create_at.Size = new Size(97, 17);
             create_at.TabIndex = 3;
             create_at.Text = "label1";
+            // 
+            // btDeleteComment
+            // 
+            btDeleteComment.Location = new Point(399, 7);
+            btDeleteComment.Name = "btDeleteComment";
+            btDeleteComment.Size = new Size(24, 23);
+            btDeleteComment.TabIndex = 4;
+            btDeleteComment.Text = "X";
+            btDeleteComment.UseVisualStyleBackColor = true;
+            this.Controls.Add(this.btDeleteComment);
             // 
             // CommentControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.GradientInactiveCaption;
+            Controls.Add(btDeleteComment);
             Controls.Add(create_at);
             Controls.Add(name);
             Controls.Add(content);
             Controls.Add(avatar);
             Name = "CommentControl";
-            Size = new Size(328, 125);
+            Size = new Size(440, 119);
             ((System.ComponentModel.ISupportInitialize)avatar).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -88,5 +102,6 @@ namespace MentorMenteeUI
         private TextBox content;
         private Label name;
         private Label create_at;
+        private Button btDeleteComment;
     }
 }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -87,6 +88,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 100 * 1024 * 1024;
+});
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
@@ -96,6 +102,13 @@ app.UseRouting();
 app.UseCors("AllowAll");
 
 app.UseSession();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "Client")),
+    RequestPath = "/Client"
+});
 
 if (app.Environment.IsDevelopment())
 {

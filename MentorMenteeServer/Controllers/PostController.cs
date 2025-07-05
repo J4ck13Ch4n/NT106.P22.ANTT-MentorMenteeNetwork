@@ -39,7 +39,9 @@ public class PostsController : ControllerBase
             {
                 Id = p.User.Id,
                 Username = p.User.Username,
-                AvatarPath = p.User.AvatarPath
+                AvatarPath = p.User.AvatarPath,
+                Role = p.User.Role
+
             },
             Comments = p.Comments.Select(c => new CommentDto
             {
@@ -51,7 +53,8 @@ public class PostsController : ControllerBase
                 {
                     Id = c.User.Id,
                     Username = c.User.Username,
-                    AvatarPath = c.User.AvatarPath
+                    AvatarPath = c.User.AvatarPath,
+                    Role = c.User.Role
                 }
             }).ToList(),
             Likes = p.Likes.Select(l => new LikeDto
@@ -63,7 +66,8 @@ public class PostsController : ControllerBase
                 {
                     Id = l.User.Id,
                     Username = l.User.Username,
-                    AvatarPath = l.User.AvatarPath
+                    AvatarPath = l.User.AvatarPath,
+                    Role = l.User.Role
                 }
             }).ToList()
         }).ToList();
@@ -73,35 +77,29 @@ public class PostsController : ControllerBase
 
     // POST: /api/posts
     [HttpPost]
-    public async Task<ActionResult<PostDto>> CreatePost([FromBody] CreatePostDto dto, [FromForm] IFormFile? image, [FromForm] IFormFile? video)
+    public async Task<ActionResult<PostDto>> CreatePost([FromForm] CreatePostFormDto dto)
     {
-        // Xử lý lưu ảnh
         string? imagePath = null;
-        if (image != null && image.Length > 0)
+        if (dto.Image != null && dto.Image.Length > 0)
         {
-            var ext = Path.GetExtension(image.FileName);
+            var ext = Path.GetExtension(dto.Image.FileName);
             var fileName = $"{Guid.NewGuid()}{ext}";
             var savePath = Path.Combine("Client/Post", fileName);
-            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-            using (var stream = new FileStream(savePath, FileMode.Create))
-            {
-                await image.CopyToAsync(stream);
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath)!);
+            using var stream = new FileStream(savePath, FileMode.Create);
+            await dto.Image.CopyToAsync(stream);
             imagePath = savePath;
         }
 
-        // Xử lý lưu video
         string? videoPath = null;
-        if (video != null && video.Length > 0)
+        if (dto.Video != null && dto.Video.Length > 0)
         {
-            var ext = Path.GetExtension(video.FileName);
+            var ext = Path.GetExtension(dto.Video.FileName);
             var fileName = $"{Guid.NewGuid()}{ext}";
             var savePath = Path.Combine("Client/Post_video", fileName);
-            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-            using (var stream = new FileStream(savePath, FileMode.Create))
-            {
-                await video.CopyToAsync(stream);
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath)!);
+            using var stream = new FileStream(savePath, FileMode.Create);
+            await dto.Video.CopyToAsync(stream);
             videoPath = savePath;
         }
 
@@ -110,7 +108,7 @@ public class PostsController : ControllerBase
             UserId = dto.UserId,
             Content = dto.Content,
             Image = imagePath,
-            Video = dto.Video,
+            Video = videoPath,
             Visibility = dto.Visibility,
             CreatedAt = DateTime.UtcNow
         };
@@ -118,7 +116,6 @@ public class PostsController : ControllerBase
         _context.Posts.Add(post);
         await _context.SaveChangesAsync();
 
-        // Lấy lại post với User để trả về DTO (nếu cần)
         post = await _context.Posts.Include(p => p.User).FirstAsync(p => p.Id == post.Id);
 
         var postDto = new PostDto
@@ -134,7 +131,8 @@ public class PostsController : ControllerBase
             {
                 Id = post.User.Id,
                 Username = post.User.Username,
-                AvatarPath = post.User.AvatarPath
+                AvatarPath = post.User.AvatarPath,
+                Role = post.User.Role
             },
             Comments = new List<CommentDto>(),
             Likes = new List<LikeDto>()
@@ -220,7 +218,8 @@ public class PostsController : ControllerBase
             {
                 Id = user.Id,
                 Username = user.Username,
-                AvatarPath = user.AvatarPath
+                AvatarPath = user.AvatarPath,
+                Role = user.Role
             }
         };
 
