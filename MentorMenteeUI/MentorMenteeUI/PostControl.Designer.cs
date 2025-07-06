@@ -42,6 +42,7 @@ namespace MentorMenteeUI
             countLike = new Label();
             role = new Label();
             btDeletePost = new Button();
+            cmtLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)avatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)picture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)video).BeginInit();
@@ -69,24 +70,25 @@ namespace MentorMenteeUI
             // content
             // 
             content.ForeColor = Color.Gray;
-            content.Location = new Point(403, 65);
+            content.Location = new Point(58, 65);
             content.Multiline = true;
             content.Name = "content";
             content.ReadOnly = true;
-            content.Size = new Size(447, 53);
+            content.Size = new Size(792, 53);
             content.TabIndex = 2;
             // 
             // picture
             // 
-            picture.Location = new Point(58, 65);
+            picture.Location = new Point(58, 145);
             picture.Name = "picture";
-            picture.Size = new Size(321, 376);
+            picture.Size = new Size(339, 296);
             picture.SizeMode = PictureBoxSizeMode.Zoom;
             picture.TabIndex = 3;
             picture.TabStop = false;
             // 
             // create_at
             // 
+            create_at.Font = new Font("Segoe UI", 8F, FontStyle.Italic);
             create_at.ForeColor = SystemColors.GrayText;
             create_at.Location = new Point(57, 45);
             create_at.Name = "create_at";
@@ -108,19 +110,19 @@ namespace MentorMenteeUI
             commentList.AutoScroll = true;
             commentList.BackColor = SystemColors.ButtonHighlight;
             commentList.FlowDirection = FlowDirection.TopDown;
-            commentList.Location = new Point(403, 124);
+            commentList.Location = new Point(403, 145);
             commentList.Name = "commentList";
-            commentList.Size = new Size(447, 317);
+            commentList.Size = new Size(447, 296);
             commentList.TabIndex = 6;
             commentList.WrapContents = false;
             // 
             // video
             // 
             video.Enabled = true;
-            video.Location = new Point(57, 65);
+            video.Location = new Point(57, 127);
             video.Name = "video";
             video.OcxState = (AxHost.State)resources.GetObject("video.OcxState");
-            video.Size = new Size(340, 376);
+            video.Size = new Size(340, 314);
             video.TabIndex = 7;
             video.Visible = false;
             // 
@@ -154,9 +156,10 @@ namespace MentorMenteeUI
             // countLike
             // 
             countLike.AutoSize = true;
+            countLike.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
             countLike.Location = new Point(57, 446);
             countLike.Name = "countLike";
-            countLike.Size = new Size(38, 15);
+            countLike.Size = new Size(39, 15);
             countLike.TabIndex = 10;
             countLike.Text = "label2";
             // 
@@ -164,10 +167,11 @@ namespace MentorMenteeUI
             // 
             role.AutoSize = true;
             role.BackColor = SystemColors.GradientInactiveCaption;
+            role.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
             role.ForeColor = SystemColors.InfoText;
-            role.Location = new Point(57, 30);
+            role.Location = new Point(57, 28);
             role.Name = "role";
-            role.Size = new Size(38, 15);
+            role.Size = new Size(39, 15);
             role.TabIndex = 11;
             role.Text = "label2";
             // 
@@ -180,11 +184,22 @@ namespace MentorMenteeUI
             btDeletePost.Text = "X";
             btDeletePost.UseVisualStyleBackColor = true;
             // 
+            // cmtLabel
+            // 
+            cmtLabel.AutoSize = true;
+            cmtLabel.Font = new Font("Segoe UI", 9F, FontStyle.Italic);
+            cmtLabel.Location = new Point(403, 127);
+            cmtLabel.Name = "cmtLabel";
+            cmtLabel.Size = new Size(58, 15);
+            cmtLabel.TabIndex = 13;
+            cmtLabel.Text = "Bình luận";
+            // 
             // PostControl
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.GradientInactiveCaption;
+            Controls.Add(cmtLabel);
             Controls.Add(btDeletePost);
             Controls.Add(role);
             Controls.Add(countLike);
@@ -228,5 +243,6 @@ namespace MentorMenteeUI
         private Label countLike;
         private Label role;
         private Button btDeletePost;
+        private Label cmtLabel;
     }
 }

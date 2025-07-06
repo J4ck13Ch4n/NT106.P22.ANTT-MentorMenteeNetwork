@@ -41,7 +41,11 @@ namespace MentorMenteeUI
                     var response = await client.DeleteAsync(url);
                     if (response.IsSuccessStatusCode)
                     {
-                        OnCommentDeleted?.Invoke(this, EventArgs.Empty); // Để PostControl reload lại list comment
+                        if (this.Parent is FlowLayoutPanel flp)
+                        {
+                            flp.Controls.Remove(this);
+                            this.Dispose();
+                        }
                     }
                     else
                     {
