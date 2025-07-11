@@ -46,11 +46,11 @@ namespace MentorMenteeServer.Controllers
                 }
                 else
                 {
-                    if (registerDto.Role == "mentor")
+                    if (registerDto.Role == "Mentor")
                     {
                         avatarFilePath = Path.Combine("Client/Avatar", "default_mentor.jpg");
                     }
-                    else if (registerDto.Role == "mentee")
+                    else if (registerDto.Role == "Mentee")
                     {
                         avatarFilePath = Path.Combine("Client/Avatar", "default_mentee.jpg");
                     }

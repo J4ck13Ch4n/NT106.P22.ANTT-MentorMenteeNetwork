@@ -65,12 +65,11 @@
             btKetBan.FlatStyle = FlatStyle.Flat;
             btKetBan.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btKetBan.ForeColor = Color.White;
-            btKetBan.Image = Properties.Resources.icons8_goal_50;
-            btKetBan.Location = new Point(0, 409);
+            btKetBan.Image = Properties.Resources.friend;
+            btKetBan.Location = new Point(18, 418);
             btKetBan.Name = "btKetBan";
-            btKetBan.Size = new Size(158, 72);
+            btKetBan.Size = new Size(122, 54);
             btKetBan.TabIndex = 5;
-            btKetBan.Text = "Kết bạn";
             btKetBan.TextAlign = ContentAlignment.BottomCenter;
             btKetBan.UseVisualStyleBackColor = false;
             btKetBan.Click += btKetBan_Click;
@@ -82,7 +81,7 @@
             btGoal.FlatStyle = FlatStyle.Flat;
             btGoal.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btGoal.ForeColor = Color.White;
-            btGoal.Image = Properties.Resources.icons8_goal_50;
+            btGoal.Image = Properties.Resources.goal;
             btGoal.Location = new Point(0, 331);
             btGoal.Name = "btGoal";
             btGoal.Size = new Size(158, 72);
@@ -136,7 +135,7 @@
             btTrangChu.FlatStyle = FlatStyle.Flat;
             btTrangChu.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btTrangChu.ForeColor = Color.White;
-            btTrangChu.Image = Properties.Resources.icons8_home_50;
+            btTrangChu.Image = Properties.Resources.home;
             btTrangChu.Location = new Point(0, 175);
             btTrangChu.Name = "btTrangChu";
             btTrangChu.Size = new Size(158, 72);
@@ -152,7 +151,7 @@
             btNhanTin.FlatStyle = FlatStyle.Flat;
             btNhanTin.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btNhanTin.ForeColor = Color.White;
-            btNhanTin.Image = Properties.Resources.icons8_message_50;
+            btNhanTin.Image = Properties.Resources.message;
             btNhanTin.Location = new Point(0, 253);
             btNhanTin.Name = "btNhanTin";
             btNhanTin.Size = new Size(158, 72);
@@ -168,7 +167,7 @@
             btCaiDat.FlatStyle = FlatStyle.Flat;
             btCaiDat.Font = new Font("Sans Serif Collection", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btCaiDat.ForeColor = Color.White;
-            btCaiDat.Image = Properties.Resources.icons8_setting_50;
+            btCaiDat.Image = Properties.Resources.setting1;
             btCaiDat.Location = new Point(0, 487);
             btCaiDat.Name = "btCaiDat";
             btCaiDat.Size = new Size(158, 72);

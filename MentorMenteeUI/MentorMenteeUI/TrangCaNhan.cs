@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace MentorMenteeUI
 {
@@ -9,9 +10,13 @@ namespace MentorMenteeUI
         // Thêm biến lưu control
         private NhanTinControl nhanTinControl;
         private KetBanControl ketBanControl;
+
+        private readonly string apiBaseUrl = "https://localhost:5268/";
+        private HttpClient httpClient;
         public TrangCaNhan(string userId, Form loginForm, string userName, string role, string jwtToken)
         {
             InitializeComponent();
+            httpClient = new HttpClient();
             this.userId = userId;
             this.loginForm = loginForm;
             this.userName = userName;
@@ -22,6 +27,26 @@ namespace MentorMenteeUI
             nhanTinControl = new NhanTinControl(int.Parse(this.userId), this.loginForm, this.userName);
             ketBanControl = new KetBanControl(int.Parse(this.userId));
             ketBanControl.FriendListChanged += (s, e) => nhanTinControl.Invoke(new Action(async () => await nhanTinControl.RefreshConversationListAsync()));
+            LoadAvt();
+        }
+
+        public async Task LoadAvt()
+        {
+            var res = await httpClient.GetAsync($"{apiBaseUrl}api/user/me?userId={userId}");
+
+            res.EnsureSuccessStatusCode(); // báo lỗi nếu gọi API thất bại
+
+            var json = await res.Content.ReadAsStringAsync();
+
+            var user = JsonSerializer.Deserialize<UserDTO>(json);
+
+            string avatarPath = string.IsNullOrEmpty(user.AvatarPath)
+                ? "blankAvatar.png"
+                : user.AvatarPath.Replace("\\", "/");
+
+            string imageUrl = apiBaseUrl + avatarPath;
+
+            cpbAvatar.ImageLocation = imageUrl;
         }
 
         private void btTrangChu_Click(object sender, EventArgs e)
